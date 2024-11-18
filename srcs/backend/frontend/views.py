@@ -1,10 +1,7 @@
 from django.shortcuts import render
 
-def home_page(request):
-    return render(request, 'base.html')
+def home(request):
+    return render(request, 'home.html')
 
-def login(request):
+def login_view(request):
     return render(request, 'login.html')
-
-def profile(request):
-    return render(request, 'profile.html')
