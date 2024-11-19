@@ -29,6 +29,8 @@ services:
   django-backend:
     container_name: backend
     build:
+      args:
+        DJANGO_ROOT_PASSWORD: ${DJANGO_ROOT_PASSWORD}
       context: ./backend
       dockerfile: Dockerfile
     image: backend
@@ -44,14 +46,12 @@ services:
       - ./backend:/app
 
   # Authentication service - Django
-  user_management_service:
-    container_name: user_management_service
+  auth_service:
+    container_name: auth_service
     build:
-      args:
-        DJANGO_ROOT_PASSWORD: ${DJANGO_ROOT_PASSWORD}
-      context: ./user_management_service/
+      context: ./auth_service/
       dockerfile: Dockerfile
-    image: user_management_service
+    image: auth_service
     networks:
       - transcendence
     ports:
@@ -62,7 +62,7 @@ services:
       - postgres-db
       - django-backend
     volumes:
-      - ./user_management_service:/app
+      - ./auth_service:/app
     stop_grace_period: 2s
 
 volumes:
