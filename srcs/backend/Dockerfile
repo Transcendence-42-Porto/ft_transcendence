@@ -1,6 +1,7 @@
 # Description: Dockerfile for the backend service
 FROM python:3.11.4-slim-bullseye
 
+ARG DJANGO_ROOT_PASSWORD
 # set work directory
 WORKDIR /app
 # set environment variables
@@ -9,6 +10,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 # Prevents Python from buffering stdout and stderr
 ENV PYTHONUNBUFFERED 1
+
+ENV DJANGO_SUPERUSER_PASSWORD ${DJANGO_ROOT_PASSWORD}
 
 # install dependencies
 RUN pip install poetry
