@@ -667,6 +667,7 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 COPY public.user_profiles (id, bio, avatar, score, last_login, email, password, username, first_name, last_name, is_active, is_staff, is_superuser, date_joined) FROM stdin;
 8	deess		0	2024-10-29 13:28:52.142106+00	\N	pbkdf2_sha256$870000$PtI4Gr4jb65MZJFcAJ5gJS$DghxfqWecqc/3E/C98golfylowwxT7hLSeLly8CsfLM=	axel			t	f	f	2024-10-30 11:25:55.435999+00
 10	\N		0	2024-10-31 13:50:14.367357+00	admin@admin.com	pbkdf2_sha256$870000$9MCMTsLSgGPu3AmRKgWxyd$ci0Q4vKWVzri54KG9SPXlOlkrF94ew4J6ZTs2go+1QE=	admin			t	t	t	2024-10-31 13:50:09.248031+00
+11	\N		0	\N	user@example.com	pbkdf2_sha256$870000$jgRxAMr8nYDmSx8GFH1D9g$rUSjyC37M9ZjycGhEnhHOHSWt0mELH10ThwYtvjHF8A=	string			t	f	f	2024-11-21 10:05:06.803978+00
 \.
 
 
@@ -712,7 +713,7 @@ SELECT pg_catalog.setval('public.api_userprofile_groups_id_seq', 1, false);
 -- Name: api_userprofile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.api_userprofile_id_seq', 10, true);
+SELECT pg_catalog.setval('public.api_userprofile_id_seq', 11, true);
 
 
 --

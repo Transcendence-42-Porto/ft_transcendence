@@ -5,8 +5,8 @@ networks:
     name: transcendence
     driver: bridge
 
+# Database - PostgreSQL
 services:
-  # Database - PostgreSQL
   postgres-db:
     container_name: database
     environment:
@@ -64,6 +64,23 @@ services:
     volumes:
       - ./user_management_service:/app
     stop_grace_period: 2s
+
+  # Nginx - Proxy Reverse
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx
+    networks:
+      - transcendence
+    ports:
+      - 80:80
+    depends_on:
+      - django-backend
+      - user_management_service
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
 volumes:
   postgres_data:

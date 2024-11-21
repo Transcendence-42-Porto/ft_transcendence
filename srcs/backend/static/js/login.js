@@ -2,19 +2,22 @@ async function onLogin() {
 
     let email = document.getElementById('emailInput').value;
     let password = document.getElementById('passwordInput').value;
+    let username = "test";
     let data = {
         email: email,
-        password: password
+        password: password,
+        username: username,
     };
     console.log(data);
     try {
-        const response = await fetch('http://localhost:8001/api/schema/swagger-ui/#/authentication/authentication_sign_in_create', {
+        const response = await fetch('http://localhost/api/authentication/sign-up', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 email: email,
+                username: username,
                 password: password
             })
         });
