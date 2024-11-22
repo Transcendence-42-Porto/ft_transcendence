@@ -2,15 +2,49 @@ async function onLogin() {
 
     let email = document.getElementById('emailInput').value;
     let password = document.getElementById('passwordInput').value;
-    let username = "test";
     let data = {
         email: email,
         password: password,
-        username: username,
     };
     console.log(data);
     try {
-        const response = await fetch('http://localhost/api/authentication/sign-up', {
+        const response = await fetch('/api/authentication/sign-in', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Login falhou!');
+        }
+
+        const data = await response.json();
+        console.log('Usuário autenticado com sucesso:', data);
+        
+    } catch (error) {
+        console.error('Erro ao fazer login:', error);
+    }
+}
+
+async function onSignUp(){
+    let email = document.getElementById('emailSignUp').value;
+    let name = document.getElementById('nameSignUp').value;
+    let username = document.getElementById('usernameSignUp').value;
+    let password = document.getElementById('passwordSignUp').value;
+    let data = {
+        name : name,
+        username: username,
+        email: email,
+        password: password,
+    };
+    console.log(data);
+    try {
+        const response = await fetch('/api/authentication/sign-up', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,18 +57,13 @@ async function onLogin() {
         });
 
         if (!response.ok) {
-            throw new Error('Login falhou!');
+            throw new Error('Sign-up falhou!');
         }
 
-        // Caso o login seja bem-sucedido, processa a resposta
         const data = await response.json();
         console.log('Usuário autenticado com sucesso:', data);
-
-        // Aqui você pode redirecionar para a página inicial ou fazer algo mais
-        // Por exemplo, salvar o token no localStorage ou sessionStorage, se aplicável:
-        // localStorage.setItem('auth_token', data.token);
         
     } catch (error) {
-        console.error('Erro ao fazer login:', error);
+        console.error('Erro ao fazer sign-up:', error);
     }
 }

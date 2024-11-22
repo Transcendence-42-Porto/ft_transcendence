@@ -10,7 +10,7 @@ async function onLogin() {
     };
     console.log(data);
     try {
-        const response = await fetch('http://localhost/api/authentication/sign-up', {
+        const response = await fetch('/api/authentication/sign-up', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
