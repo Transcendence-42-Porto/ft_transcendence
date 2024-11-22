@@ -25,13 +25,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  # Backend - Django
-  django-backend:
-    container_name: backend
+  # Frontend - Django
+  frontend:
+    container_name: frontend
     build:
-      context: ./backend
+      context: ./ui
       dockerfile: Dockerfile
-    image: backend
+    image: frontend
     networks:
       - transcendence
     ports:
@@ -41,7 +41,7 @@ services:
     depends_on:
       - postgres-db
     volumes:
-      - ./backend:/app
+      - ./ui:/app
 
   # Authentication service - Django
   user_management_service:
@@ -60,7 +60,7 @@ services:
       - ./.env
     depends_on:
       - postgres-db
-      - django-backend
+      - frontend
     volumes:
       - ./user_management_service:/app
     stop_grace_period: 2s
@@ -77,7 +77,7 @@ services:
     ports:
       - 80:80
     depends_on:
-      - django-backend
+      - frontend
       - user_management_service
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
