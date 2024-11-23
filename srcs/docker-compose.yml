@@ -56,6 +56,8 @@ services:
       - transcendence
     ports:
       - 8001:8000
+    environment:
+      - DB_ENGINE=django.db.backends.postgresql
     env_file:
       - ./.env
     depends_on:
@@ -65,7 +67,7 @@ services:
       - ./user_management_service:/app
     stop_grace_period: 2s
 
-  # Nginx - Proxy Reverse
+  # Nginx - Proxy Reverse (With WAF configuration)
   nginx:
     container_name: nginx
     build:
@@ -79,8 +81,6 @@ services:
     depends_on:
       - frontend
       - user_management_service
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
 volumes:
   postgres_data:
