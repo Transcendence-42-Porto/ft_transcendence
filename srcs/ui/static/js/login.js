@@ -1,12 +1,21 @@
-async function onLogin() {
 
-    let email = document.getElementById('emailInput').value;
-    let password = document.getElementById('passwordInput').value;
-    let data = {
-        email: email,
-        password: password,
-    };
-    console.log(data);
+async function onLogin() {
+    const email = $('#emailInput').val();
+    const password = $('#passwordInput').val();
+
+    if (email === '' && password === '') {
+        displayLoginErrorMessage('Ops! Email and Password fields are empty.');
+        return;
+    }
+    if (email === '') {
+        displayLoginErrorMessage('Ops! Email field is empty.');
+        return;
+    }
+    if (password === '') {
+        displayLoginErrorMessage('Ops! Password field is empty.');
+        return;
+    }
+
     try {
         const response = await fetch('/api/authentication/sign-in', {
             method: 'POST',
@@ -14,56 +23,35 @@ async function onLogin() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email: email,
-                password: password
+                email,
+                password
             })
         });
 
         if (!response.ok) {
-            throw new Error('Login falhou!');
+            clearLoginFields();
+            displayErrorMessage('Ops! Your credentials are not correct. Please try again.');
+            throw new Error('Login failed!');
         }
 
         const data = await response.json();
-        console.log('Usuário autenticado com sucesso:', data);
-        
+        console.log('User authenticated successfully:', data);
+
+        if (response.ok) {
+            localStorage.setItem('refresh-token', data.refresh);
+            localStorage.setItem('access-token', data.access);
+        }
     } catch (error) {
-        console.error('Erro ao fazer login:', error);
+        console.error('Error logging in:', error);
     }
 }
 
-async function onSignUp(){
-    let email = document.getElementById('emailSignUp').value;
-    let name = document.getElementById('nameSignUp').value;
-    let username = document.getElementById('usernameSignUp').value;
-    let password = document.getElementById('passwordSignUp').value;
-    let data = {
-        name : name,
-        username: username,
-        email: email,
-        password: password,
-    };
-    console.log(data);
-    try {
-        const response = await fetch('/api/authentication/sign-up', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-                username: username,
-                password: password
-            })
-        });
 
-        if (!response.ok) {
-            throw new Error('Sign-up falhou!');
-        }
+function displayLoginErrorMessage(message) {
+    $('#error-msg-login').text(message);
+}
 
-        const data = await response.json();
-        console.log('Usuário autenticado com sucesso:', data);
-        
-    } catch (error) {
-        console.error('Erro ao fazer sign-up:', error);
-    }
+function clearLoginFields() {
+    $('#emailInput').val('');
+    $('#passwordInput').val('');
 }
