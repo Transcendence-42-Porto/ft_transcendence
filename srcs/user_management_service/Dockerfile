@@ -14,8 +14,7 @@ ENV PYTHONUNBUFFERED 1
 
 ENV DJANGO_SUPERUSER_PASSWORD ${DJANGO_ROOT_PASSWORD}
 
-# install dependencies
-RUN pip install poetry
+RUN pip install --upgrade pip && pip install poetry
 
 # Copy dependency files to install dependencies
 COPY pyproject.toml poetry.lock* /app/

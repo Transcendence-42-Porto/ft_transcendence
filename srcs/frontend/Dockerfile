@@ -1,38 +1,11 @@
-# Description: Dockerfile for the backend service
-FROM python:3.11.4-slim-bullseye
+# Use a imagem oficial do Nginx baseada no Alpine (leve)
+FROM nginx:alpine
 
-ARG DJANGO_ROOT_PASSWORD
-# set work directory
-WORKDIR /app
-# set environment variables
-# Prevents Python from writing pyc
-ENV PYTHONDONTWRITEBYTECODE 1
+# Copie os arquivos do seu frontend (HTML, CSS, JS, etc) para o diretório onde o Nginx os servirá
+COPY . /usr/share/nginx/html
 
-# Prevents Python from buffering stdout and stderr
-ENV PYTHONUNBUFFERED 1
+# Exponha a porta 80, que é a padrão do Nginx
+EXPOSE 80
 
-ENV DJANGO_SUPERUSER_PASSWORD ${DJANGO_ROOT_PASSWORD}
-
-# install dependencies
-RUN pip install poetry
-
-# Copy dependency files to install dependencies
-COPY pyproject.toml poetry.lock* /app/
-
-# Install only the dependencies
-RUN poetry install --no-root --only main
-
-# Copy the current directory contents into the container at /app
-COPY . /app
-
-# Expose the port the app runs on
-EXPOSE 8000
-
-# Add this line after copying your application files
-COPY entrypoint.sh /app/
-
-# Make the entrypoint script executable
-RUN chmod +x entrypoint.sh
-
-# Run database migrations before starting the server
-ENTRYPOINT ["bash", "-c", "./entrypoint.sh"]
+# Comando padrão para iniciar o Nginx em modo foreground
+CMD ["nginx", "-g", "daemon off;"]
