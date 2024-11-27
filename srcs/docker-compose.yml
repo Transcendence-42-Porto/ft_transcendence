@@ -75,7 +75,7 @@ services:
     networks:
       - transcendence
     ports:
-      - 80:80
+      - 8080:80
     depends_on:
       - django-backend
       - user_management_service
