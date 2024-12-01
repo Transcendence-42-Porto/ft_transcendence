@@ -1,0 +1,56 @@
+@font-face {
+    font-family: 'Arcade Classic';
+    src: url('../fonts/Pixel\ Emulator.otf') format('truetype'); /* Caminho para o arquivo da fonte */
+}
+
+
+body
+{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+    font-family: 'Arcade Classic', sans-serif; /* Aplica a fonte no corpo do site */
+}
+
+.image {
+	width: 100vw;
+	height: 100vh;
+	background: url('../media/background.jpg');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	display: flex;
+	align-items: center;      /* Centraliza verticalmente */
+	justify-content: center; 
+}
+
+#app {
+    width: 34.3vw;  /* 80% da largura da tela */
+    height: 50vh; /* 60% da altura da tela */
+	margin-bottom: 20vh !important;
+	margin-left: 32.5vw !important;
+    background-color: #03213d;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 2%;
+	box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+
+	/* Garante que o conteúdo não ultrapasse as margens de #app */
+    overflow-x: hidden; /* Faz com que qualquer conteúdo extra seja ocultado */ 
+    overflow-y: auto;
+	position: relative; /* Posicionamento relativo para controlar o layout interno */
+}
+
+.inside-app-div {
+	background-color: #03213d;
+	border: 1px solid white;
+	border-radius: 2%;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.button-tr{
+	cursor: pointer;
+}
