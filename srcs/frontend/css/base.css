@@ -3,7 +3,6 @@
     src: url('../fonts/Pixel\ Emulator.otf') format('truetype'); /* Caminho para o arquivo da fonte */
 }
 
-
 body
 {
 	box-sizing: border-box;

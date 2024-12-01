@@ -42,9 +42,3 @@ function loadContent(endpoint) {
             console.error(`[routing.js] ${error}`);
         });
 }
-
-// Exemplo de chamada da função para carregar o login
-loadContent('login'); // Isso vai carregar /login/ e renderizar o conteúdo dentro de #app
-
-// Exemplo de chamada da função para carregar o profile
-loadContent('profile'); // Isso vai carregar /profile/ e renderizar o conteúdo dentro de #app
