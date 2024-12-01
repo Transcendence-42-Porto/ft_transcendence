@@ -21,7 +21,6 @@ djangorestframework-simplejwt= "*" #token generation
 pyaml = "14.04.3" #render the OpenAPI view
 uritemplate = "4.1.1" #render the OpenAPI view
 drf-spectacular = { version = "0.27.2", extras = ["swagger-ui"] } # provide more control on OpenAPI views with Swagger UI
-django-cors-headers = "^4.6.0"
 
 
 [tool.poetry.group.dev.dependencies]

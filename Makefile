@@ -33,7 +33,7 @@ up: ## Run the project in detached mode
 	@echo "${GREEN}\t=== Project Running ===${NC}"
 
 
-nuke: ## Remove all containers, networks, and volumes
+nuke: down ## Remove all containers, networks, and volumes
 	@echo "${YELLOW}\t === Purging Docker Resources === ${NC}"
 	@echo "${RED}Warning: This action will remove all the system containers, networks, and volumes.${NC}"
 	@read -p "Are you sure you want to continue?(y/N):" confirm; \
