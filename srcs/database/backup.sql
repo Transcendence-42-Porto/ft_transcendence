@@ -526,6 +526,17 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 
 COPY public.user_profiles (id, last_login, username, email, first_name, last_name, password, is_staff, is_superuser, is_active, bio, avatar, score, date_joined) FROM stdin;
 1	\N	admin	admin@admin.com			pbkdf2_sha256$870000$aM3HJQ2BRbF3tPj3fOdjM0$zAyMXHkYWsnFcoBiFY6ByBLTdHzKZYe1juot5VyCbIk=	t	t	t	\N		0	2024-12-01 17:44:44.772915+00
+2	\N	sss	lu@gmail.com			pbkdf2_sha256$870000$gdA7GdF5Vq9kdMrJd5gOzj$6sIIJZRxD73IVwP3Hlf3B53x7ToEHAwFyVkv/7DRj98=	f	f	t	\N		0	2024-12-02 11:11:24.846193+00
+3	\N	lu	lulu@gmail.com			pbkdf2_sha256$870000$bPF6uebraLJmsWW3phsdcu$XXx64yh7mpTVOiobu4JOdujjicysZqJeYShy2Tb154M=	f	f	t	\N		0	2024-12-02 11:11:48.742295+00
+4	\N	lului	lului@gmail.com			pbkdf2_sha256$870000$xFv8rbHUOpeWOk6JJVd1sw$Tb1oOMr0NV69mPBmcohp2kjcuxJJTWTCCrH3vWBebUc=	f	f	t	\N		0	2024-12-02 11:12:25.926781+00
+5	\N	igo	igor@gmail.com			pbkdf2_sha256$870000$yrg7NIulhu3L77C6atO6Hn$OWSdDugPDQ+cq/Hfj6p6P3DhqlclxTtSL658ahpoEE8=	f	f	t	\N		0	2024-12-02 11:22:56.038783+00
+6	\N	ui	ui@gmail.com			pbkdf2_sha256$870000$ZHOHrmVBE0952uECy1YhfC$R8wvVq8q2MkzgxSx8XOxrqI8NyAo3F3Fm+ImZ1EsYkI=	f	f	t	\N		0	2024-12-02 11:23:42.470884+00
+7	\N	uu	uu@gmail.com			pbkdf2_sha256$870000$kVbNPDMcYe5nJQshRDNYcT$/IoTAQ78tvNrtf9WIz+V012MQjjn1TGgUw77a8eHTtQ=	f	f	t	\N		0	2024-12-02 11:43:55.978691+00
+8	\N	uul	uul@gmail.com			pbkdf2_sha256$870000$tumKD998c0pTi9KUEySpJU$ABX/PRPzXkdxWHdzJIGnLRiCDA+qdy54QKQrEGfkfEU=	f	f	t	\N		0	2024-12-02 11:45:09.24467+00
+9	\N	oi	oi@gmail.com			pbkdf2_sha256$870000$toZl7hiBEL7QRBpzx7lozV$1ubudIKvq/AcJd7WIFyw189AZqAIwUIXQyvsRTceLWg=	f	f	t	\N		0	2024-12-02 11:47:39.775458+00
+10	\N	yu	yu@gmail.com			pbkdf2_sha256$870000$h183PYclluI6lPvbjirblM$IO8zBMtbSJJJSD/6fJD+pBmdF8lQ6Ws3oS4XimI61sI=	f	f	t	\N		0	2024-12-02 11:55:43.84059+00
+11	\N	ff	ff@gmail.com			pbkdf2_sha256$870000$c8yONO0xpF1UpQVMTSDjAE$ijI5z+Q/LHO3oGl82BjFFp8pthtwgDFtGmTF0i3R9po=	f	f	t	\N		0	2024-12-02 12:02:10.247462+00
+12	\N	r	r@gmail.com			pbkdf2_sha256$870000$UEvfyKk2BfFZ4hzyD3Vilf$FcXzd8d3upMkuUuy2G6Y4WfrQNd88tnkCegSiR8BAXY=	f	f	t	\N		0	2024-12-02 12:11:03.093731+00
 \.
 
 
@@ -627,7 +638,7 @@ SELECT pg_catalog.setval('public.user_profiles_groups_id_seq', 1, false);
 -- Name: user_profiles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.user_profiles_id_seq', 1, true);
+SELECT pg_catalog.setval('public.user_profiles_id_seq', 12, true);
 
 
 --

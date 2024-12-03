@@ -1,40 +1,57 @@
-async function onLogin() {
 
-    let email = document.getElementById('emailInput').value;
-    let password = document.getElementById('passwordInput').value;
-    let username = "test";
-    let data = {
-        email: email,
-        password: password,
-        username: username,
-    };
-    console.log(data);
+async function onLogin() {
+    const email = $('#emailInput').val();
+    const password = $('#passwordInput').val();
+
+    if (email === '' && password === '') {
+        displayLoginErrorMessage('Ops! Email and Password fields are empty.');
+        return;
+    }
+    if (email === '') {
+        displayLoginErrorMessage('Ops! Email field is empty.');
+        return;
+    }
+    if (password === '') {
+        displayLoginErrorMessage('Ops! Password field is empty.');
+        return;
+    }
+
     try {
-        const response = await fetch('/api/authentication/sign-up', {
+        const response = await fetch('/api/authentication/sign-in', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email: email,
-                username: username,
-                password: password
+                email,
+                password
             })
         });
 
         if (!response.ok) {
-            throw new Error('Login falhou!');
+            clearLoginFields();
+            displayLoginErrorMessage('Ops! Your credentials are incorrect. Please try again.');
+            throw new Error('Login failed!');
         }
 
-        // Caso o login seja bem-sucedido, processa a resposta
         const data = await response.json();
-        console.log('Usuário autenticado com sucesso:', data);
+        console.log('User authenticated successfully:', data);
 
-        // Aqui você pode redirecionar para a página inicial ou fazer algo mais
-        // Por exemplo, salvar o token no localStorage ou sessionStorage, se aplicável:
-        // localStorage.setItem('auth_token', data.token);
-        
+        if (response.ok) {
+            localStorage.setItem('refresh-token', data.refresh);
+            localStorage.setItem('access-token', data.access);
+        }
     } catch (error) {
-        console.error('Erro ao fazer login:', error);
+        console.error('Error logging in:', error);
     }
+}
+
+
+function displayLoginErrorMessage(message) {
+    $('#error-msg-login').text(message);
+}
+
+function clearLoginFields() {
+    $('#emailInput').val('');
+    $('#passwordInput').val('');
 }
