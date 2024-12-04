@@ -517,6 +517,11 @@ COPY public.token_blacklist_blacklistedtoken (id, blacklisted_at, token_id) FROM
 --
 
 COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at, user_id, jti) FROM stdin;
+1	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzM5OTU0OSwiaWF0IjoxNzMzMzEzMTQ5LCJqdGkiOiIwNDVkZTIwNGQ1ODQ0YmQ5OTVmNjRkY2FiMWQwZjNlNyIsInVzZXJfaWQiOjE4fQ.YcygxoKx9ROcjYm-RYx3r_vicbJhnuLyZgovPzdEais	2024-12-04 11:52:29.472726+00	2024-12-05 11:52:29+00	18	045de204d5844bd995f64dcab1d0f3e7
+2	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzM5OTY3MSwiaWF0IjoxNzMzMzEzMjcxLCJqdGkiOiJkYTVmNGJhMWRjZmU0Y2FjYTEwYzJmNThjYzUyMTViYyIsInVzZXJfaWQiOjE4fQ.lMz3PsyQYvVJMuevqKBR8rqHas7aMyDcJAeBiXH1phY	2024-12-04 11:54:31.696166+00	2024-12-05 11:54:31+00	18	da5f4ba1dcfe4caca10c2f58cc5215bc
+3	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzM5OTY3MiwiaWF0IjoxNzMzMzEzMjcyLCJqdGkiOiI1YzY0ZDkyOWZjOWM0NGNiYWQ3Yjc5MzYwM2Q2ZTMyNyIsInVzZXJfaWQiOjE4fQ.6PuzCTo7ZV-UZf-WnLeRns56SizytCZgjT8Ke07rotU	2024-12-04 11:54:32.987822+00	2024-12-05 11:54:32+00	18	5c64d929fc9c44cbad7b793603d6e327
+4	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzM5OTY5NywiaWF0IjoxNzMzMzEzMjk3LCJqdGkiOiIyNjVlZjU3MDQyODY0OTlhODIwNDM1MDAxZmUxZGJkOCIsInVzZXJfaWQiOjE4fQ.IVxsNPhppCEG-dIVNilGVFvcvKgu3WrDFb6OxQXj-6s	2024-12-04 11:54:57.673597+00	2024-12-05 11:54:57+00	18	265ef5704286499a820435001fe1dbd8
+5	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzQwMDE0OSwiaWF0IjoxNzMzMzEzNzQ5LCJqdGkiOiI3YmU1OWQ2MGRiZDg0MGFlYjU3MWI3OGE0NGVmZWU4MyIsInVzZXJfaWQiOjE4fQ.3PZqHd4tgykC9-rrn2GFtD2ZW7aLnuwy-jD9GBlSpTI	2024-12-04 12:02:29.611252+00	2024-12-05 12:02:29+00	18	7be59d60dbd840aeb571b78a44efee83
 \.
 
 
@@ -537,6 +542,12 @@ COPY public.user_profiles (id, last_login, username, email, first_name, last_nam
 10	\N	yu	yu@gmail.com			pbkdf2_sha256$870000$h183PYclluI6lPvbjirblM$IO8zBMtbSJJJSD/6fJD+pBmdF8lQ6Ws3oS4XimI61sI=	f	f	t	\N		0	2024-12-02 11:55:43.84059+00
 11	\N	ff	ff@gmail.com			pbkdf2_sha256$870000$c8yONO0xpF1UpQVMTSDjAE$ijI5z+Q/LHO3oGl82BjFFp8pthtwgDFtGmTF0i3R9po=	f	f	t	\N		0	2024-12-02 12:02:10.247462+00
 12	\N	r	r@gmail.com			pbkdf2_sha256$870000$UEvfyKk2BfFZ4hzyD3Vilf$FcXzd8d3upMkuUuy2G6Y4WfrQNd88tnkCegSiR8BAXY=	f	f	t	\N		0	2024-12-02 12:11:03.093731+00
+13	\N	gg	luy@gmail.com			pbkdf2_sha256$870000$cnvMN79AyRjnJ4dSVFc62k$ZNn/r856Qup+5YPBqjovSE+f4Ka8uiANSygTMeJZwic=	f	f	t	\N		0	2024-12-04 11:23:48.794279+00
+14	\N	ggy	luyy@gmail.com			pbkdf2_sha256$870000$oJG9jwYiryaPGJeOhcOSsl$1hy7nTJEjZswZS4yo01Ag7H6zmzkvILaG50T8+TSxxo=	f	f	t	\N		0	2024-12-04 11:24:19.904896+00
+15	\N	ana	ana@ggmail.com			pbkdf2_sha256$870000$NlRLsjkhZBWngqlrevyFnd$sbAz+1Ij1qreX7Ue4BrFmEsGv6x4LhZp68ZJ92IkqII=	f	f	t	\N		0	2024-12-04 11:26:05.137449+00
+16	\N	luizou	luizou@gmail.com			pbkdf2_sha256$870000$ohg81CB1rZYwsTacBxaZnV$x0vVV3SD/ex5sF/LJj8GDqakYykMDHb1bImMf6ducRA=	f	f	t	\N		0	2024-12-04 11:28:39.402463+00
+17	\N	up	up@gmail.com			pbkdf2_sha256$870000$OFxxpVbV1eYF6AQRz3HFjP$JDLbn44yxZWauONlvTp1aq1jfnGQucRi5B7F+ViDsXQ=	f	f	t	\N		0	2024-12-04 11:51:40.775333+00
+18	\N	ro	ro@gmail.com			pbkdf2_sha256$870000$FrOnZvj7QZX3eNYSRMpnQS$Viy3++T/4BnTmMrbyFhvLcliXK2776WASOIrygBYpD4=	f	f	t	\N		0	2024-12-04 11:52:12.739861+00
 \.
 
 
@@ -617,7 +628,7 @@ SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 1, fa
 -- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 1, false);
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 5, true);
 
 
 --
@@ -638,7 +649,7 @@ SELECT pg_catalog.setval('public.user_profiles_groups_id_seq', 1, false);
 -- Name: user_profiles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.user_profiles_id_seq', 12, true);
+SELECT pg_catalog.setval('public.user_profiles_id_seq', 18, true);
 
 
 --

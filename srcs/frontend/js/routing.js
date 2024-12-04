@@ -11,7 +11,7 @@ function routing() {
         // Verifica se a URL é a raiz
         if (url === "/") {
             // Carrega o conteúdo da página inicial
-            loadContent("login");
+            loadContent("menu");
         } else {
             // Carrega o conteúdo baseado na URL
             const endpoint = url.replace("/", "");

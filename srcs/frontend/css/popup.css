@@ -2,7 +2,6 @@
     display: none;
     margin-right: 2rem;
     margin-bottom: 15vh;
-    display: flex;
     position: fixed;
     top: 0;
     left: 0;
@@ -15,6 +14,8 @@
 }
 
 .popup-content {
+    margin-right: 1rem;
+    margin-bottom: 10%;
     background: white;
     padding: 2rem;
     border-radius: 1rem;
@@ -25,18 +26,20 @@
 }
 
 .popup h2 {
+    color:#03213d;
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 
 .popup p {
-    font-size: 1rem;
+    color: #03213d;
+    font-size: 0.7rem;
     margin: 1rem 0;
 }
 
 .popup button {
-    padding: 1rem 2rem;
-    background-color: #03213d;
+    padding: 0.7rem 1.5rem;
+    background-color: #224e77;
     color: white;
     border: none;
     border-radius: 0.5rem;
@@ -46,5 +49,5 @@
 }
 
 .popup button:hover {
-    background-color: #45a049;
+    background-color: #03213d;
 }

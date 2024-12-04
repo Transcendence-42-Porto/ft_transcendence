@@ -36,6 +36,7 @@ async function onLogin() {
 
         const data = await response.json();
         console.log('User authenticated successfully:', data);
+        loadContent('menu');
 
         if (response.ok) {
             localStorage.setItem('refresh-token', data.refresh);

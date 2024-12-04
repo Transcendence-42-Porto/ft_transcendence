@@ -6,7 +6,8 @@ async function onSignUp() {
     const password = $('#passwordSignUp').val();
     const confirmPassword = $('#confirmPasswordSignUp').val();
 
-    checkSignupFields(email, name, username, password, confirmPassword);
+    if (!checkSignupFields(email, name, username, password, confirmPassword))
+        return;
     try {
         const response = await fetch('/api/authentication/sign-up', {
             method: 'POST',
@@ -36,7 +37,7 @@ async function onSignUp() {
 
         const data = await response.json();
 
-        document.getElementById('successPopupSignup').style.display = 'flex';
+        document.getElementById('successPopupSignup').style.display = 'flex';  
         console.log('User authenticated successfully:', data);
 
     } catch (error) {
@@ -47,36 +48,37 @@ async function onSignUp() {
 function checkSignupFields(email, name, username, password, confirmPassword) {
     if (email === '' && name === '' && username === '' && password === '') {
         displaySignupErrorMessage('Ops! All fields are empty.');
-        return;
+        return false;
     }
     if (email === '') {
         displaySignupErrorMessage('Ops! Email field is empty.');
-        return;
+        return false;
     }
     if (name === '') {
         displaySignupErrorMessage('Ops! Name field is empty.');
-        return;
+        return false;
     }
     if (username === '') {
         displaySignupErrorMessage('Ops! Username field is empty.');
-        return;
+        return false;
     }
     if (password === '') {
         displaySignupErrorMessage('Ops! Password field is empty.');
-        return;
+        return false;
     }
     if (confirmPassword === '') {
         displaySignupErrorMessage('Ops! Confirm Password field is empty.');
-        return;
+        return false;
     }
     if (password !== confirmPassword) {
         displaySignupErrorMessage('Ops! Passwords do not match.');
-        return;
+        return false;
     }
     if (password.length < 8) {
         displaySignupErrorMessage('Ops! Password must have at least 8 characters.');
-        return;
+        return false;
     }
+    return true;
 }
 
 function displaySignupErrorMessage(message) {
