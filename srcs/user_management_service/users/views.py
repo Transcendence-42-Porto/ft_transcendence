@@ -10,25 +10,37 @@ from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin
+from rest_framework.exceptions import PermissionDenied
 
 # Instead of inheriting from ModelViewSet, inherit from GenericBiewSet which restrict 
 # the actions and then include only the intersting ones 
 class UserProfileViewSet(RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
+    http_method_names = ['get', 'patch']
 
     def list(self, request):
         queryset = UserProfile.objects.all()
         serializer = UserProfileSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    # Allow user to modify only their own profile
-    def get_queryset(self):
-        if self.action == 'update':
-            return UserProfile.objects.filter(id=self.request.user.id)
-        return super().get_queryset()
+    # Allow user to modify only their own profile in PATCH method
+    def partial_update(self, request, *args, **kwargs):
+        user_profile = self.get_object()
 
-    # Retriev only specific fields of the user profile
+        # Ensure only the connected user can modify their profile
+        if user_profile != request.user:
+            raise PermissionDenied("You are not allowed to edit this profile.")
+
+        # Handle password hashing if 'password' is in the request
+        if 'password' in request.data:
+            user_profile.set_password(request.data['password'])  # Hash the password
+            user_profile.save()
+            request.data.pop('password')  # Remove from data to avoid saving it again
+
+        return super().partial_update(request, *args, **kwargs)
+
+
     @action(detail=True, methods=['get'], url_path='field/(?P<field_name>[^/.]+)')
     def retrieve_field(self, request, pk=None, field_name=None):
         """
