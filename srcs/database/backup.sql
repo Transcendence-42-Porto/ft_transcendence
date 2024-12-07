@@ -91,8 +91,7 @@ CREATE TABLE public.user_profiles (
     is_active boolean NOT NULL,
     is_staff boolean NOT NULL,
     is_superuser boolean NOT NULL,
-    date_joined timestamp with time zone NOT NULL,
-    score integer NOT NULL
+    date_joined timestamp with time zone NOT NULL
 );
 
 
@@ -719,6 +718,8 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 10	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NDI2NywiaWF0IjoxNzMzNTg3ODY3LCJqdGkiOiIzYjEyNDczMWY2NzM0MmYzOWViYTA3ZWE5N2MyMDZmMCIsInVzZXJfaWQiOjEwfQ._3Biqfo1ZwZ3MhcBHosSeYJl1iiEFx7vvIGVBqewqXE	2024-12-07 16:11:07.006884+00	2024-12-08 16:11:07+00	10	3b124731f67342f39eba07ea97c206f0
 11	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NDY4NCwiaWF0IjoxNzMzNTg4Mjg0LCJqdGkiOiJlMDY4NGFiZjFlMWU0YzU0YTRkYzUwY2MwZDczMWNmNSIsInVzZXJfaWQiOjEwfQ.KhR5OJvPQuXAItlsF6RspYVE4nCwVkiG1HlubNWHpA4	2024-12-07 16:18:04.66855+00	2024-12-08 16:18:04+00	10	e0684abf1e1e4c54a4dc50cc0d731cf5
 12	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NTE2OSwiaWF0IjoxNzMzNTg4NzY5LCJqdGkiOiJlMmYzYTM5YzE4OGM0YzYxOWFlYWI0ODdmZmE5NGE2OCIsInVzZXJfaWQiOjEwfQ.6hNNg0R4aLCy_7kbJOcSsefnRt7BY8Q43QaCHuuXhEM	2024-12-07 16:26:09.416136+00	2024-12-08 16:26:09+00	10	e2f3a39c188c4c619aeab487ffa94a68
+13	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NTgyMiwiaWF0IjoxNzMzNTg5NDIyLCJqdGkiOiI1NDNlYzhkNGZhNzc0NDJiOTQ1ZGMwMDdiMTkwMzkyMiIsInVzZXJfaWQiOjEwfQ.5rnKB8qv6hT9rffN9m_CJSNJOpzdMosGdt0Gd4tJHfg	2024-12-07 16:37:02.285795+00	2024-12-08 16:37:02+00	10	543ec8d4fa77442b945dc007b1903922
+14	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NjQzMywiaWF0IjoxNzMzNTkwMDMzLCJqdGkiOiIzYWNlNjNiNDAxZGE0ZmU1ODMxMTQwODdjZmVhNGU3ZiIsInVzZXJfaWQiOjE1fQ.I42TKm7pUUE-RzJiH7cuUWQqb_Fflzch4kPhI9zuU9Y	2024-12-07 16:47:13.256631+00	2024-12-08 16:47:13+00	\N	3ace63b401da4fe583114087cfea4e7f
 \.
 
 
@@ -726,9 +727,8 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 -- Data for Name: user_profiles; Type: TABLE DATA; Schema: public; Owner: db_user
 --
 
-COPY public.user_profiles (id, bio, avatar, last_login, email, password, username, first_name, last_name, is_active, is_staff, is_superuser, date_joined, score) FROM stdin;
-11	\N		2024-12-07 15:26:36.914927+00	admin3@admin.com	pbkdf2_sha256$870000$JWeaMYKX0PjmCM95rPADgK$OUeqDGlJkgKbwYOWehJ1WGkrfPoPPyhasC5Mx3Haw6Q=	admin3			t	t	t	2024-12-07 15:26:27.86656+00	0
-10	Now I am become Death, the destroyer of worlds.		2024-12-07 15:27:22.404319+00	admin@admin.com	pbkdf2_sha256$870000$9MCMTsLSgGPu3AmRKgWxyd$ci0Q4vKWVzri54KG9SPXlOlkrF94ew4J6ZTs2go+1QE=	admin			t	t	t	2024-10-31 13:50:09.248031+00	0
+COPY public.user_profiles (id, bio, avatar, last_login, email, password, username, first_name, last_name, is_active, is_staff, is_superuser, date_joined) FROM stdin;
+10	Now I am become Death, the destroyer of worlds.		2024-12-07 15:27:22.404319+00	admin@admin.com	pbkdf2_sha256$870000$9MCMTsLSgGPu3AmRKgWxyd$ci0Q4vKWVzri54KG9SPXlOlkrF94ew4J6ZTs2go+1QE=	admin			t	t	t	2024-10-31 13:50:09.248031+00
 \.
 
 
@@ -774,7 +774,7 @@ SELECT pg_catalog.setval('public.api_userprofile_groups_id_seq', 1, false);
 -- Name: api_userprofile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.api_userprofile_id_seq', 12, true);
+SELECT pg_catalog.setval('public.api_userprofile_id_seq', 15, true);
 
 
 --
@@ -865,7 +865,7 @@ SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 1, fa
 -- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 12, true);
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 14, true);
 
 
 --

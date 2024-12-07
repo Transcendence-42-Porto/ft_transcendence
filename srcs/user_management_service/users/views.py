@@ -41,7 +41,7 @@ class UserProfileViewSet(RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
         return super().partial_update(request, *args, **kwargs)
 
 
-    @action(detail=True, methods=['get'], url_path='field/(?P<field_name>[^/.]+)')
+    @action(detail=True, methods=['get'], url_path='(?P<field_name>[^/.]+)')
     def retrieve_field(self, request, pk=None, field_name=None):
         """
         Retrieve a specific field of a user profile.
