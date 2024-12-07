@@ -27,4 +27,5 @@ urlpatterns = [
     path("api/schema/swagger-ui/", SpectacularSwaggerView.as_view(url_name='schema'), name="swagger-ui"),  # Swagger UI
     path("api/authentication/", include("authentication.urls")),
     path("api/users/", include("users.urls")),
+    path("api/scores/", include("scores.urls")),
 ]

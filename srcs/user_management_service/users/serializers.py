@@ -4,7 +4,7 @@ from authentication.models import UserProfile
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['id', 'username', 'email', 'password', 'avatar', 'bio', 'friends']
+        fields = ['id', 'username', 'email', 'password', 'avatar', 'bio', 'friends', 'scores']
         extra_kwargs = {'password': {'write_only':True}} #password should be write only
 
 
