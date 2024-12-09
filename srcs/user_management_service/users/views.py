@@ -47,7 +47,7 @@ class UserProfileViewSet(RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
         Retrieve a specific field of a user profile.
         """
         try:
-            user = self.get_object()  # Retrieve the user object by pk
+            user = self.get_object()
             # Validate that the field exists in the model
             model_fields = [field.name for field in UserProfile._meta.get_fields()]
             if field_name not in model_fields:
