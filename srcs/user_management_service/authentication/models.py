@@ -36,7 +36,6 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     bio = models.TextField(blank=True, null=True)
     avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
     friends = models.ManyToManyField("self", blank=True)
-    score = models.IntegerField(default=0)
     date_joined = models.DateTimeField(default=timezone.now) 
 
     # Define a manager

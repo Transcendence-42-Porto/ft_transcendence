@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'authentication',
     'users',
+    'scores',
 ]
 
 MIDDLEWARE = [
