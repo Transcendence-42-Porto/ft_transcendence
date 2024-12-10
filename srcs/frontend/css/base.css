@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'Arcade Classic';
-    src: url('../fonts/Pixel\ Emulator.otf') format('truetype'); /* Caminho para o arquivo da fonte */
+    font-family: 'Pixel';
+    src: url('../fonts/pixel.otf') format('truetype'); /* Caminho para o arquivo da fonte */
 }
 
 body
@@ -8,7 +8,7 @@ body
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-    font-family: 'Arcade Classic', sans-serif; /* Aplica a fonte no corpo do site */
+	font-family: "Pixel", sans-serif !important;
 }
 
 .image {
@@ -20,6 +20,10 @@ body
 	display: flex;
 	align-items: center;      /* Centraliza verticalmente */
 	justify-content: center; 
+}
+
+#app-container {
+	border: 1px solid white;
 }
 
 #app {
@@ -39,11 +43,15 @@ body
 
 	/* Garante que o conteúdo não ultrapasse as margens de #app */
     overflow-x: hidden; /* Faz com que qualquer conteúdo extra seja ocultado */ 
-    overflow-y: auto;
+    overflow-y: hidden;
 	position: relative; /* Posicionamento relativo para controlar o layout interno */
 }
 
 .inside-app-div {
+	/* min-height: 400px;
+	max-height: 400px;
+	min-width: 400px;
+	max-width: 400px; */
 	background-color: #03213d;
 	border: 1px solid white;
 	border-radius: 2%;
