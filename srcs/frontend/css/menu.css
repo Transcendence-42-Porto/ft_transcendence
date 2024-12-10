@@ -1,0 +1,35 @@
+#plane-canvas, #main-canvas {
+    position: absolute;
+    z-index: 0;  /* Garante que os canvases fiquem atrás do conteúdo */
+    top: 0;      /* Ajuste o top, left, etc., para se certificar de que eles ocupem o espaço correto */
+    left: 0;
+}
+
+button {
+    position: relative;
+    z-index: 10;  /* Garante que o botão fique acima dos canvases */
+    margin-top: 20px; /* Ajusta o espaçamento do botão se necessário */
+    font-family: "Pixel", sans-serif;;
+}
+
+#menu-options button {
+    display: block;  /* Faz os botões se empilharem um abaixo do outro */
+    width: 100%;     /* Optional: Faz os botões ocuparem toda a largura disponível */
+    margin-bottom: 10px;  /* Optional: Espaço entre os botões */
+    padding: 0.9rem;
+    padding-right: 1.8rem;
+    padding-left: 1.8rem;
+    background-color: #03213d;
+    border-color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Adiciona transição suave */
+}
+
+#menu-options button:hover {
+    background-color: #054080; /* Cor de fundo ao passar o mouse */
+    transform: scale(1.05);    /* Aumenta ligeiramente o botão */
+}
+
+#menu-options {
+    margin-top: 8rem;
+}
+

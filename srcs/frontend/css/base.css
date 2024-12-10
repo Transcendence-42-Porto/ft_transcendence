@@ -8,7 +8,7 @@ body
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	font-family: "Pixel", sans-serif;
+	font-family: "Pixel", sans-serif !important;
 }
 
 .image {
@@ -20,6 +20,10 @@ body
 	display: flex;
 	align-items: center;      /* Centraliza verticalmente */
 	justify-content: center; 
+}
+
+#app-container {
+	border: 1px solid white;
 }
 
 #app {

@@ -66,10 +66,13 @@ const tools = {
     textNodes: '[data-js=text]',
     social: '#social',
     mouse: '#mouse'
-  }
+  };
+  
+ 
   
   class App{
     constructor() {
+      console.log("Instância do App criada!");
       this.state = {
         area: 0,
         time: Date.now(),
@@ -937,3 +940,5 @@ const tools = {
   window.addEventListener('load', () => {
     window.app = new App()
   })
+
+  export default App;

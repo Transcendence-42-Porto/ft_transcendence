@@ -1,4 +1,3 @@
-
 async function onLogin() {
     const email = $('#emailInput').val();
     const password = $('#passwordInput').val();
@@ -37,6 +36,7 @@ async function onLogin() {
         const data = await response.json();
         console.log('User authenticated successfully:', data);
         loadContent('menu');
+        window.app = new App();
 
         if (response.ok) {
             localStorage.setItem('refresh-token', data.refresh);

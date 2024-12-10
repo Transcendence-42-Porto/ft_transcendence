@@ -1,3 +1,7 @@
+h1, h2, h3, h4, h5, h6, span, p {
+  color: #f8f9fa !important;
+}
+
 .card-profile {
 	width: 30rem;
 }
@@ -8,4 +12,64 @@
 
 .no-border {
     border: none;
+}
+
+.card-profile {
+  border-radius: 15px;
+}
+
+.card-body {
+  padding: 20px;
+  background-color: #03213d;
+  border: 1px solid white;
+}
+
+.card-profile img {
+  width: 80px;
+  border-radius: 50%;
+}
+
+.card-profile h5 {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+.card-profile p {
+  font-size: 0.8rem;
+}
+
+.card.mt-4 {
+  margin-top: 20px;
+}
+
+.card-body table th, 
+.card-body table td {
+  font-size: 0.9rem;
+}
+
+.card-body table td {
+  font-size: 0.8rem;
+}
+
+/* Modal styling */
+.modal-content {
+  border-radius: 10px;
+}
+
+.modal-body form input {
+  border-radius: 10px;
+}
+
+.btn-outline-primary {
+  border-radius: 50%;
+  padding: 5px;
+  /* background-color: #fff; */
+}
+
+.no-border {
+  border: none;
+}
+
+.custom-edit-profile-icon-size {
+  font-size: 1.5rem;
 }
