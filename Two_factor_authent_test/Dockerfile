@@ -1,1 +1,0 @@
-##Have to make "pip install pyotp" and or "pip install --upgrade pip" and "pip install qrcode[pil]"

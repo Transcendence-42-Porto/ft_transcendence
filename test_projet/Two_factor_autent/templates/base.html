@@ -16,7 +16,7 @@
     <img id="qrcode" alt="QR Code">
     <script>
         // Fetch the QR code from the API
-        fetch('http://127.0.0.1:8000/qrcode/gen/', {
+        fetch('http://localhost:8000/qrcode/gen/', {
             method: 'POST', // If your API requires POST, specify it
             headers: {
                 'Content-Type': 'application/json',
@@ -27,6 +27,7 @@
             .then(data => {
                 // Set the QR code image src using base64 data
                 document.getElementById('qrcode').src = `data:image/png;base64,${data.qrcode}`;
+
             })
             .catch(error => console.error('Error:', error));
     </script>
