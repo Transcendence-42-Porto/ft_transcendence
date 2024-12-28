@@ -82,5 +82,28 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
+  # Two_Factor_authentication - Django
+  two_factor_authentication:
+    container_name: two_factor_authentication
+    build:
+      args:
+        DJANGO_ROOT_PASSWORD: ${DJANGO_ROOT_PASSWORD}
+      context: ./Two_Factor_authentication/
+      dockerfile: Dockerfile
+    image: two_factor_authentication
+    networks:
+      - transcendence
+    ports:
+      - 7575:7575
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres-db
+      - user_management_service
+    volumes:
+      - ./Two_Factor_authentication:/app
+    stop_grace_period: 2s
+
+    
 volumes:
   postgres_data:
