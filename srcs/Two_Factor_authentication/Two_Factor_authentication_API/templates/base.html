@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Display</title>
+    <style>
+        #qrcode {
+            width: 200px; /* Set desired width */
+            height: 200px; /* Set desired height */
+        }
+    </style>
+</head>
+<body>
+    <h1>Your QR Code</h1>
+    <img id="qrcode" alt="QR Code">
+    <script>
+        // Fetch the QR code from the API
+        fetch('http://localhost:7575/qrcode/gen/', {
+            method: 'POST', // If your API requires POST, specify it
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: "Tiago" }) // Adjust data as needed
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Set the QR code image src using base64 data
+                document.getElementById('qrcode').src = `data:image/png;base64,${data.qrcode}`;
+
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
