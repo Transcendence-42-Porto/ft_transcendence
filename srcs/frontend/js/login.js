@@ -16,6 +16,7 @@ async function onLogin() {
     }
 
     try {
+        
         const response = await fetch('/api/authentication/sign-in', {
             method: 'POST',
             headers: {

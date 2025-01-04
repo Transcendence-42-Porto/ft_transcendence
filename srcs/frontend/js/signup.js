@@ -9,6 +9,9 @@ async function onSignUp() {
     if (!checkSignupFields(email, name, username, password, confirmPassword))
         return;
     try {
+
+
+
         const response = await fetch('/api/authentication/sign-up', {
             method: 'POST',
             headers: {
@@ -35,15 +38,47 @@ async function onSignUp() {
             throw new Error('Sign-up failed!');
         }
 
-        const data = await response.json();
+        const qrCodeCreated = await createQrCode(username);
 
-        document.getElementById('successPopupSignup').style.display = 'flex';  
-        console.log('User authenticated successfully:', data);
-
+        if (qrCodeCreated) {
+            const data = await response.json();
+            document.getElementById('successPopupSignup').style.display = 'flex';  
+            console.log('User authenticated successfully:', data);
+        } else {
+            console.error("QR code creation failed. Rolling back user creation...");
+            // Call API to delete user or handle rollback logic
+        }
+        
     } catch (error) {
         console.error('Error signing up:', error);
     }
 }
+
+async function createQrCode(username) {
+    try {
+        const response = await fetch('http://localhost:7575/qrcode/gen/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username }),
+        });
+
+        if (!response.ok) {
+            console.error('Failed to create QR code');
+            return false; // Retorna false em caso de falha
+        }
+
+        const data = await response.json(); // Aguarda e processa o JSON
+        document.getElementById('qrcode').src = `data:image/png;base64,${data.qrcode}`;
+        console.log("QR code created successfully");
+        return true; // Retorna true em caso de sucesso
+    } catch (error) {
+        console.error('Error creating QR code:', error);
+        return false; // Retorna false em caso de erro
+    }
+}
+
 
 function checkSignupFields(email, name, username, password, confirmPassword) {
     if (email === '' && name === '' && username === '' && password === '') {

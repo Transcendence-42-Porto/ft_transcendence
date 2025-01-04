@@ -5,3 +5,9 @@
     font-size: 0.600rem;
     color: indianred;
 }
+
+#qrcode
+{
+    width: 50%;
+    height: auto;
+}
