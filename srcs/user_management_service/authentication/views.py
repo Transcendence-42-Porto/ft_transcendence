@@ -61,6 +61,7 @@ def signin_view(request):
     response_data = {
     'email': str(data['user'].email),
     }
+    response_data["id"] = str(data['user'].id)
 
     # Generate tokens for the authenticated user
     refresh = RefreshToken.for_user(data["user"])

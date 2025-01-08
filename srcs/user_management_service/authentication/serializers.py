@@ -10,7 +10,7 @@ class SignUpSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['email', 'username', 'password']
+        fields = ['email', 'username', 'password', 'first_name']
 
     def create(self, validated_data):
         password = validated_data.pop('password')
@@ -34,6 +34,7 @@ class SignInSerializer(serializers.Serializer):
 
 #Serializer to display neatly the type of response expected from signin view with swagger-ui
 class SignInResponseSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     email = serializers.EmailField()
     refresh = serializers.CharField()
     access = serializers.CharField()
