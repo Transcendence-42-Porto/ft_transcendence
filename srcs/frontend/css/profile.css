@@ -1,14 +1,23 @@
 h1, h2, h3, h4, h5, h6, span, p {
-  color: #f8f9fa !important;
+  color: #f8f9fa  !important;
+}
+
+.modal-title
+{
+  color: black !important
 }
 
 .card-profile {
 	width: 30rem;
 }
 
+.logout-icon {
+  border: none !important;
+}
+
 .custom-edit-profile-icon-size {
     font-size: 0.9rem;
-  }
+}
 
 .no-border {
     border: none;
@@ -49,6 +58,10 @@ h1, h2, h3, h4, h5, h6, span, p {
 
 .card-body table td {
   font-size: 0.8rem;
+}
+
+.modal-header {
+  padding-left: 2rem  !important;
 }
 
 /* Modal styling */
