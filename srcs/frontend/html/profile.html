@@ -16,8 +16,14 @@
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-md-12">
           <!-- Profile Card -->
-          <div class="card card-profile no-border">
+          <div class="card card-profile no-border position-relative">
             <div class="card-body text-center">
+              <div class="position-absolute top-0 end-0 m-2">
+                <button type="button" class="btn btn-outline-secondary btn-sm logout-icon">
+                  <i class="bi bi-box-arrow-right"></i>
+                </button>
+              </div>
+
               <div class="mt-2 mb-2">
                 <img id="profile-pic" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp" class="rounded-circle img-fluid" />
               </div>
@@ -26,7 +32,7 @@
                   <i class="bi bi-pencil-square custom-edit-profile-icon-size"></i>
                 </button>
               </div>
-              <h5 class="mb-2" id="profile-name">Julie L. Arsenault</h5>
+              <h5 class="mb-2" id="profile-name">Julia L. Arsenault</h5>
               <p class="text-muted mb-3">
                 <span id="profile-handle">@Programmer</span> <span class="mx-2">|</span>
                 <a href="#!" id="profile-site">mdbootstrap.com</a>
@@ -35,14 +41,20 @@
           </div>
 
           <div>
-            <button class="btn btn-primary">Friends</button>
-            <button class="btn btn-primary">Game history</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#friendsListModal">
+              Friends List
+            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gameHistoryModal">
+              Game history
+            </button>
           </div>
 
         </div>
       </div>
     </div>
   </section>
+
+  
 
   <!-- Modal for Editing Profile -->
   <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
@@ -85,6 +97,79 @@
     </div>
   </div>
 
+  <!-- Modal for Friends List -->
+  <div class="modal fade" id="friendsListModal" tabindex="-1" aria-labelledby="friendsListModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="friendsListModalLabel"  style="color: black" >Friends List</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Profile Picture</th>
+                <th scope="col">Name</th>
+                <th scope="col">Username</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Example row -->
+              <tr>
+                <td><img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp" class="rounded-circle img-fluid" width="50" /></td>
+                <td>John Doe</td>
+                <td>@johndoe</td>
+                <td><button class="btn btn-danger btn-sm">Exclude</button></td>
+              </tr>
+              <!-- Repeat rows as needed -->
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal for Game History -->
+  <div class="modal fade" id="gameHistoryModal" tabindex="-1" aria-labelledby="gameHistoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="gameHistoryModalLabel" style="color: black">Game History</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Score</th>
+                <th scope="col">Opponent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Example row -->
+              <tr>
+                <td>2023-10-01</td>
+                <td>14:00</td>
+                <td>10-5</td>
+                <td>@opponent1</td>
+              </tr>
+              <!-- Repeat rows as needed -->
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <!-- Bootstrap JS (Optional if not already included in your project) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
