@@ -41,9 +41,10 @@
           </div>
 
           <div>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#friendsListModal">
-              Friends List
+            <button type="button" onclick="loadFriendsList();" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#friendsListModal">
+              Friends Lista
             </button>
+
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gameHistoryModal">
               Game history
             </button>
@@ -171,6 +172,8 @@
   </div>
   
   <!-- Bootstrap JS (Optional if not already included in your project) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS -->
+  <script type="module" src="./js/profile.js"></script>
 </body>
 </html>
