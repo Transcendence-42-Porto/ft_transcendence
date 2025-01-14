@@ -1,3 +1,6 @@
+import tokenManager from './token.js';
+import CookieManager from './cookieManager.js';
+
 async function onLogin() {
     const email = $('#emailInput').val();
     const password = $('#passwordInput').val();
@@ -15,8 +18,7 @@ async function onLogin() {
         return;
     }
 
-    try {
-        
+    try {   
         const response = await fetch('/api/authentication/sign-in', {
             method: 'POST',
             headers: {
@@ -33,27 +35,32 @@ async function onLogin() {
             displayLoginErrorMessage('Ops! Your credentials are incorrect. Please try again.');
             throw new Error('Login failed!');
         }
-
         const data = await response.json();
-        console.log('User authenticated successfully:', data);
+        if (data.access) {
+            tokenManager.setAccessToken(data.access);
+            console.log('Access token set!');
+            console.log("token:", tokenManager.accessToken);
+
+            CookieManager.setCookie("userId", data.id, 1); 
+            console.log("userId:", CookieManager.getCookie("userId"));
+        }
         loadContent('menu');
         //window.app = new App();
 
         if (response.ok) {
-            localStorage.setItem('refresh-token', data.refresh);
-            localStorage.setItem('access-token', data.access);
+            const access_token = data.access;
         }
     } catch (error) {
         console.error('Error logging in:', error);
     }
 }
 
+// Make onLogin globally accessible
+window.onLogin = onLogin;
 
-function displayLoginErrorMessage(message) {
-    $('#error-msg-login').text(message);
-}
 
 function clearLoginFields() {
     $('#emailInput').val('');
     $('#passwordInput').val('');
 }
+
