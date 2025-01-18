@@ -35,6 +35,7 @@ async function onLogin() {
             displayLoginErrorMessage('Ops! Your credentials are incorrect. Please try again.');
             throw new Error('Login failed!');
         }
+
         const data = await response.json();
         if (data.access) {
             tokenManager.setAccessToken(data.access);
@@ -44,23 +45,37 @@ async function onLogin() {
             CookieManager.setCookie("userId", data.id, 1); 
             console.log("userId:", CookieManager.getCookie("userId"));
         }
-        loadContent('menu');
+        // loadContent('menu');
         //window.app = new App();
 
         if (response.ok) {
             const access_token = data.access;
         }
+
+        const authenticatorModal = new bootstrap.Modal(document.getElementById('authenticatorModal'));
+        authenticatorModal.show();
+
     } catch (error) {
         console.error('Error logging in:', error);
     }
 }
 
-// Make onLogin globally accessible
 window.onLogin = onLogin;
-
+window.verifyAuthenticationCode = verifyAuthenticationCode;
 
 function clearLoginFields() {
     $('#emailInput').val('');
     $('#passwordInput').val('');
 }
 
+function verifyAuthenticationCode() {
+    loadContent('menu');
+    
+    const authenticatorModalElement = document.getElementById('authenticatorModal');
+    if (authenticatorModalElement) {
+        const authenticatorModal = bootstrap.Modal.getInstance(authenticatorModalElement);
+        if (authenticatorModal) {
+            authenticatorModal.hide();
+        }
+    }
+}

@@ -11,3 +11,8 @@
     width: 50%;
     height: auto;
 }
+
+#authenticatorModal p {
+    font-size: small;
+    color: black !important;
+}
