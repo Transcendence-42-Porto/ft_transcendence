@@ -13,6 +13,7 @@ function routing() {
             // Carrega o conteúdo da página inicial
             // loadContent("login");
             loadContent("game");
+            game();
         } else {
             // Carrega o conteúdo baseado na URL
             const endpoint = url.replace("/", "");
@@ -38,6 +39,10 @@ function loadContent(endpoint) {
         .then(html => {
             // Insere o conteúdo HTML dentro de #app
             app.innerHTML = html;
+
+            if (endpoint === "game") {
+                game(); // Inicializa o jogo após garantir que os elementos existam
+            }
         })
         .catch(error => {
             console.error(`[routing.js] ${error}`);

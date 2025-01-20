@@ -1,13 +1,26 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
 body {
+	background-color: #000;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
+	color: #fff;
+	font-family: sans-serif;
+}
+
+canvas {
 	background-color: #000;
-	margin: 0;
-  }
-  
-  #pongCanvas {
-	border: 1px solid #fff;
-  }
-  
+	border: 2px solid #fff;
+	display: block;
+}
+
+#gameCanvas {
+	width: 34.3vw;
+    height: 50vh; 
+}
