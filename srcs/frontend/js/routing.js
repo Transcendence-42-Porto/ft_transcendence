@@ -7,12 +7,15 @@ function routing() {
         // Pega a URL atual
         const url = window.location.pathname;
         console.log(`[routing.js] URL: ${url}`);
-
+        console.log(url);
         // Verifica se a URL é a raiz
         if (url === "/") {
             // Carrega o conteúdo da página inicial
             loadContent("login");
-        } else {
+        } else if (url === "/profile") {
+            loadContent("profile");
+        }
+        else {
             // Carrega o conteúdo baseado na URL
             const endpoint = url.replace("/", "");
             loadContent(endpoint);

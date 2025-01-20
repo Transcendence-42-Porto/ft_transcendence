@@ -45,8 +45,6 @@ async function onLogin() {
             CookieManager.setCookie("userId", data.id, 1); 
             console.log("userId:", CookieManager.getCookie("userId"));
         }
-        // loadContent('menu');
-        //window.app = new App();
 
         if (response.ok) {
             const access_token = data.access;

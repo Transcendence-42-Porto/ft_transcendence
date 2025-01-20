@@ -4,6 +4,7 @@ FROM nginx:alpine
 # Copiar os arquivos locais para o diretório /usr/share/nginx/html
 COPY ./ /usr/share/nginx/html/
 
+
 # Copiar o arquivo de configuração customizado para o container
 COPY ./default.conf /etc/nginx/nginx.conf
 

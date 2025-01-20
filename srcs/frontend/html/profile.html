@@ -19,9 +19,40 @@
           <div class="card card-profile no-border position-relative">
             <div class="card-body text-center">
               <div class="position-absolute top-0 end-0 m-2">
-                <button type="button" class="btn btn-outline-secondary btn-sm logout-icon">
+                <button type="button" class="btn btn-outline-secondary btn-sm logout-icon myIcon" data-bs-toggle="modal" data-bs-target="#logoutModal">
                   <i class="bi bi-box-arrow-right"></i>
                 </button>
+
+              <!-- Logout Confirmation Modal -->
+              <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to logout?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-primary" id="confirmLogoutButton">Logout</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <script>
+                document.querySelector('.logout-icon').addEventListener('click', function() {
+                  var logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+                  logoutModal.show();
+                });
+
+                document.getElementById('confirmLogoutButton').addEventListener('click', function() {
+                  // Add your logout logic here
+                  window.location.href = '/logout'; // Example redirect to logout endpoint
+                });
+              </script>
               </div>
 
               <div class="mt-2 mb-2">
@@ -32,19 +63,21 @@
                   <i class="bi bi-pencil-square custom-edit-profile-icon-size"></i>
                 </button>
               </div>
-              <h5 class="mb-2" id="profile-name">Julia L. Arsenault</h5>
+              <h5 class="mb-2" id="profile-name">jojo L. Arsenault</h5>
               <p class="text-muted mb-3">
                 <span id="profile-handle">@Programmer</span> <span class="mx-2">|</span>
-                <a href="#!" id="profile-site">mdbootstrap.com</a>
+                <a href="#!" id="profile-site">mdbootstrap.br</a>
               </p>
             </div>
           </div>
 
           <div>
-            <button type="button" onclick="loadFriendsList();" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#friendsListModal">
-              Friends Lista
+            <!-- <button type="button" onclick="loadFriendsList();" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#friendsListModal">
+              Friends List
+            </button> -->
+            <button type="button" onclick="loadFriendsList();" class="btn btn-primary">
+              Friends
             </button>
-
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gameHistoryModal">
               Game history
             </button>
