@@ -1,45 +1,42 @@
-
-function routing() {
-    // Função que carrega o conteúdo HTML dentro de #app baseado no endpoint
-    console.log("[routing.js] script loaded");
-
-    function loadContentBasedOnUrl() {
-        // Pega a URL atual
-        const url = window.location.pathname;
-        console.log(`[routing.js] URL: ${url}`);
-
-        // Verifica se a URL é a raiz
-        if (url === "/") {
-            // Carrega o conteúdo da página inicial
-            // loadContent("login");
-            loadContent("game");
-        } else {
-            // Carrega o conteúdo baseado na URL
-            const endpoint = url.replace("/", "");
-            loadContent(endpoint);
-        }
-    }
-
-    loadContentBasedOnUrl();
-};
-
 function loadContent(endpoint) {
-    // Pega o elemento #app
     const app = document.getElementById("app");
-
-    // Faz a requisição fetch para o arquivo HTML dentro da pasta 'html'
-    fetch(`/html/${endpoint}.html`)  // Aponta diretamente para o arquivo correto
-        .then(response => {
-            if (response.ok) {
-                return response.text();  // Se a resposta for ok, trata como texto (HTML)
-            }
-            throw new Error('Erro ao carregar o conteúdo');
-        })
-        .then(html => {
-            // Insere o conteúdo HTML dentro de #app
-            app.innerHTML = html;
-        })
-        .catch(error => {
-            console.error(`[routing.js] ${error}`);
-        });
-}
+    fetch(`./html/${endpoint}.html`)
+      .then(response => {
+        if (!response.ok) throw new Error("Erro ao carregar o HTML");
+        return response.text();
+      })
+      .then(html => {
+        // Injeta o HTML no DOM
+        app.innerHTML = html;
+  
+        // Se for a página do jogo, carrega dinamicamente o script e chama initGame()
+        if (endpoint === "game") {
+          loadGameScriptAndInit();
+        }
+      })
+      .catch(error => console.error(error));
+  }
+  
+  function loadGameScriptAndInit() {
+    // Cria uma <script> que aponta para game.js
+    const script = document.createElement("script");
+    script.src = "./js/game.js";
+  
+    // Quando terminar de carregar, chama initGame()
+    script.onload = () => {
+      if (typeof initGame === "function") {
+        initGame();
+      } else {
+        console.error("Função initGame() não foi encontrada em game.js!");
+      }
+    };
+  
+    // Adiciona a <script> ao <body> (ou <head>)
+    document.body.appendChild(script);
+  }
+  
+  // Exemplo: Carregando o 'game.html' logo ao iniciar
+  document.addEventListener("DOMContentLoaded", () => {
+    loadContent("game");
+  });
+  
