@@ -77,3 +77,7 @@ function verifyAuthenticationCode() {
         }
     }
 }
+
+function displayLoginErrorMessage(msg) {
+    $('#error-msg-login').textContent = msg;
+}

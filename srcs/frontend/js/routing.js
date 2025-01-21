@@ -11,6 +11,7 @@ function routing() {
         // Verifica se a URL é a raiz
         if (url === "/") {
             // Carrega o conteúdo da página inicial
+            //loadContent("profile");
             loadContent("login");
         } else if (url === "/profile") {
             loadContent("profile");
@@ -21,7 +22,6 @@ function routing() {
             loadContent(endpoint);
         }
     }
-
     loadContentBasedOnUrl();
 };
 
@@ -40,6 +40,12 @@ function loadContent(endpoint) {
         .then(html => {
             // Insere o conteúdo HTML dentro de #app
             app.innerHTML = html;
+
+            if(endpoint == "profile")
+            {
+                loadProfile();
+                loadEditProfile();
+            }
         })
         .catch(error => {
             console.error(`[routing.js] ${error}`);

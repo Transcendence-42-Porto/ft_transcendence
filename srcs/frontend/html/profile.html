@@ -56,17 +56,17 @@
               </div>
 
               <div class="mt-2 mb-2">
-                <img id="profile-pic" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp" class="rounded-circle img-fluid" />
+                <img id="profile-pic" src="" class="rounded-circle img-fluid" />
               </div>
               <div class="mb-2 pb-1">
                 <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary btn-floating btn-sm no-border" data-bs-toggle="modal" data-bs-target="#editProfileModal">
                   <i class="bi bi-pencil-square custom-edit-profile-icon-size"></i>
                 </button>
               </div>
-              <h5 class="mb-2" id="profile-name">jojo L. Arsenault</h5>
+              <h5 class="mb-2" id="profile-name"></h5>
               <p class="text-muted mb-3">
-                <span id="profile-handle">@Programmer</span> <span class="mx-2">|</span>
-                <a href="#!" id="profile-site">mdbootstrap.br</a>
+                <span id="profile-username"></span> <span class="mx-2">|</span>
+                <span id="profile-email"></span>
               </p>
             </div>
           </div>
@@ -107,25 +107,21 @@
             </div>
             <div class="mb-3">
               <label for="editName" class="form-label">Name</label>
-              <input type="text" class="form-control" id="editName" value="Julie L. Arsenault" />
+              <input type="text" class="form-control" id="editName" value="" />
             </div>
             <div class="mb-3">
               <label for="editEmail" class="form-label">Email</label>
-              <input type="email" class="form-control" id="editEmail" value="julie@mdbootstrap.com" />
+              <input type="email" class="form-control" id="editEmail" value="" />
             </div>
             <div class="mb-3">
-              <label for="editHandle" class="form-label">Handle</label>
-              <input type="text" class="form-control" id="editHandle" value="@Programmer" />
-            </div>
-            <div class="mb-3">
-              <label for="editWebsite" class="form-label">Website</label>
-              <input type="url" class="form-control" id="editWebsite" value="https://mdbootstrap.com" />
+              <label for="editHandle" class="form-label">Username</label>
+              <input type="text" class="form-control" id="editUsername" value="" />
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" form="editProfileForm" class="btn btn-primary">Save changes</button>
+          <button type="submit" form="editProfileForm" class="btn btn-primary" onclick="onEditFormSubmit()">Save changes</button>
         </div>
       </div>
     </div>
