@@ -9,42 +9,23 @@ import tokenManager from "./token.js";
         console.error("User ID not found in cookies.");
         return;
       }
-  
-    //   $.ajax({
-        
-    //     url: `/api/users/${userId}/friends`, // Endereço da sua API
-    //     method: 'GET',
-    //     headers: {
-    //       'Authorization': `Bearer ${tokenManager.getAccessToken()}`, // Token de autorização, se necessário
-    //     },
-    //     success: function(response) {
-    //       // Limpar a tabela antes de preencher com novos dados
-    //       const tableBody = $('#friendsListModal tbody');
-    //       tableBody.empty();
-  
-    //       // Verificar se a resposta contém dados de amigos
-    //       if (response && response.friends) {
-    //         response.friends.forEach(friend => {
-    //           // Criar uma linha para cada amigo
-    //           const friendRow = `
-    //             <tr>
-    //               <td><img src="${friend.profilePicture}" class="rounded-circle img-fluid" width="50" /></td>
-    //               <td>${friend.name}</td>
-    //               <td>${friend.username}</td>
-    //               <td><button class="btn btn-danger btn-sm">Exclude</button></td>
-    //             </tr>
-    //           `;
-    //           // Adicionar a linha à tabela
-    //           tableBody.append(friendRow);
-    //         });
-    //       } else {
-    //         console.log("No friends found.");
-    //       }
-    //     },
-    //     error: function(error) {
-    //       console.error("Error fetching friends list:", error);
-    //     }
-    //   });
+
+    // const dummyFriends = [16];
+
+    // const responseAddFriends = await fetch(`/api/users/${userId}/`, {
+    //   method: 'PATCH',
+    //   headers: {
+    //     'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({ friends: dummyFriends })
+    // });
+
+    // if (responseAddFriends.ok) {
+    //   const data = await responseAddFriends.json();
+    //   console.log(data);
+    // } else {
+    //   console.error("Error adding dummy friends:", responseAddFriends.statusText);
     // }
 
   const response = await fetch(`/api/users/${userId}/`, {
@@ -60,20 +41,29 @@ import tokenManager from "./token.js";
     tableBody.empty();
 
     if (data && data.friends) {
-      data.friends.forEach(friend => {
-        const friendRow = `
-          <tr>
-            <td><img src="${friend.profilePicture}" class="rounded-circle img-fluid" width="50" /></td>
-            <td>${friend.name}</td>
-            <td>${friend.username}</td>
-            <td><button class="btn btn-danger btn-sm">Exclude</button></td>
-          </tr>
-        `;
-        tableBody.append(friendRow);
+      data.friends.forEach(async friendId => {
+        const friendResponse = await fetch(`/api/users/${friendId}/`, {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+          }
+        });
+        if (friendResponse.ok){
+            const friend = await friendResponse.json();
+            const friendRow = `
+              <tr>
+                <td><img src="${friend.avatar}" class="rounded-circle img-fluid" width="50" /></td>
+                <td>${friend.username}</td>
+                <td>${friend.email}</td>
+                <td><button class="btn btn-danger btn-sm">Exclude</button></td>
+              </tr>
+            `;
+            tableBody.append(friendRow);
+        }
       });
 
       const friendsModal = new bootstrap.Modal(document.getElementById('friendsListModal'));
-      friendsrModal.show();
+      friendsModal.show();
     } else {
       console.log("No friends found.");
     }
