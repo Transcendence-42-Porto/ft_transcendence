@@ -13,6 +13,8 @@ function routing() {
             // Carrega o conteúdo da página inicial
             //loadContent("profile");
             loadContent("login");
+            //loadContent("profile");
+
         } else if (url === "/profile") {
             loadContent("profile");
         }

@@ -39,10 +39,9 @@ async function onLogin() {
         const data = await response.json();
         if (data.access) {
             tokenManager.setAccessToken(data.access);
-            console.log('Access token set!');
-            console.log("token:", tokenManager.accessToken);
-
+            
             CookieManager.setCookie("userId", data.id, 1); 
+            
             console.log("userId:", CookieManager.getCookie("userId"));
         }
 

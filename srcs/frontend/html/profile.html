@@ -72,9 +72,6 @@
           </div>
 
           <div>
-            <!-- <button type="button" onclick="loadFriendsList();" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#friendsListModal">
-              Friends List
-            </button> -->
             <button type="button" onclick="loadFriendsList();" class="btn btn-primary">
               Friends
             </button>
@@ -131,10 +128,18 @@
   <div class="modal fade" id="friendsListModal" tabindex="-1" aria-labelledby="friendsListModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <div class="modal-header">
-          <h6 class="modal-title" id="friendsListModalLabel"  style="color: black" >Friends List</h6>
+        
+        <div class="modal-header d-flex justify-content-between align-items-center">
+          <h6 class="modal-title" id="friendsListModalLabel" style="color: black; margin-right: 70px">Friends List</h6>
+            <div class="input-group ms-auto w-50">
+            <input type="text" class="form-control" placeholder="Search for a friend" id="searchFriendInput">
+            <button class="btn btn-outline-secondary" type="button" id="searchFriendButton">
+              <i class="bi bi-search"></i>
+            </button>
+            </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        
         <div class="modal-body">
           <table class="table table-hover">
             <thead>
@@ -151,7 +156,7 @@
                 <td><img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp" class="rounded-circle img-fluid" width="50" /></td>
                 <td>John Doe</td>
                 <td>@johndoe</td>
-                <td><button class="btn btn-danger btn-sm">Exclude</button></td>
+                <td><button class="btn btn-danger btn-sm" onclick="excludeFriend()">Exclude</button></td>
               </tr>
               <!-- Repeat rows as needed -->
             </tbody>

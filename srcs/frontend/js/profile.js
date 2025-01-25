@@ -2,12 +2,12 @@ import CookieManager from "./cookieManager.js";
 import tokenManager from "./token.js";
     // Função para carregar a lista de amigos
     
+
     async function loadPersonalInfo() {
       let data = ""; 
 
       const userId = CookieManager.getCookie('userId');
       if (!userId) {
-        console.error("User ID not found in cookies.");
         return;
       }
       const response = await fetch(`/api/users/${userId}/`, {
@@ -57,25 +57,27 @@ import tokenManager from "./token.js";
       }
     }
 
-    async function loadFriendsList() {
-
+    
     // const dummyFriends = [16];
-
+    
     // const responseAddFriends = await fetch(`/api/users/${userId}/`, {
-    //   method: 'PATCH',
-    //   headers: {
-    //     'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
-    //     'Content-Type': 'application/json'
+      //   method: 'PATCH',
+      //   headers: {
+        //     'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+        //     'Content-Type': 'application/json'
     //   },
     //   body: JSON.stringify({ friends: dummyFriends })
     // });
-
+    
     // if (responseAddFriends.ok) {
-    //   const data = await responseAddFriends.json();
-    //   console.log(data);
-    // } else {
-    //   console.error("Error adding dummy friends:", responseAddFriends.statusText);
-    // }
+      //   const data = await responseAddFriends.json();
+      //   console.log(data);
+      // } else {
+        //   console.error("Error adding dummy friends:", responseAddFriends.statusText);
+        // }
+
+
+    async function loadFriendsList() {
 
       const data = await loadPersonalInfo();
       const tableBody = $('#friendsListModal tbody');
@@ -84,32 +86,34 @@ import tokenManager from "./token.js";
       if (data && data.friends) {
         data.friends.forEach(async friendId => {
           const friendResponse = await fetch(`/api/users/${friendId}/`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
-            }
-          });
-          if (friendResponse.ok) {
-              const friend = await friendResponse.json();
-              const avatar = friend.avatar ? friend.avatar : getRandomAvatar();
-              const friendRow = `
-                <tr>
-                <td><img src="${avatar}" class="rounded-circle img-fluid" width="50" /></td>
-                <td>${friend.username}</td>
-                <td>${friend.email}</td>
-                <td><button class="btn btn-danger btn-sm">Exclude</button></td>
-                </tr>
-              `;
-              tableBody.append(friendRow);
-          }
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+        }
         });
-
+        
+          if (friendResponse.ok) {
+          const friend = await friendResponse.json();
+          const avatar = friend.avatar ? friend.avatar : getRandomAvatar();
+          const friendRow = `
+          <tr>
+          <td><img src="${avatar}" class="rounded-circle img-fluid" width="50" /></td>
+          <td>${friend.username}</td>
+          <td>${friend.email}</td>
+          <td><button class="btn btn-danger btn-sm" onclick="excludeFriend('${friend.id}')">Exclude</button></td>
+          </tr>
+          `;
+          tableBody.append(friendRow);
+        }
+        else {
+          console.log("No friends found.");
+        }
+        });
+      }
         const friendsModal = new bootstrap.Modal(document.getElementById('friendsListModal'));
         friendsModal.show();
-      } else {
-        console.log("No friends found.");
-      }
-}
+      } 
+      
 
 function getRandomAvatar() {
   const avatars = [
@@ -129,6 +133,7 @@ window.loadFriendsList = loadFriendsList;
 window.loadProfile = loadProfile;
 window.loadEditProfile = loadEditProfile;
 window.onEditFormSubmit = onEditFormSubmit;
+window.excludeFriend = excludeFriend;
 
 async function onEditFormSubmit() {
    // Prevent the default form submission behavior
@@ -200,3 +205,34 @@ async function onEditFormSubmit() {
     console.error('Error updating profile:', error);
   }
 };
+
+async function excludeFriend(id) {
+  const userId = CookieManager.getCookie('userId');
+  if (!userId) {
+    console.error("User ID not found in cookies.");
+    return;
+  }
+
+  const data = await loadPersonalInfo();
+  const friendId = Number(id);
+  if (data.friends.indexOf(friendId) === -1) {
+    console.error("Friend not found.");
+    return;
+}
+  const updatedFriends = data.friends.filter(friend => friend !== friendId);
+  const response = await fetch(`/api/users/${userId}/`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ friends: updatedFriends })
+  });
+
+  if (response.ok) {
+    console.log('Friend excluded successfully!');
+    loadFriendsList(); // Refresh the friends list
+  } else {
+    console.error("Error excluding friend:", response.statusText);
+  }
+}
