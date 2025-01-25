@@ -1,26 +1,11 @@
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
+/* Deixa o canvas responsivo, mas lembre de não sobrescrever a width/height lógicas
+   definidas no JS. Usar "max-width" ou algo do tipo para manter proporção. */
 
-body {
-	background-color: #000;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	color: #fff;
-	font-family: sans-serif;
-}
-
-canvas {
-	background-color: #000;
-	border: 2px solid #fff;
+   #gameCanvas {
+	/* Mantém a mesma proporção do script, sem esticar vertical desproporcional */
+	max-width: 100%;
+	height: auto;
 	display: block;
-}
-
-#gameCanvas {
-	width: 34.3vw;
-    height: 50vh; 
-}
+	margin: 0 auto; /* centraliza */
+  }
+  
