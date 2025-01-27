@@ -30,5 +30,5 @@ urlpatterns = [
     path("api/users/", include("users.urls")),
     path("api/scores/", include("scores.urls")),
     path("api/qrcode/", include("Two_factor_authentication.urls")),
-    path("token_ref/", token_generation, name='token_generation'),
+    path("token_ref/", token_generation.as_view, name='token_generation'),
 ]
