@@ -65,9 +65,9 @@ def signin_view(request):
     }
 
     # Generate tokens for the authenticated user
-    #refresh = RefreshToken.for_user(data["user"])
-    #response_data["refresh"] = str(refresh)
-    #response_data["access"] = str(refresh.access_token)
+    # refresh = RefreshToken.for_user(data["user"])
+    # response_data["refresh"] = str(refresh)
+    # response_data["access"] = str(refresh.access_token)
 
     return Response(response_data, status=status.HTTP_200_OK)
 

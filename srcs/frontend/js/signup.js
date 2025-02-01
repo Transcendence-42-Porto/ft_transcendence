@@ -10,8 +10,6 @@ async function onSignUp() {
         return;
     try {
 
-
-
         const response = await fetch('/api/authentication/sign-up', {
             method: 'POST',
             headers: {

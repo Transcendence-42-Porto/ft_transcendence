@@ -59,6 +59,7 @@ async function onLogin() {
 
 window.onLogin = onLogin;
 window.verifyAuthenticationCode = verifyAuthenticationCode;
+window.clearAllInputs = clearAllInputs;
 
 function clearLoginFields() {
     $('#emailInput').val('');
@@ -66,40 +67,56 @@ function clearLoginFields() {
 }
 
 async function verifyAuthenticationCode() {
+
+    const authenticatorModalElement = bootstrap.Modal.getInstance(authenticatorModal);
+    if (authenticatorModalElement) {
+        authenticatorModalElement.hide();
+    }
+    loadContent('menu');
+
+    // let code = $('#number1').val() + $('#number2').val() + $('#number3').val() + $('#number4').val() + $('#number5').val() + $('#number6').val();
+    // let email = $('#emailInput').val();
+
+    // try {
+    //     const response = await fetch('/api/qrcode/verify/', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //             email,
+    //             code
+    //         })
+    //     });
     
-    let code = $('#number1').val() + $('#number2').val() + $('#number3').val() + $('#number4').val() + $('#number5').val() + $('#number6').val();
-    let email = $('#emailInput').val();
-    const response = await fetch('/api/qrcode/verify/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email,
-            code
-        })
-    });
-
-    if (!response.ok) {
-        console.log('Invalid code');
-        return;
-    }
-    else 
-    {
-        const data = await response.json();
-        console.log(data);
-        loadContent('menu');
-        const authenticatorModalElement = document.getElementById('authenticatorModal');
-        if (authenticatorModalElement) {
-            const authenticatorModal = bootstrap.Modal.getInstance(authenticatorModalElement);
-            if (authenticatorModal) {
-                authenticatorModal.hide();
-            }
-        }
-
-    }
+    //     if (!response.ok) {
+    //         console.log('Invalid code');
+    //         return;
+    //     } else {
+    //         const data = await response.json();
+    //         console.log(data);
+    //         loadContent('menu');
+    //         clearAllInputs();
+    //     }
+    // } catch (error) {
+    //     console.error('Error verifying code:', error);
+    // }
 }
 
 function displayLoginErrorMessage(msg) {
-    $('#error-msg-login').textContent = msg;
+    $('#error-msg-login').text(msg);
+}
+
+function clearAllInputs() {
+
+    const authenticatorModal = bootstrap.Modal.getInstance(authenticatorModalElement);
+    if (authenticatorModal) {
+        authenticatorModal.hide();
+    }
+    $('#number1').val('');
+    $('#number2').val('');
+    $('#number3').val('');
+    $('#number4').val('');
+    $('#number5').val('');
+    $('#number6').val('');
 }
