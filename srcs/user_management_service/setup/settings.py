@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'authentication',
     'users',
     'scores',
+    'Two_factor_authentication'
 ]
 
 MIDDLEWARE = [
@@ -55,6 +56,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    #'Two_Factor_authentication_API.JWTmiddleware.JWTAuthenticationMiddleware',
 ]
 
 ROOT_URLCONF = "setup.urls"
