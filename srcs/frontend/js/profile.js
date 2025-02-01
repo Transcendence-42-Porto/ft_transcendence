@@ -81,39 +81,60 @@ import tokenManager from "./token.js";
 
       const data = await loadPersonalInfo();
       const tableBody = $('#friendsListModal tbody');
+      let friends = 0;
       tableBody.empty();
 
-      if (data && data.friends) {
+      if (data && data.friends && data.friends.length > 0) {
         data.friends.forEach(async friendId => {
           const friendResponse = await fetch(`/api/users/${friendId}/`, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+          'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
         }
-        });
-        
+          });
+
           if (friendResponse.ok) {
-          const friend = await friendResponse.json();
-          const avatar = friend.avatar ? friend.avatar : getRandomAvatar();
-          const friendRow = `
-          <tr>
-          <td><img src="${avatar}" class="rounded-circle img-fluid" width="50" /></td>
-          <td>${friend.username}</td>
-          <td>${friend.email}</td>
-          <td><button class="btn btn-danger btn-sm" onclick="excludeFriend('${friend.id}')">Exclude</button></td>
-          </tr>
-          `;
-          tableBody.append(friendRow);
-        }
-        else {
-          console.log("No friends found.");
-        }
+              friends++;
+              const friend = await friendResponse.json();
+              const avatar = friend.avatar ? friend.avatar : getRandomAvatar();
+              const friendRow = `
+                <tr>
+                  <td><img src="${avatar}" class="rounded-circle img-fluid" width="50" /></td>
+                  <td>${friend.username}</td>
+                  <td>${friend.email}</td>
+                  <td><button class="btn btn-danger btn-sm" onclick="excludeFriend('${friend.id}')">Exclude</button></td>
+                </tr>
+              `;
+              tableBody.append(friendRow);
+          }
         });
+
+      }
+
+      if (friends === 0) {
+        const noFriendsRow = `<tr><td colspan="4" class="text-center text-muted"><small>Ops! You have no friends yet.</small></td></tr>`;
+        tableBody.append(noFriendsRow);
       }
         const friendsModal = new bootstrap.Modal(document.getElementById('friendsListModal'));
         friendsModal.show();
-      } 
-      
+    }
+
+    async function loadGameHistory() {
+
+    }
+
+async function searchFriend(){
+    const searchInput = document.getElementById('searchInput').value;
+
+    const response = await fetch(`/api/users/`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    });
+}
 
 function getRandomAvatar() {
   const avatars = [
@@ -134,6 +155,7 @@ window.loadProfile = loadProfile;
 window.loadEditProfile = loadEditProfile;
 window.onEditFormSubmit = onEditFormSubmit;
 window.excludeFriend = excludeFriend;
+window.onLogout = onLogout;
 
 async function onEditFormSubmit() {
    // Prevent the default form submission behavior
@@ -163,43 +185,50 @@ async function onEditFormSubmit() {
       formData.append('email', updatedData.email);
       formData.append('username', updatedData.username);
 
+      try {
       // Send a multipart request if updating the profile picture
+        const response = await fetch(`/api/users/${userId}/`, {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${tokenManager.getAccessToken()}`, // Authorization token
+          },
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to update profile: ${response.statusText}`);
+        }
+
+        console.log('Profile updated successfully with picture!');
+        loadPersonalInfo();
+        return;
+      } catch (error) {
+        console.error('Error updating profile with picture:', error);
+      }
+    }
+
+    try {
       const response = await fetch(`/api/users/${userId}/`, {
         method: 'PATCH',
         headers: {
-          Authorization: `Bearer ${tokenManager.getAccessToken()}`, // Authorization token
+          Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+          'Content-Type': 'application/json',
         },
-        body: formData,
+        body: JSON.stringify(updatedData),
       });
 
       if (!response.ok) {
         throw new Error(`Failed to update profile: ${response.statusText}`);
       }
 
-      console.log('Profile updated successfully with picture!');
+      console.log('Profile updated successfully!');
+      
       loadPersonalInfo();
-      return;
+      const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
+      editProfileModal.hide();
+    } catch (error) {
+      console.error('Error updating profile:', error);
     }
-
-    // If no file is uploaded, send a JSON request
-    const response = await fetch(`/api/users/${userId}/`, {
-      method: 'PATCH',
-      headers: {
-        Authorization: `Bearer ${tokenManager.getAccessToken()}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedData),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to update profile: ${response.statusText}`);
-    }
-
-    console.log('Profile updated successfully!');
-    
-    loadPersonalInfo();
-    const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
-    editProfileModal.hide();
 
   } catch (error) {
     console.error('Error updating profile:', error);
@@ -235,4 +264,25 @@ async function excludeFriend(id) {
   } else {
     console.error("Error excluding friend:", response.statusText);
   }
+}
+
+async function onLogout() {
+
+  const userId = CookieManager.getCookie('userId');
+  if (!userId) {
+    return;
+  }
+  console.log(tokenManager.getAccessToken());
+  const response = await fetch(`/api/authentication/sign-out`, {
+    method: 'GET',
+    headers: {
+        'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+    }
+  });
+  if (response.ok) {
+    data = await response.json();
+  }
+  tokenManager.clearTokens();
+  loadContent("login");
+  return data; 
 }
