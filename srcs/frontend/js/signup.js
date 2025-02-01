@@ -38,7 +38,7 @@ async function onSignUp() {
             throw new Error('Sign-up failed!');
         }
 
-        const qrCodeCreated = await createQrCode(username);
+        const qrCodeCreated = await createQrCode(email);
 
         if (qrCodeCreated) {
             const data = await response.json();
@@ -54,14 +54,14 @@ async function onSignUp() {
     }
 }
 
-async function createQrCode(username) {
+async function createQrCode(email) {
     try {
-        const response = await fetch('http://localhost:7575/qrcode/gen/', {
+        const response = await fetch('/api/qrcode/gen/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username }),
+            body: JSON.stringify({ email }),
         });
 
         if (!response.ok) {

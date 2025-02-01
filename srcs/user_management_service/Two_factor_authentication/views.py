@@ -17,19 +17,19 @@ from django.contrib.auth.models import User
 class QRGenView(APIView):
 	permission_classes = [AllowAny]
 	def post(self, request):
-		username = request.data.get("username")
+		email = request.data.get("email")
 		key = pyotp.random_base32()
 		try:
-			login_attempt = UserLoginAttempt.objects.get(username=username)
+			login_attempt = UserLoginAttempt.objects.get(email=email)
 			auth_response, is_verified = auth_verif(request)
 			# if (not is_verified):
 			# 	return (auth_response)
 			login_attempt.secret_key = key
 			login_attempt.save()
 		except:
-			UserLoginAttempt.objects.register_user(username, key)
+			UserLoginAttempt.objects.register_user(email, key)
 		buffer = BytesIO()
-		uri = pyotp.totp.TOTP(key).provisioning_uri(name=username, 
+		uri = pyotp.totp.TOTP(key).provisioning_uri(name=email, 
 												issuer_name="Transcendence")
 		qrcode.make(uri).save(buffer, format="PNG")
 		buffer.seek(0)
@@ -40,9 +40,9 @@ class QRGenView(APIView):
 class QRVerView(APIView):
 	permission_classes = [AllowAny]
 	def post(self, request):
-		username = request.data.get("username")
+		email = request.data.get("email")
 		code = request.data.get("code")
-		login_attempt = UserLoginAttempt.objects.get(username=username)
+		login_attempt = UserLoginAttempt.objects.get(email=email)
 		succ_time_dif = timezone.now() - login_attempt.last_successful_attempt
 		fail_time_dif = timezone.now() - login_attempt.last_failed_attempt 
 

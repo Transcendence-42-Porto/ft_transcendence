@@ -45,9 +45,9 @@ async function onLogin() {
             console.log("userId:", CookieManager.getCookie("userId"));
         }
 
-        if (response.ok) {
-            const access_token = data.access;
-        }
+        //if (response.ok) {
+        //    const access_token = data.access;
+        //}
 
         const authenticatorModal = new bootstrap.Modal(document.getElementById('authenticatorModal'));
         authenticatorModal.show();
@@ -65,15 +65,38 @@ function clearLoginFields() {
     $('#passwordInput').val('');
 }
 
-function verifyAuthenticationCode() {
-    loadContent('menu');
+async function verifyAuthenticationCode() {
     
-    const authenticatorModalElement = document.getElementById('authenticatorModal');
-    if (authenticatorModalElement) {
-        const authenticatorModal = bootstrap.Modal.getInstance(authenticatorModalElement);
-        if (authenticatorModal) {
-            authenticatorModal.hide();
+    let code = $('#number1').val() + $('#number2').val() + $('#number3').val() + $('#number4').val() + $('#number5').val() + $('#number6').val();
+    let email = $('#emailInput').val();
+    const response = await fetch('/api/qrcode/verify/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email,
+            code
+        })
+    });
+
+    if (!response.ok) {
+        console.log('Invalid code');
+        return;
+    }
+    else 
+    {
+        const data = await response.json();
+        console.log(data);
+        loadContent('menu');
+        const authenticatorModalElement = document.getElementById('authenticatorModal');
+        if (authenticatorModalElement) {
+            const authenticatorModal = bootstrap.Modal.getInstance(authenticatorModalElement);
+            if (authenticatorModal) {
+                authenticatorModal.hide();
+            }
         }
+
     }
 }
 

@@ -8,6 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 
+# Your existing code
 @extend_schema(
     summary="Sign Up",
     description="Create a user using info passed in the request body.",
@@ -59,16 +60,16 @@ def signin_view(request):
 
     data = serializer.validated_data
     response_data = {
-    'email': str(data['user'].email),
+        'email': str(data['user'].email),
+        'id': str(data['user'].id),
     }
-    response_data["id"] = str(data['user'].id)
 
     # Generate tokens for the authenticated user
     #refresh = RefreshToken.for_user(data["user"])
     #response_data["refresh"] = str(refresh)
     #response_data["access"] = str(refresh.access_token)
 
-    return Response(status=status.HTTP_200_OK)
+    return Response(response_data, status=status.HTTP_200_OK)
 
 
 @extend_schema(
