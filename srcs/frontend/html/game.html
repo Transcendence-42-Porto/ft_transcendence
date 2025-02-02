@@ -1,11 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <link rel="stylesheet" href="../css/game.css">
 </head>
+
 <body>
-  <canvas id="gameCanvas"></canvas>
-  <button id="restartBtn">Reiniciar Jogo</button>
+  <div class="game-config">
+    <h1>Pong Game</h1>
+
+    <form id="gameSettings">
+      <div class="form-group">
+        <label>Game Mode:</label>
+        <div class="game-mode">
+          <button type="button" class="mode-btn active" data-mode="singleplayer">Singleplayer</button>
+          <button type="button" class="mode-btn" data-mode="multiplayer">Multiplayer</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="maxScore">Max Score:</label>
+        <select id="maxScore">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="player1">Player 1:</label>
+        <input type="text" id="player1" placeholder="Player 1 name" required pattern="[A-Za-z0-9]{1,7}" maxlength="7">
+      </div>
+
+      <div class="form-group" id="player2Group" style="display: none;">
+        <label for="player2">Player 2:</label>
+        <input type="text" id="player2" placeholder="Player 2 name" required pattern="[A-Za-z0-9]{1,7}" maxlength="7">
+      </div>
+
+      <div class="form-group" id="difficultyGroup" style="display: none;">
+        <label for="difficulty">Difficulty:</label>
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+
+      <button type="submit" class="start-btn">Start Game</button>
+    </form>
+  </div>
+
+  <canvas id="gameCanvas" style="display: none;"></canvas>
+  <button id="restartBtn" style="display: none;">Restart</button>
+
+  <script src="../js/game.js"></script>
 </body>
+
 </html>

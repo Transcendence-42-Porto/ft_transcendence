@@ -1,5 +1,97 @@
-function game() {
+function initializeGameForm() {
+  console.log("[game.js] Inicializando o formulário do jogo...");
+  const modeButtons = document.querySelectorAll(".mode-btn");
+  const player2Group = document.getElementById("player2Group");
+  const difficultyGroup = document.getElementById("difficultyGroup");
+  const form = document.getElementById("gameSettings");
+
+  // Toggle modes
+  function toggleMode(mode) {
+    modeButtons.forEach((btn) => btn.classList.remove("active"));
+    const activeBtn = Array.from(modeButtons).find(
+      (btn) => btn.dataset.mode === mode
+    );
+    activeBtn.classList.add("active");
+
+    player2Group.style.display = mode === "multiplayer" ? "block" : "none";
+    document.getElementById("player2").required = mode === "multiplayer";
+
+    // Show difficulty for Singleplayer mode
+    difficultyGroup.style.display = mode === "singleplayer" ? "block" : "none";
+  }
+
+  // Event listeners for mode buttons
+  modeButtons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      toggleMode(btn.dataset.mode);
+    });
+  });
+
+  // Handle form submission
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const mode = document.querySelector(".mode-btn.active").dataset.mode;
+    const maxScore = parseInt(document.getElementById("maxScore").value);
+    const player1 = document
+      .getElementById("player1")
+      .value.trim()
+      .substring(0, 7);
+    const player2 = document
+      .getElementById("player2")
+      .value.trim()
+      .substring(0, 7);
+    const difficulty = document.getElementById("difficulty").value;
+
+    // Validation for player names
+    if (!/^[A-Za-z0-9]+$/.test(player1)) {
+      alert("Nome do Jogador 1 inválido! Use apenas letras e números.");
+      return;
+    }
+
+    if (mode === "multiplayer" && !/^[A-Za-z0-9]+$/.test(player2)) {
+      alert("Nome do Jogador 2 inválido! Use apenas letras e números.");
+      return;
+    }
+
+    const config = {
+      mode,
+      maxScore,
+      player1,
+      player2,
+      difficulty: mode === "singleplayer" ? difficulty : null,
+    };
+
+    console.log("Config:", config);
+
+    document.querySelector(".game-config").style.display = "none";
+    document.getElementById("gameCanvas").style.display = "block";
+    document.getElementById("restartBtn").style.display = "block";
+
+    game(config);
+  });
+}
+
+function game(config) {
   "use strict";
+
+  const { mode, maxScore, player1, player2, difficulty } = config;
+
+  console.log(`Game mode: ${mode}`);
+  console.log(`Max score: ${maxScore}`);
+  console.log(`Player 1: ${player1}`);
+  console.log(`Player 2: ${player2}`);
+  console.log(`Difficulty: ${difficulty}`);
+
+  // Example function using the destructured variables
+  function startGame() {
+    console.log(
+      `Starting a ${mode} game between ${player1} and ${player2} with a max score of ${maxScore} on ${difficulty} difficulty.`
+    );
+  }
+
+  startGame();
 
   console.log("[game.js] Iniciando o jogo Pong...");
 
@@ -49,31 +141,41 @@ function game() {
   const MAX_BOUNCE_ANGLE = Math.PI / 3;
 
   // Placar
-  const MAX_SCORE = 5;
-  
+
   // Posições das raquetes
-  let playerX = PADDLE_OFFSET;
-  let playerY = (HEIGHT - PADDLE_HEIGHT) / 2;
-  let aiX = WIDTH - PADDLE_OFFSET - PADDLE_WIDTH;
-  let aiY = (HEIGHT - PADDLE_HEIGHT) / 2;
-  
+  let player1X = PADDLE_OFFSET;
+  let player1Y = (HEIGHT - PADDLE_HEIGHT) / 2;
+  let player2X = WIDTH - PADDLE_OFFSET - PADDLE_WIDTH;
+  let player2Y = (HEIGHT - PADDLE_HEIGHT) / 2;
+
   // Posição da bola
   let ballX = WIDTH / 2;
   let ballY = HEIGHT / 2;
 
   // Placar
-  let playerScore = 0;
-  let aiScore = 0;
+  let player1Score = 0;
+  let player2Score = 0;
   let isGameOver = false;
 
   // Controles do jogador
+  let wPressed = false;
+  let sPressed = false;
   let upPressed = false;
   let downPressed = false;
 
-  // Parâmetros de "IA"
-  let aiVisionInterval = 0; // de quanto em quanto tempo "enxerga" a bola
+  let aiVisionInterval;
+  switch (difficulty) {
+    case "hard":
+      aiVisionInterval = 0;
+      break;
+    case "easy":
+      aiVisionInterval = 1000;
+      break;
+    default:
+      aiVisionInterval = 500;
+  }
   let nextAiCheckTime = 0;
-  let aiTargetY = aiY;
+  let aiTargetY = player2Y;
 
   let ballSpeed = BALL_MIN_SPEED;
   let ballAngle = Math.random() * Math.PI * 2;
@@ -96,16 +198,18 @@ function game() {
   }
 
   function resetGame() {
-    playerScore = 0;
-    aiScore = 0;
+    player1Score = 0;
+    player2Score = 0;
     isGameOver = false;
     resetBall();
   }
 
   /*************************************************************
-   * IA
+   * IA (só usado no modo singleplayer)
    *************************************************************/
   function updateAI() {
+    if (mode !== "singleplayer") return;
+
     // Verifica se é hora de "enxergar" novamente
     if (performance.now() > nextAiCheckTime) {
       nextAiCheckTime = performance.now() + aiVisionInterval;
@@ -116,7 +220,7 @@ function game() {
 
       // Se a bola está se movendo para a direita (em direção à IA)
       if (vx > 0) {
-        const distX = aiX - ballX - BALL_RADIUS;
+        const distX = player2X - ballX - BALL_RADIUS;
         const timeToReach = distX / vx;
 
         if (timeToReach > 0) {
@@ -140,42 +244,58 @@ function game() {
     }
 
     // Move a raquete em direção ao target
-    if (aiY < aiTargetY) {
-      aiY += PADDLE_SPEED;
-    } else if (aiY > aiTargetY) {
-      aiY -= PADDLE_SPEED;
+    if (player2Y < aiTargetY) {
+      player2Y += PADDLE_SPEED;
+    } else if (player2Y > aiTargetY) {
+      player2Y -= PADDLE_SPEED;
     }
 
     // Limita as bordas
-    if (aiY < 0) aiY = 0;
-    if (aiY + PADDLE_HEIGHT > HEIGHT) {
-      aiY = HEIGHT - PADDLE_HEIGHT;
+    if (player2Y < 0) player2Y = 0;
+    if (player2Y + PADDLE_HEIGHT > HEIGHT) {
+      player2Y = HEIGHT - PADDLE_HEIGHT;
     }
   }
 
   /*************************************************************
-   * Jogador
+   * Jogadores
    *************************************************************/
-  function updatePlayer() {
-    if (upPressed) {
-      playerY -= PADDLE_SPEED;
-    } else if (downPressed) {
-      playerY += PADDLE_SPEED;
+  function updatePlayer1() {
+    if (wPressed) {
+      player1Y -= PADDLE_SPEED;
+    } else if (sPressed) {
+      player1Y += PADDLE_SPEED;
     }
 
     // Limita as bordas
-    if (playerY < 0) playerY = 0;
-    if (playerY + PADDLE_HEIGHT > HEIGHT) {
-      playerY = HEIGHT - PADDLE_HEIGHT;
+    if (player1Y < 0) player1Y = 0;
+    if (player1Y + PADDLE_HEIGHT > HEIGHT) {
+      player1Y = HEIGHT - PADDLE_HEIGHT;
+    }
+  }
+
+  function updatePlayer2() {
+    if (mode === "multiplayer") {
+      if (upPressed) {
+        player2Y -= PADDLE_SPEED;
+      } else if (downPressed) {
+        player2Y += PADDLE_SPEED;
+      }
+
+      // Limita as bordas
+      if (player2Y < 0) player2Y = 0;
+      if (player2Y + PADDLE_HEIGHT > HEIGHT) {
+        player2Y = HEIGHT - PADDLE_HEIGHT;
+      }
     }
   }
 
   /*************************************************************
    * Física de rebote na raquete
    *************************************************************/
-  function bounceOffPaddle(isPlayer) {
+  function bounceOffPaddle(isPlayer1) {
     // Identifica qual raquete
-    const paddleY = isPlayer ? playerY : aiY;
+    const paddleY = isPlayer1 ? player1Y : player2Y;
     const paddleCenter = paddleY + PADDLE_HEIGHT / 2;
 
     // Descobre a posição de contato da bola com a raquete
@@ -194,23 +314,26 @@ function game() {
 
     // Calcula spin adicional baseado no movimento da raquete
     let extraSpin = 0;
-    if (isPlayer) {
+    if (isPlayer1) {
+      if (wPressed) extraSpin = -SPIN_FACTOR * PADDLE_SPEED;
+      if (sPressed) extraSpin = SPIN_FACTOR * PADDLE_SPEED;
+    } else if (mode === "multiplayer") {
       if (upPressed) extraSpin = -SPIN_FACTOR * PADDLE_SPEED;
       if (downPressed) extraSpin = SPIN_FACTOR * PADDLE_SPEED;
     }
 
-    // Ajusta direção X (player => bola pra direita, IA => bola pra esquerda)
-    const directionX = isPlayer ? 1 : -1;
+    // Ajusta direção X (player1 => bola pra direita, player2/IA => bola pra esquerda)
+    const directionX = isPlayer1 ? 1 : -1;
     const vx = ballSpeed * Math.cos(bounceAngle) * directionX;
     const vy = ballSpeed * Math.sin(bounceAngle) + extraSpin;
 
     ballAngle = Math.atan2(vy, vx);
 
     // Reposiciona a bola para evitar ficar "presa" na raquete
-    if (isPlayer) {
-      ballX = playerX + PADDLE_WIDTH + BALL_RADIUS;
+    if (isPlayer1) {
+      ballX = player1X + PADDLE_WIDTH + BALL_RADIUS;
     } else {
-      ballX = aiX - BALL_RADIUS;
+      ballX = player2X - BALL_RADIUS;
     }
   }
 
@@ -234,28 +357,28 @@ function game() {
       ballAngle = -ballAngle;
     }
 
-    // Colisão com a raquete do jogador
+    // Colisão com a raquete do jogador 1
     if (
-      ballX - BALL_RADIUS <= playerX + PADDLE_WIDTH &&
-      ballY + BALL_RADIUS >= playerY &&
-      ballY - BALL_RADIUS <= playerY + PADDLE_HEIGHT
+      ballX - BALL_RADIUS <= player1X + PADDLE_WIDTH &&
+      ballY + BALL_RADIUS >= player1Y &&
+      ballY - BALL_RADIUS <= player1Y + PADDLE_HEIGHT
     ) {
       bounceOffPaddle(true);
     }
 
-    // Colisão com a raquete da IA
+    // Colisão com a raquete do jogador 2/IA
     if (
-      ballX + BALL_RADIUS >= aiX &&
-      ballY + BALL_RADIUS >= aiY &&
-      ballY - BALL_RADIUS <= aiY + PADDLE_HEIGHT
+      ballX + BALL_RADIUS >= player2X &&
+      ballY + BALL_RADIUS >= player2Y &&
+      ballY - BALL_RADIUS <= player2Y + PADDLE_HEIGHT
     ) {
       bounceOffPaddle(false);
     }
 
     // Saiu pela esquerda
     if (ballX + BALL_RADIUS < 0) {
-      aiScore++;
-      if (aiScore >= MAX_SCORE) {
+      player2Score++;
+      if (player2Score >= maxScore) {
         isGameOver = true;
       } else {
         resetBall();
@@ -264,8 +387,8 @@ function game() {
 
     // Saiu pela direita
     if (ballX - BALL_RADIUS > WIDTH) {
-      playerScore++;
-      if (playerScore >= MAX_SCORE) {
+      player1Score++;
+      if (player1Score >= maxScore) {
         isGameOver = true;
       } else {
         resetBall();
@@ -303,20 +426,20 @@ function game() {
     ctx.arc(ballX, ballY, BALL_RADIUS, 0, Math.PI * 2);
     ctx.fill();
 
-    // Raquete do jogador (esquerda, roxa p.ex.)
+    // Raquete do jogador 1 (esquerda, roxa p.ex.)
     ctx.fillStyle = "#bb66ff";
-    ctx.fillRect(playerX, playerY, PADDLE_WIDTH, PADDLE_HEIGHT);
+    ctx.fillRect(player1X, player1Y, PADDLE_WIDTH, PADDLE_HEIGHT);
 
-    // Raquete da IA (direita, outra cor)
+    // Raquete do jogador 2/IA (direita, outra cor)
     ctx.fillStyle = "#66ffda";
-    ctx.fillRect(aiX, aiY, PADDLE_WIDTH, PADDLE_HEIGHT);
+    ctx.fillRect(player2X, player2Y, PADDLE_WIDTH, PADDLE_HEIGHT);
 
     // Placar
     ctx.font = "30px Arial";
     ctx.fillStyle = "#fff";
     ctx.textAlign = "center";
-    ctx.fillText(`${playerScore}`, WIDTH * 0.25, HEIGHT - 15);
-    ctx.fillText(`${aiScore}`, WIDTH * 0.75, HEIGHT - 15);
+    ctx.fillText(`${player1Score}`, WIDTH * 0.25, HEIGHT - 15);
+    ctx.fillText(`${player2Score}`, WIDTH * 0.75, HEIGHT - 15);
 
     // Game over overlay
     if (isGameOver) {
@@ -328,9 +451,12 @@ function game() {
       ctx.fillText("GAME OVER", WIDTH / 2, HEIGHT / 2 - 20);
 
       const winnerText =
-        playerScore >= MAX_SCORE ? "Você venceu!" : "IA venceu!";
+        player1Score >= maxScore
+          ? `${player1} venceu!`
+          : `${player2 || "IA"} venceu!`;
       ctx.font = "24px Arial";
       ctx.fillText(winnerText, WIDTH / 2, HEIGHT / 2 + 15);
+      saveResult(player1, player2 || "IA", player1Score, player2Score);
     }
   }
 
@@ -339,7 +465,8 @@ function game() {
    *************************************************************/
   function gameLoop() {
     if (!isGameOver) {
-      updatePlayer();
+      updatePlayer1();
+      updatePlayer2();
       updateAI();
       updateBall();
     }
@@ -351,10 +478,14 @@ function game() {
    * Eventos de teclado e botão "restart"
    *************************************************************/
   document.addEventListener("keydown", (e) => {
+    if (e.key === "w" || e.key === "W") wPressed = true;
+    if (e.key === "s" || e.key === "S") sPressed = true;
     if (e.key === "ArrowUp") upPressed = true;
     if (e.key === "ArrowDown") downPressed = true;
   });
   document.addEventListener("keyup", (e) => {
+    if (e.key === "w" || e.key === "W") wPressed = false;
+    if (e.key === "s" || e.key === "S") sPressed = false;
     if (e.key === "ArrowUp") upPressed = false;
     if (e.key === "ArrowDown") downPressed = false;
   });
@@ -366,4 +497,33 @@ function game() {
    *************************************************************/
   resetGame();
   gameLoop();
+}
+
+async function saveResult(
+  player1Name,
+  player2Name,
+  player1Score,
+  player2Score
+) {
+  score = `${player1Score} x ${player2Score}`;
+  try {
+    const response = await fetch("/api/scores/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(player1Name, player2Name, score),
+    });
+
+    if (!response.ok) {
+      console.error(
+        `Failed to save game result: ${response.statusText} (Status Code: ${response.status})`
+      );
+      throw new Error("Failed to save game result");
+    }
+
+    console.log("Game result saved successfully");
+  } catch (error) {
+    console.error("Error saving game result:", error);
+  }
 }

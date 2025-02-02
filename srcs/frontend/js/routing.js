@@ -5,7 +5,7 @@ function routing() {
     const url = window.location.pathname;
     console.log(`[routing.js] URL: ${url}`);
     if (url === "/") {
-      loadContent("menu");
+      loadContent("login");
     } else {
       const endpoint = url.replace("/", "");
       loadContent(endpoint);
@@ -28,7 +28,7 @@ function loadContent(endpoint) {
     .then((html) => {
       app.innerHTML = html;
       if (endpoint === "game") {
-        game();
+        initializeGameForm();
       }
     })
     .catch((error) => {
