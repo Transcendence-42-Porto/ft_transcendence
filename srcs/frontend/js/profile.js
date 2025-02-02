@@ -119,9 +119,6 @@ import tokenManager from "./token.js";
         friendsModal.show();
     }
 
-    async function loadGameHistory() {
-
-    }
 
 async function searchFriend(){
     const searchInput = document.getElementById('searchInput').value;
@@ -156,6 +153,7 @@ window.loadEditProfile = loadEditProfile;
 window.onEditFormSubmit = onEditFormSubmit;
 window.excludeFriend = excludeFriend;
 window.onLogout = onLogout;
+window.loadGameHistory = loadGameHistory;
 
 async function onEditFormSubmit() {
    // Prevent the default form submission behavior
@@ -285,4 +283,53 @@ async function onLogout() {
   tokenManager.clearTokens();
   loadContent("login");
   return data; 
+}
+
+// Ensure CookieManager and tokenManager are defined or imported properly at the top
+
+async function addScore() {
+  console.log("[TEST] adding dummy score");
+
+  // Check if CookieManager and tokenManager are available
+  const userId = CookieManager.getCookie('userId');
+  if (!userId) {
+    console.error('No userId found in cookies');
+    return;
+  }
+  
+  // Ensure tokenManager.getAccessToken() is available
+  const accessToken = tokenManager.getAccessToken();
+  if (!accessToken) {
+    console.error('No access token found');
+    return;
+  }
+  
+  // Send the POST request with the dummy score
+  try {
+    const response = await fetch(`/api/scores/add/`, {
+      method: 'POST', // Use POST instead of GET when sending data
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user: userId, opponent: "ziliolu", score: 20 })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+    } else {
+      console.error('Failed to add score:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error in fetch request:', error);
+  }
+}
+
+async function loadGameHistory()
+{
+    addScore();
+
+    const data = await loadPersonalInfo();
+    console.log(data);
 }
