@@ -280,7 +280,10 @@ async function onLogout() {
   if (response.ok) {
     data = await response.json();
   }
-  tokenManager.clearTokens();
+
+  const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+  logoutModal.hide();
+  
   loadContent("login");
   return data; 
 }
