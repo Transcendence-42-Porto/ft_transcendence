@@ -146,7 +146,6 @@ function getRandomAvatar() {
   return avatars[Math.floor(Math.random() * avatars.length)];
 }
 
-  // Make onLogin globally accessible
 window.loadFriendsList = loadFriendsList;
 window.loadProfile = loadProfile;
 window.loadEditProfile = loadEditProfile;
@@ -154,84 +153,114 @@ window.onEditFormSubmit = onEditFormSubmit;
 window.excludeFriend = excludeFriend;
 window.onLogout = onLogout;
 window.loadGameHistory = loadGameHistory;
+window.openEditProfileModal = openEditProfileModal;
+
+function convertToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result.split(',')[1]); // Get base64 string
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// Function to upload image to BBImage
+async function uploadImage() {
+  const fileInput = document.getElementById('editProfilePic');
+  const file = fileInput.files[0]; // Get the file from the input field
+
+  if (!file) {
+    console.error('No file selected');
+    return;
+  }
+
+  try {
+    const base64Image = await convertToBase64(file); // Convert image to base64
+    const formData = new FormData();
+    formData.append('image', base64Image);
+
+    // Send the POST request to BBImage API
+    const response = await fetch('https://api.imgbb.com/1/upload?expiration=600&key=a6f7a9d312fbdc0ba9bc2d8f4c72b3b2', {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      const imageUrl = data.data.url; // The URL of the uploaded image
+      console.log("Image uploaded successfully:", imageUrl);
+      return imageUrl; // Return the URL for further use
+    } else {
+      console.error('Image upload failed:', data.error);
+      return null; // Return null if upload fails
+    }
+  } catch (error) {
+    console.error('Error uploading image:', error);
+  }
+}
+
 
 async function onEditFormSubmit() {
-   // Prevent the default form submission behavior
   try {
-    // Extract updated values from the form
-    const updatedData = {
-      name: document.getElementById('editName').value,
-      email: document.getElementById('editEmail').value,
-      username: document.getElementById('editUsername').value.replace('@', ''), // Remove '@' for API compatibility
-    };
+    let newName = document.getElementById('editName').value;
+    let newEmail = document.getElementById('editEmail').value;
+    let newUsername = document.getElementById('editUsername').value.replace('@', '');
+    let newAvatarFile = await uploadImage();
+    //let newAvatarFile = '';
 
     const userId = CookieManager.getCookie('userId');
-      if (!userId) {
-        console.error("User ID not found in cookies.");
-        return;
-      }
-
-    // Handle the profile picture file if uploaded
-    const profilePicInput = document.getElementById('editProfilePic');
-    if (profilePicInput.files.length > 0) {
-      const file = profilePicInput.files[0];
-      const formData = new FormData();
-      formData.append('avatar', file);
-
-      // Optionally, append other fields to the FormData
-      formData.append('name', updatedData.name);
-      formData.append('email', updatedData.email);
-      formData.append('username', updatedData.username);
-
-      try {
-      // Send a multipart request if updating the profile picture
-        const response = await fetch(`/api/users/${userId}/`, {
-          method: 'PATCH',
-          headers: {
-            Authorization: `Bearer ${tokenManager.getAccessToken()}`, // Authorization token
-          },
-          body: formData,
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to update profile: ${response.statusText}`);
-        }
-
-        console.log('Profile updated successfully with picture!');
-        loadPersonalInfo();
-        return;
-      } catch (error) {
-        console.error('Error updating profile with picture:', error);
-      }
+    if (!userId) {
+      console.error("User ID not found in cookies.");
+      return;
     }
 
     try {
+
+      const formData = new FormData();
+      if(newAvatarFile && newAvatarFile != '')
+        formData.append("avatar", newAvatarFile);
+      if(newName != '')
+        formData.append("name", newName);
+      if(newEmail != '')
+        formData.append("email", newEmail);
+      if(newUsername != '')
+        formData.append("username", newUsername);
+
       const response = await fetch(`/api/users/${userId}/`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${tokenManager.getAccessToken()}`,
-          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedData),
+        body: formData
       });
 
       if (!response.ok) {
         throw new Error(`Failed to update profile: ${response.statusText}`);
       }
 
-      console.log('Profile updated successfully!');
-      
-      loadPersonalInfo();
-      const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
+      await loadProfile();
+      const editProfileModalElement = document.getElementById('editProfileModal');
+      const editProfileModal = bootstrap.Modal.getInstance(editProfileModalElement);
       editProfileModal.hide();
-    } catch (error) {
-      console.error('Error updating profile:', error);
-    }
 
+      return;
+
+    } catch (error) {
+      console.error('Error requesting API to update profile:', error);
+      $('#editProfileErrorMsg').html("Ops! There was a problem updating the profile. Try it again later!");
+    }
   } catch (error) {
     console.error('Error updating profile:', error);
+    $('#editProfileErrorMsg').html("Ops! There was a problem updating the profile. Try it again later!");
   }
-};
+}
+
+
+function openEditProfileModal()
+{
+  const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
+  editProfileModal.show(); 
+}
 
 async function excludeFriend(id) {
   const userId = CookieManager.getCookie('userId');
@@ -283,7 +312,7 @@ async function onLogout() {
 
   const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
   logoutModal.hide();
-  
+
   loadContent("login");
   return data; 
 }

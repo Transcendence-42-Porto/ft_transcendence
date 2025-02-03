@@ -59,7 +59,7 @@
                 <img id="profile-pic" src="" class="rounded-circle img-fluid" />
               </div>
               <div class="mb-2 pb-1">
-                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary btn-floating btn-sm no-border" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary btn-floating btn-sm no-border" onclick="openEditProfileModal()">
                   <i class="bi bi-pencil-square custom-edit-profile-icon-size"></i>
                 </button>
               </div>
@@ -114,13 +114,18 @@
               <label for="editHandle" class="form-label">Username</label>
               <input type="text" class="form-control" id="editUsername" value="" />
             </div>
+            <div class="mb-3">
+              <span id="editProfileErrorMsg"></span>
+            </div>
           </form>
         </div>
+        
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" form="editProfileForm" class="btn btn-primary" onclick="onEditFormSubmit()">Save changes</button>
+          <button type="button" form="editProfileForm" class="btn btn-primary" onclick="onEditFormSubmit()">Save changes</button>
         </div>
-      </div>
+
+      </div>  
     </div>
   </div>
 
