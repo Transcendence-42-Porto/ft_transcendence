@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin
 from rest_framework.exceptions import PermissionDenied
+from scores.serializers import ScoreSerializer
 
 # Instead of inheriting from ModelViewSet, inherit from GenericBiewSet which restrict 
 # the actions and then include only the intersting ones 
@@ -48,6 +49,12 @@ class UserProfileViewSet(RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
         """
         try:
             user = self.get_object()
+            #special handling for scores
+            if field_name == 'scores':
+                scores = user.scores.all()  # Get all related scores
+                serializer = ScoreSerializer(scores, many=True)
+                return Response({field_name: serializer.data})
+
             # Validate that the field exists in the model
             model_fields = [field.name for field in UserProfile._meta.get_fields()]
             if field_name not in model_fields:

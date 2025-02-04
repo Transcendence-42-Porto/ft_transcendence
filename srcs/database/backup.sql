@@ -416,9 +416,10 @@ ALTER TABLE public.django_session OWNER TO db_user;
 CREATE TABLE public.scores_score (
     id bigint NOT NULL,
     opponent character varying(255) NOT NULL,
-    score integer NOT NULL,
     date timestamp with time zone NOT NULL,
-    user_id bigint NOT NULL
+    user_id bigint NOT NULL,
+    opponent_score integer NOT NULL,
+    user_score integer NOT NULL
 );
 
 
@@ -666,6 +667,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 47	authentication	0004_remove_userprofile_score	2024-12-07 15:19:07.561143+00
 48	authentication	0005_userprofile_score	2024-12-07 15:54:28.098187+00
 49	scores	0001_initial	2024-12-07 16:14:11.713186+00
+50	scores	0002_remove_score_score_score_opponent_score_and_more	2025-02-04 10:30:23.186002+00
 \.
 
 
@@ -687,9 +689,9 @@ pfbzf47irj4lrgx008b5wfe6ctkbtv3d	.eJxVjMsOwiAQRf-FtSFDgQFcuvcbyAwPqZo2Ke3K-O_apA
 -- Data for Name: scores_score; Type: TABLE DATA; Schema: public; Owner: db_user
 --
 
-COPY public.scores_score (id, opponent, score, date, user_id) FROM stdin;
-1	trompette	2	2024-12-07 16:30:21.074836+00	10
-2	trompette	254	2024-12-07 16:30:45.428929+00	10
+COPY public.scores_score (id, opponent, date, user_id, opponent_score, user_score) FROM stdin;
+1	trompette	2024-12-07 16:30:21.074836+00	10	0	0
+2	trompette	2024-12-07 16:30:45.428929+00	10	0	0
 \.
 
 
@@ -727,6 +729,7 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 19	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODc0NzYzNywiaWF0IjoxNzM4NjYxMjM3LCJqdGkiOiIxOWM5MGM4ZjdiYTg0NmE5OTA5OGZmMmIzYjg5OWEyMiIsInVzZXJfaWQiOjEwfQ.J7pfqtYnASW2OWg9F4T1XgYVUnbsgatRj3OxfiGVULU	2025-02-04 09:27:17.196912+00	2025-02-05 09:27:17+00	10	19c90c8f7ba846a99098ff2b3b899a22
 20	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODc0ODg2NywiaWF0IjoxNzM4NjYyNDY3LCJqdGkiOiI4ZDc3YWE3ZDZjNmE0ZmIxYWZjZjQyY2JjMDlhMTI5ZCIsInVzZXJfaWQiOjEwfQ.XLOYIaYE_hbH6PZ6b0vYkNucp-icLOKgsquiSvJYLZQ	2025-02-04 09:47:47.428304+00	2025-02-05 09:47:47+00	10	8d77aa7d6c6a4fb1afcf42cbc09a129d
 21	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODc1MDg1NCwiaWF0IjoxNzM4NjY0NDU0LCJqdGkiOiI1YmI2ZThlMmEzYjI0YzJlYjY0OWUyYjY2NzAwMzM2MSIsInVzZXJfaWQiOjEwfQ._De5p4431jGJpBDES8DLcE1wMfHNtjt9GpTeosxt0Xk	2025-02-04 10:20:54.555337+00	2025-02-05 10:20:54+00	10	5bb6e8e2a3b24c2eb649e2b667003361
+22	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODc1MTQ1MiwiaWF0IjoxNzM4NjY1MDUyLCJqdGkiOiJhY2RiOGJhMGYxNDE0MGY5YWE4MGIyMjc2OThlYWI3YiIsInVzZXJfaWQiOjEwfQ.FoIJ38H3MXiWv8zU6W0xQGZgfdpjOJWW1GTcKU_JVs0	2025-02-04 10:30:52.518137+00	2025-02-05 10:30:52+00	10	acdb8ba0f14140f9aa80b227698eab7b
 \.
 
 
@@ -851,7 +854,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 10, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 49, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 50, true);
 
 
 --
@@ -872,7 +875,7 @@ SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 1, fa
 -- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 21, true);
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 22, true);
 
 
 --
