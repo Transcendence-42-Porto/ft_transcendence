@@ -82,12 +82,12 @@ class UserProfileViewSet(RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
         'application/json': {
             'type': 'object',
             'properties': {
-                'friend_id': {
-                    'type': 'integer',
-                    'description': 'ID of the user to add as friend'
+                'username': {
+                    'type': 'string',
+                    'description': 'User name of the user to add as friend'
                 }
             },
-            'required': ['friend_id']
+            'required': ['username']
         }
     },
     responses={
@@ -117,7 +117,7 @@ class UserProfileViewSet(RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
                 'properties': {
                     'detail': {
                         'type': 'string',
-                        'example': 'friend_id is required'
+                        'example': 'username is required'
                     }
                 }
             }
@@ -154,23 +154,23 @@ class AddFriendView(APIView):
     def post(self, request, *args, **kwargs):
         """
         Add a friend to the user's friend list.
-        Expects a friend_id in the request data.
+        Expects a username in the request data.
         """
         try:
             # Get the current user's profile
             user_profile = request.user
 
-            # Get the friend_id from request data
-            friend_id = request.data.get('friend_id')
-            if not friend_id:
+            # Get the username from request data
+            username = request.data.get('username')
+            if not username:
                 return Response(
-                    {"detail": "friend_id is required"},
+                    {"detail": "username is required"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
             # Validate friend exists
             try:
-                friend = UserProfile.objects.get(id=friend_id)
+                friend = UserProfile.objects.get(username=username)
             except UserProfile.DoesNotExist:
                 return Response(
                     {"detail": "User not found"},
@@ -178,7 +178,7 @@ class AddFriendView(APIView):
                 )
 
             # Check if user is trying to add themselves
-            if user_profile.id == friend.id:
+            if user_profile.username == friend.username:
                 return Response(
                     {"detail": "You cannot add yourself as a friend"},
                     status=status.HTTP_400_BAD_REQUEST

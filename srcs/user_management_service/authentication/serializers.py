@@ -1,7 +1,11 @@
 from django.contrib.auth.forms import authenticate
 from rest_framework import serializers
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 from .models import UserProfile
 import random
+import os
+import requests
 
 # Helper function to return a random avatar URL
 def get_random_avatar():
@@ -13,7 +17,15 @@ def get_random_avatar():
             'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp',
             'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava7-bg.webp',
             'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava8-bg.webp',]
-    return random.choice(avatars)
+    url = random.choice(avatars)
+    
+    response = requests.get(url)
+    if response.status_code == 200:
+            file_name = f"avatars/{os.path.basename(url)}"
+            file_path = default_storage.save(file_name, ContentFile(response.content))
+            return file_path  # This will be stored in the `avatar` field
+
+    return None
 
 
 #Simple logic like fields validation should be located in the serializers.
@@ -21,7 +33,7 @@ def get_random_avatar():
 class SignUpSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=50, allow_blank = False)
     password = serializers.CharField(write_only=True, min_length=8, required=True)
-    avatar = serializers.URLField(required=False, allow_blank=True)
+    avatar = serializers.ImageField(required=False, allow_null=True)
 
     class Meta:
         model = UserProfile
