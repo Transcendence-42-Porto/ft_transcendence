@@ -294,28 +294,49 @@ async function excludeFriend(id) {
 }
 
 async function onLogout() {
-
-  const userId = CookieManager.getCookie('userId');
-  if (!userId) {
-    return;
-  }
-  console.log(tokenManager.getAccessToken());
-  const response = await fetch(`/api/authentication/sign-out`, {
-    method: 'GET',
-    headers: {
-        'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+  const logoutErrorMsg = document.getElementById('logoutErrorMsg');
+  logoutErrorMsg.textContent = '';
+  logoutErrorMsg.style.display = 'block';
+  
+  try {
+    const userId = CookieManager.getCookie('userId');
+    if (!userId) {
+      console.log('No user ID found, user may already be logged out.');
+      return;
     }
-  });
-  if (response.ok) {
-    data = await response.json();
+    const response = await fetch(`/api/authentication/sign-out`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Logout successful:', data);
+      const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+      logoutModal.hide();
+  
+      loadContent("login");
+    } else {
+      console.error('Logout failed: ', response.statusText);
+      const logoutErrorMsg = document.getElementById('logoutErrorMsg');
+      if (logoutErrorMsg) {
+        logoutErrorMsg.textContent = 'An error occurred while logging out. Please try again.';
+        logoutErrorMsg.style.display = 'block';
+      }
+    }
+
+  } catch (error) {
+    console.error('Logout error:', error);
+    const logoutErrorMsg = document.getElementById('logoutErrorMsg');
+    if (logoutErrorMsg) {
+      logoutErrorMsg.textContent = 'An error occurred while logging out. Please try again.';
+      logoutErrorMsg.style.display = 'block';
+    }
   }
-
-  const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-  logoutModal.hide();
-
-  loadContent("login");
-  return data; 
 }
+
 
 // Ensure CookieManager and tokenManager are defined or imported properly at the top
 
@@ -344,7 +365,7 @@ async function addScore() {
         'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ user: userId, opponent: "ziliolu", score: 20 })
+      body: JSON.stringify({ user: userId, opponent: "ziliolu", user_score: 5, opponent_score: 4})
     });
 
     if (response.ok) {
@@ -358,10 +379,35 @@ async function addScore() {
   }
 }
 
-async function loadGameHistory()
-{
-    addScore();
+async function loadGameHistory() {
 
-    const data = await loadPersonalInfo();
-    console.log(data);
+  await addScore();  // Presumo que esta função seja para adicionar um novo score
+
+  const data = await loadPersonalInfo();
+  const scores = data.scores;
+
+  // Limpa o conteúdo da tabela para evitar duplicação
+  const tableBody = document.querySelector('#gameHistoryModal tbody');
+  tableBody.innerHTML = '';
+
+  // Itera sobre os scores e cria as linhas da tabela
+  scores.forEach(score => {
+      const date = new Date(score.date);
+      const dateString = date.toISOString().split('T')[0];  // Formato YYYY-MM-DD
+      const timeString = date.toTimeString().split(' ')[0];  // Formato HH:MM:SS
+      const scoreString = `${score.user_score}-${score.opponent_score}`;
+      const opponent = score.opponent;
+
+      // Cria a linha da tabela (tr)
+      const row = document.createElement('tr');
+      row.innerHTML = `
+          <td>${dateString}</td>
+          <td>${timeString}</td>
+          <td>${scoreString}</td>
+          <td>@${opponent}</td>
+      `;
+
+      // Adiciona a linha na tabela
+      tableBody.appendChild(row);
+  });
 }
