@@ -3,7 +3,7 @@
 .error-msg
 {
     font-size: 0.600rem;
-    color: indianred;
+    color: indianred !important;
 }
 
 #qrcode

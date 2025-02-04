@@ -78,5 +78,6 @@ function verifyAuthenticationCode() {
 }
 
 function displayLoginErrorMessage(msg) {
-    $('#error-msg-login').textContent = msg;
+    let errorMsg = document.getElementById('error-msg-login');
+    errorMsg.textContent = msg;
 }

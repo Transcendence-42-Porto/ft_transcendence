@@ -79,6 +79,10 @@ h1, h2, h3, h4, h5, h6, span, p {
   /* background-color: #fff; */
 }
 
+.modal-error-msg small{
+  color: indianred !important;
+}
+
 .no-border {
   border: none;
 }
@@ -89,5 +93,5 @@ h1, h2, h3, h4, h5, h6, span, p {
 
 #editProfileErrorMsg {
   font-size: 0.8rem !important;
-  color: red !important
+  color: indianred !important
 }
