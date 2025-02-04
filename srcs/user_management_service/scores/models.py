@@ -8,9 +8,10 @@ class Score(models.Model):
         related_name="scores"  # Allows easy access to all scores of a user
     )
     opponent = models.CharField(max_length=255)
-    score = models.IntegerField()
+    user_score = models.IntegerField(default=0)
+    opponent_score = models.IntegerField(default=0)
     date = models.DateTimeField(auto_now_add=True)  # Automatically sets the date when the score is created
 
     def __str__(self):
-        return f"{self.user.username} vs {self.opponent}: {self.score} on {self.date}"
+        return f"{self.user.username} vs {self.opponent}: {self.user_score} on {self.date}"
 
