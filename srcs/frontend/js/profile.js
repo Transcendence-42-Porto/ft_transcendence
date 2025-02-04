@@ -112,7 +112,7 @@ import tokenManager from "./token.js";
       }
 
       if (friends === 0) {
-        const noFriendsRow = `<tr><td colspan="4" class="text-center text-muted"><small>Ops! You have no friends yet.</small></td></tr>`;
+        const noFriendsRow = `<tr><td colspan="4" class="text-center text-muted modal-error-msg"><small>Ops! You have no friends yet.</small></td></tr>`;
         tableBody.append(noFriendsRow);
       }
         const friendsModal = new bootstrap.Modal(document.getElementById('friendsListModal'));
