@@ -752,6 +752,10 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 41	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODc3MzE5MiwiaWF0IjoxNzM4Njg2NzkyLCJqdGkiOiI4Zjc3YzMwNzRmNTI0Y2M0YTVkMmZiOWE4OWIzMjZjMCIsInVzZXJfaWQiOjEwfQ.lU6L5JuK6EbVmVglbn6DVfAByrbSqiBw0ae1vn2YVAs	2025-02-04 16:33:12.233358+00	2025-02-05 16:33:12+00	10	8f77c3074f524cc4a5d2fb9a89b326c0
 42	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODc3MzUxNiwiaWF0IjoxNzM4Njg3MTE2LCJqdGkiOiI3NmVjYjg5YTQ0MTU0ZmM5OGM5NGVjNDM2Mzg0NmI4MSIsInVzZXJfaWQiOjEwfQ.nK6yZrl_lXCcjw23MSJ8vQUhthoaoe76tjmGTbA52a4	2025-02-04 16:38:36.703825+00	2025-02-05 16:38:36+00	10	76ecb89a44154fc98c94ec4363846b81
 43	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODc3MzcxOCwiaWF0IjoxNzM4Njg3MzE4LCJqdGkiOiI0ZjFkZjk0YWMyOTg0NzFlOTNiNzg0MzBkNGIzYzEwNSIsInVzZXJfaWQiOjEwfQ.E1Hm6suUtn7wkGkt3qLogEDAWJJZ3TVrguoZxhfKwJ0	2025-02-04 16:41:58.41409+00	2025-02-05 16:41:58+00	10	4f1df94ac298471e93b78430d4b3c105
+44	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODc3NDAxOSwiaWF0IjoxNzM4Njg3NjE5LCJqdGkiOiI2ODE1NzU3YmI4NTQ0MjVjYWYyOWJkZTBkZjk2Y2RlNyIsInVzZXJfaWQiOjEwfQ.eOrBWwnzd17sbuDfPHBqAWPjAnN1X-DAWFNhK1v5nVw	2025-02-04 16:46:59.754028+00	2025-02-05 16:46:59+00	10	6815757bb854425caf29bde0df96cde7
+45	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODc3NDI4NCwiaWF0IjoxNzM4Njg3ODg0LCJqdGkiOiJlZjY5MGFkMjQ5Njk0MmQ0YTMyMzBlM2ZjZDBkODE2MSIsInVzZXJfaWQiOjEwfQ.vtweMN20hvehXK21ZxZ7HajYvkoMC487nJPuc-I8Ai0	2025-02-04 16:51:24.279133+00	2025-02-05 16:51:24+00	10	ef690ad2496942d4a3230e3fcd0d8161
+46	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODc3NTQ4MiwiaWF0IjoxNzM4Njg5MDgyLCJqdGkiOiJlOWFmNTZmY2RmZmM0ZTlkYTI0OWZlNGVhYzdmYzUxMSIsInVzZXJfaWQiOjEwfQ.3FIT1HEDF7t1OYc0GChKgysPP6LfrOXeEY7S9zKOYzo	2025-02-04 17:11:22.47301+00	2025-02-05 17:11:22+00	10	e9af56fcdffc4e9da249fe4eac7fc511
+47	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODc3NjEzNCwiaWF0IjoxNzM4Njg5NzM0LCJqdGkiOiJmZDU1MjNlMTdjM2Q0Njg3OGZlM2VmZjQ2NjZjM2FmOCIsInVzZXJfaWQiOjEwfQ.LyRtGRue4haLZbppewig8l_kZN5xK1Kw5ySjQbJWEm8	2025-02-04 17:22:14.823554+00	2025-02-05 17:22:14+00	10	fd5523e17c3d46878fe3eff4666c3af8
 \.
 
 
@@ -775,6 +779,12 @@ COPY public.user_profiles (id, bio, avatar, last_login, email, password, usernam
 COPY public.user_profiles_friends (id, from_userprofile_id, to_userprofile_id) FROM stdin;
 3	10	16
 4	16	10
+5	10	19
+6	19	10
+7	10	17
+8	17	10
+9	10	18
+10	18	10
 \.
 
 
@@ -798,7 +808,7 @@ COPY public.user_profiles_user_permissions (id, userprofile_id, permission_id) F
 -- Name: api_userprofile_friends_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.api_userprofile_friends_id_seq', 4, true);
+SELECT pg_catalog.setval('public.api_userprofile_friends_id_seq', 10, true);
 
 
 --
@@ -903,7 +913,7 @@ SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 1, fa
 -- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 45, true);
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 47, true);
 
 
 --

@@ -28,13 +28,30 @@ class UserProfileViewSet(RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
         serializer = UserProfileSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    # Allow user to modify only their own profile in PATCH method
+    # @extend_schema(
+    #     request={
+    #         'multipart/form-data': {
+    #             'type': 'object',
+    #             'properties': {
+    #                 'avatar': {
+    #                     'type': 'string',
+    #                     'format': 'binary'  # Proper OpenAPI file format
+    #                 }
+    #             }
+    #         }
+    #     },
+    #     responses={200: UserProfileSerializer}
+    # )
     def partial_update(self, request, *args, **kwargs):
         user_profile = self.get_object()
 
         # Ensure only the connected user can modify their profile
         if user_profile != request.user:
             raise PermissionDenied("You are not allowed to edit this profile.")
+        
+        # Handle avatar file upload
+        if 'avatar' in request.FILES:
+            user_profile.avatar = request.FILES['avatar']
 
         # Handle password hashing if 'password' is in the request
         if 'password' in request.data:
