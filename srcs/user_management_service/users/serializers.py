@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from authentication.models import UserProfile
+from scores.serializers import ScoreSerializer
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    scores = ScoreSerializer(many=True, read_only=True)
     class Meta:
         model = UserProfile
         fields = ['id', 'username', 'email', 'password', 'avatar', 'bio', 'friends', 'scores']
