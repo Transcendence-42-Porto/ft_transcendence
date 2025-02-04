@@ -903,7 +903,7 @@ SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 1, fa
 -- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 43, true);
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 45, true);
 
 
 --
