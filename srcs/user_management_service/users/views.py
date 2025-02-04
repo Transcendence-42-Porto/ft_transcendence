@@ -49,11 +49,15 @@ class UserProfileViewSet(RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
         """
         try:
             user = self.get_object()
-            #special handling for scores
+            #special handling for scores and friends
             if field_name == 'scores':
-                scores = user.scores.all()  # Get all related scores
-                serializer = ScoreSerializer(scores, many=True)
+                serializer = ScoreSerializer(user.scores.all(), many=True)
                 return Response({field_name: serializer.data})
+            # Special handling for friends
+            if field_name == 'friends':
+                friends = user.friends.all()
+                friends_data = [{'id': friend.id, 'username': friend.username} for friend in friends]
+                return Response({field_name: friends_data})
 
             # Validate that the field exists in the model
             model_fields = [field.name for field in UserProfile._meta.get_fields()]
