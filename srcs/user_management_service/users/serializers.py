@@ -6,15 +6,11 @@ from drf_spectacular.utils import extend_schema_field
 class UserProfileSerializer(serializers.ModelSerializer):
     scores = ScoreSerializer(many=True, read_only=True)
     friends = serializers.SerializerMethodField()
-    avatar = serializers.ImageField(required=False)
+
     class Meta:
         model = UserProfile
         fields = ['id', 'username', 'email', 'password', 'avatar', 'bio', 'friends', 'scores']
         extra_kwargs = {'password': {'write_only':True}} #password should be write only
-
-    @extend_schema_field({'type': 'string', 'format': 'binary'})  # Swagger UI expects binary file
-    def get_avatar(self, obj):
-        return obj.avatar.url if obj.avatar else None
 
     def get_friends(self, obj):
         return [{'id': friend.id, 'username': friend.username} for friend in obj.friends.all()]
