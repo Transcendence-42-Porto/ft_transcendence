@@ -766,6 +766,8 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 53	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODg1NTQ3MywiaWF0IjoxNzM4NzY5MDczLCJqdGkiOiIwYmQzYTk4ZDU0MjQ0NmIyYmM4N2E0ODg1YTc1ZmRjMSIsInVzZXJfaWQiOjEwfQ.forg-_jzWtbZWzLgXLR9axafDZKKbs0e4YE4IP3gjL0	2025-02-05 15:24:33.945061+00	2025-02-06 15:24:33+00	10	0bd3a98d542446b2bc87a4885a75fdc1
 54	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODg1NTg1NywiaWF0IjoxNzM4NzY5NDU3LCJqdGkiOiJlMmUwNGMyMWMxN2I0OWYyYTU0NGRkMzRmYjFjZDdhYiIsInVzZXJfaWQiOjIxfQ.Ztdw9RcXl69BBeKivEL6sHtZa-ZppYmWXkKaBQUHhMs	2025-02-05 15:30:57.014522+00	2025-02-06 15:30:57+00	21	e2e04c21c17b49f2a544dd34fb1cd7ab
 55	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODg1Njc3NywiaWF0IjoxNzM4NzcwMzc3LCJqdGkiOiJkYzBlNjM1Y2FlYzk0ZGUzOWQxZDE4MTY2MTBlNmY2MyIsInVzZXJfaWQiOjIxfQ.RQRswlacdIZsTCUbgo7gO3GvZxzsdD-Fk9mxIlBroU4	2025-02-05 15:46:17.310457+00	2025-02-06 15:46:17+00	21	dc0e635caec94de39d1d1816610e6f63
+56	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODg1NzIxMywiaWF0IjoxNzM4NzcwODEzLCJqdGkiOiI3NjMzYjliY2E4OGI0NGYyYjc0NjZiNWQxMDI4ZTU5NCIsInVzZXJfaWQiOjEwfQ.0wFGlPsxIY4smcMcFcmKnlrAD27GZjmIsbeJSaUsqaI	2025-02-05 15:53:33.411282+00	2025-02-06 15:53:33+00	10	7633b9bca88b44f2b7466b5d1028e594
+57	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODg1NzMyMiwiaWF0IjoxNzM4NzcwOTIyLCJqdGkiOiJkMGYxNmZhYjVlZTU0MTIwYjZjNGYzMTE0MjE4NjE4NSIsInVzZXJfaWQiOjIyfQ.EeT4RAZq-Zw7r7pV1ddH3-Ltkz96z4DmlIPogdb0wXk	2025-02-05 15:55:22.808117+00	2025-02-06 15:55:22+00	22	d0f16fab5ee54120b6c4f31142186185
 \.
 
 
@@ -778,6 +780,7 @@ COPY public.user_profiles (id, bio, avatar, last_login, email, password, usernam
 10	blabla	avatars/car_img.jpg	2025-02-05 15:22:48.047464+00	admin@admin.com	pbkdf2_sha256$870000$9MCMTsLSgGPu3AmRKgWxyd$ci0Q4vKWVzri54KG9SPXlOlkrF94ew4J6ZTs2go+1QE=	admin			t	t	t	2024-10-31 13:50:09.248031+00
 20	\N		\N	axel2@axel.com	pbkdf2_sha256$870000$KZcpDqVyoKDevq2ZdNM4R0$HBB+u+xaP+CNJGEkXOF8i23StxeZ4EPTAj9LC5V4HTI=	axel2	axel		t	f	f	2025-02-05 15:24:07.28868+00
 21	\N	https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp	\N	axel3@axel.com	pbkdf2_sha256$870000$3K0drCpYpLGrWeCDERT4j8$t+3AgHEzIUDxZiSWZNl0xn3OVnyPf5PWVav6nCYScfA=	axel3	axel		t	f	f	2025-02-05 15:30:27.736602+00
+22	\N	https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp	\N	axel4@axel.com	pbkdf2_sha256$870000$lltuDaJsAFGCle6gtutMYl$AD6VI3Ax2WLSgA6YAwgcevZ2FzWrmMFDO4nkWeJooIU=	axel4	axel		t	f	f	2025-02-05 15:54:53.347479+00
 \.
 
 
@@ -825,7 +828,7 @@ SELECT pg_catalog.setval('public.api_userprofile_groups_id_seq', 1, false);
 -- Name: api_userprofile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.api_userprofile_id_seq', 21, true);
+SELECT pg_catalog.setval('public.api_userprofile_id_seq', 22, true);
 
 
 --
@@ -916,7 +919,7 @@ SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 1, fa
 -- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 55, true);
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 57, true);
 
 
 --

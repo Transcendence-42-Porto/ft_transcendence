@@ -2,11 +2,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
-from .serializers import SignInSerializer, SignUpSerializer, SignInResponseSerializer
+from .serializers import SignInSerializer, SignUpSerializer, SignInResponseSerializer, SignOutSerializer
 from .models import UserProfile
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.exceptions import TokenError
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import extend_schema
 
 @extend_schema(
     summary="Sign Up",
@@ -73,27 +72,19 @@ def signin_view(request):
 
 @extend_schema(
     summary="Sign Out",
-    description="Sign-out a user using the access token specifyied in the headers.",
-    parameters=[   OpenApiParameter(name='Authorization', description='Authorization token', required=True, type=str, location=OpenApiParameter.HEADER)],
+    description="Sign-out a user using the refresh token provided in the request body.",
+    request=SignOutSerializer,  # 🟢 Now using a serializer!
     responses={
-        200: {'description': 'Succefuly logged out!'},
-        400: {'description': 'Authentication credentials were not provided.'},
+        200: {'description': 'Successfully logged out!'},
+        400: {'description': 'Bad request: Invalid or missing refresh token.'},
     },
 )
 @api_view(['POST'])
 def signout_view(request):
-    refresh_token = request.data.get("refresh")
-
-    if refresh_token is None:
-        return Response({'error':'Refresh token is required.'}, status=status.HTTP_400_BAD_REQUEST)
-
-    try:
-        token = RefreshToken(refresh_token)
-        token.blacklist() #add the token to the blacklist provided by the jwt library. This list contains all the invalidated tokens.
-        return Response({'success' : 'Succefully logged out!'}, status=status.HTTP_200_OK)
-    except TokenError as e:
-        return Response({'error': e.__str__()}, status=status.HTTP_400_BAD_REQUEST)
-    except Exception as e:
-        return Response({'error': e.__str__()}, status = status.HTTP_400_BAD_REQUEST)
-
+    serializer = SignOutSerializer(data=request.data)
+    
+    if serializer.is_valid():
+        return Response({'success': 'Successfully logged out!'}, status=status.HTTP_200_OK)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

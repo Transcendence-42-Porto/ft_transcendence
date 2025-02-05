@@ -1,11 +1,11 @@
 from django.contrib.auth.forms import authenticate
 from rest_framework import serializers
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
 from .models import UserProfile
 import random
-import os
-import requests
+from rest_framework import serializers
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
 
 # Helper function to return a random avatar URL
 def get_random_avatar():
@@ -52,6 +52,16 @@ class SignInSerializer(serializers.Serializer):
             error = {'error': 'Unauthorized: Invalid credential'}
             raise serializers.ValidationError(error)
         attrs['user'] = user
+        return attrs
+
+class SignOutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    def validate(self, attrs):
+        try:
+            RefreshToken(attrs['refresh']).blacklist()
+        except Exception as e:
+            raise serializers.ValidationError({"error": str(e)})
         return attrs
 
 #Serializer to display neatly the type of response expected from signin view with swagger-ui
