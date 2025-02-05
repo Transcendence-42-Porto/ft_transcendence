@@ -120,18 +120,139 @@ import tokenManager from "./token.js";
     }
 
 
-async function searchFriend(){
-    const searchInput = document.getElementById('searchInput').value;
+// async function searchFriend(){
+  
+//   try {
+//     const users = await fetch(`/api/users/`, {
+//       method: 'GET',
+//       headers: {
+//         Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+//         'Content-Type': 'application/json',
+//       }
+//     });
+//     if(users.ok)
+//     {
+//       let dataUsers = await users.json();
 
-    const response = await fetch(`/api/users/`, {
-      method: 'PATCH',
+//       const tableBody = $('#friendsListModal tbody');
+//       tableBody.empty();
+
+//       console.log(dataUsers);
+//     }
+//   }
+//   catch(error)
+//   {
+//     console.error("Error: ", error)
+//   }
+
+
+//   const searchInput = document.getElementById('searchFriendInput').value;
+//   try
+//   {
+//     const searchInput = document.getElementById('searchFriendInput').value;
+  
+//       const response = await fetch(`/api/users/add-friends/`, {
+//         method: 'PATCH',
+//         headers: {
+//           Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ username: searchInput})
+//       });
+  
+//       if(response.ok)
+//       {
+//         let data = await response.json();
+//         console.log(data);
+//       }
+//   } catch(error){
+//     console.error("Error: ", error)
+//   }
+
+// }
+
+async function searchFriend() {
+  try {
+    const searchInput = document.getElementById('searchFriendInput').value;
+    if (!searchInput) return; // Don't proceed if search input is empty
+
+    // Fetch all users
+    const users = await fetch(`/api/users/`, {
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${tokenManager.getAccessToken()}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(updatedData),
     });
+
+    if (users.ok) {
+      let dataUsers = await users.json();
+
+      const tableBody = $('#friendsListModal tbody');
+      tableBody.empty(); // Clear existing rows
+
+      // Filter users by username
+      const matchingUser = dataUsers.find(user => user.username.toLowerCase().includes(searchInput.toLowerCase()));
+      const currentUserId = CookieManager.getCookie('userId');
+
+
+      // If a matching user is found, add a row to the table
+      if (matchingUser && matchingUser.id != currentUserId) {
+        const newRow = `
+          <tr>
+            <td><img src="${matchingUser.avatar}" class="rounded-circle img-fluid" width="50" /></td>
+            <td>${matchingUser.username}</td>
+            <td>${matchingUser.email}</td>
+            <td>
+              <button class="btn btn-success btn-sm" onclick="addFriend('${matchingUser.username}')">Add Friend</button>
+            </td>
+          </tr>
+        `;
+        tableBody.append(newRow);
+      } else {
+        // No matching user found
+        const noResultRow = `
+          <tr>
+            <td colspan="4" class="text-center">No user found with that username.</td>
+          </tr>
+        `;
+        tableBody.append(noResultRow);
+      }
+
+    } else {
+      console.error("Failed to fetch users:", users.statusText);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
+
+async function addFriend(friendUsername) {
+  // You can implement the logic to send a friend request or add a friend
+  console.log("Adding friend with username:", friendUsername);
+  
+  try {
+    const response = await fetch(`/api/users/add-friends`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username: friendUsername})
+    });
+
+    if(response.ok)
+    {
+      const data = response.json();
+      console.log(data);
+    }
+  }
+  catch (error)
+  { 
+    console.log("Error: ", error);
+  }
+};
+
 
 function getRandomAvatar() {
   const avatars = [
@@ -154,6 +275,8 @@ window.excludeFriend = excludeFriend;
 window.onLogout = onLogout;
 window.loadGameHistory = loadGameHistory;
 window.openEditProfileModal = openEditProfileModal;
+window.searchFriend = searchFriend;
+window.addFriend = addFriend;
 
 function convertToBase64(file) {
   return new Promise((resolve, reject) => {
