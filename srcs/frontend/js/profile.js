@@ -253,7 +253,6 @@ async function addFriend(friendUsername) {
   }
 };
 
-
 function getRandomAvatar() {
   const avatars = [
     'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp',
@@ -267,6 +266,7 @@ function getRandomAvatar() {
   return avatars[Math.floor(Math.random() * avatars.length)];
 }
 
+window.loadPersonalInfo = loadPersonalInfo;
 window.loadFriendsList = loadFriendsList;
 window.loadProfile = loadProfile;
 window.loadEditProfile = loadEditProfile;
@@ -277,6 +277,7 @@ window.loadGameHistory = loadGameHistory;
 window.openEditProfileModal = openEditProfileModal;
 window.searchFriend = searchFriend;
 window.addFriend = addFriend;
+window.getRandomAvatar = getRandomAvatar;
 
 function convertToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -428,7 +429,7 @@ async function onLogout() {
       return;
     }
     const response = await fetch(`/api/authentication/sign-out`, {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
       },

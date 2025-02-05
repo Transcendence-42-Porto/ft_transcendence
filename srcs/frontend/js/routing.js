@@ -43,6 +43,7 @@ function loadContent(endpoint) {
             if(endpoint == "menu")
             {
                 history.pushState({}, '', '/menu');
+                loadMenu();
             }
             if(endpoint == "login")
             {
