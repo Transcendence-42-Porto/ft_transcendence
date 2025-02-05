@@ -1,11 +1,11 @@
 from django.contrib.auth.forms import authenticate
 from rest_framework import serializers
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
 from .models import UserProfile
 import random
-import os
-import requests
+from rest_framework import serializers
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
 
 # Helper function to return a random avatar URL
 def get_random_avatar():
@@ -17,15 +17,7 @@ def get_random_avatar():
             'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp',
             'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava7-bg.webp',
             'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava8-bg.webp',]
-    url = random.choice(avatars)
-    
-    response = requests.get(url)
-    if response.status_code == 200:
-            file_name = f"avatars/{os.path.basename(url)}"
-            file_path = default_storage.save(file_name, ContentFile(response.content))
-            return file_path  # This will be stored in the `avatar` field
-
-    return None
+    return random.choice(avatars)
 
 
 #Simple logic like fields validation should be located in the serializers.
@@ -33,7 +25,6 @@ def get_random_avatar():
 class SignUpSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=50, allow_blank = False)
     password = serializers.CharField(write_only=True, min_length=8, required=True)
-    avatar = serializers.ImageField(required=False, allow_null=True)
 
     class Meta:
         model = UserProfile
@@ -61,6 +52,16 @@ class SignInSerializer(serializers.Serializer):
             error = {'error': 'Unauthorized: Invalid credential'}
             raise serializers.ValidationError(error)
         attrs['user'] = user
+        return attrs
+
+class SignOutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    def validate(self, attrs):
+        try:
+            RefreshToken(attrs['refresh']).blacklist()
+        except Exception as e:
+            raise serializers.ValidationError({"error": str(e)})
         return attrs
 
 #Serializer to display neatly the type of response expected from signin view with swagger-ui

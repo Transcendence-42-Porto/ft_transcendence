@@ -34,7 +34,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False) 
     is_active = models.BooleanField(default=True) 
     bio = models.TextField(blank=True, null=True)
-    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
+    avatar = models.CharField(max_length=150, blank=True)
     friends = models.ManyToManyField("self", blank=True)
     date_joined = models.DateTimeField(default=timezone.now) 
 
