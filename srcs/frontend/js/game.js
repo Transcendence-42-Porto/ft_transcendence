@@ -1,8 +1,60 @@
+class Tournament {
+  constructor(players) {
+    this.players = this.shufflePlayers(players);
+    this.rounds = [];
+    this.currentRound = 0;
+    this.currentMatchIndex = 0;
+    this.generateBracket();
+  }
+
+  shufflePlayers(players) {
+    return players.sort(() => Math.random() - 0.5);
+  }
+
+  generateBracket() {
+    let bracket = [this.players.map((player) => ({ player, score: 0 }))];
+
+    while (bracket[0].length > 1) {
+      const newRound = [];
+      for (let i = 0; i < bracket[0].length; i += 2) {
+        newRound.push({
+          players: [bracket[0][i], bracket[0][i + 1]],
+          winner: null,
+        });
+      }
+      bracket.unshift(newRound);
+    }
+
+    this.rounds = bracket;
+  }
+
+  getCurrentMatch() {
+    return this.rounds[this.currentRound][this.currentMatchIndex];
+  }
+
+  advanceMatch(winner) {
+    const currentMatch = this.getCurrentMatch();
+    currentMatch.winner = winner;
+
+    if (this.currentMatchIndex < this.rounds[this.currentRound].length - 1) {
+      this.currentMatchIndex++;
+    } else {
+      this.currentRound--;
+      this.currentMatchIndex = 0;
+    }
+  }
+
+  isTournamentOver() {
+    return this.currentRound < 0;
+  }
+}
+
 function initializeGameForm() {
   console.log("[game.js] Inicializando o formulário do jogo...");
   const modeButtons = document.querySelectorAll(".mode-btn");
   const player2Group = document.getElementById("player2Group");
   const difficultyGroup = document.getElementById("difficultyGroup");
+  const tournamentGroup = document.getElementById("tournamentGroup");
   const form = document.getElementById("gameSettings");
 
   // Toggle modes
@@ -18,6 +70,9 @@ function initializeGameForm() {
 
     // Show difficulty for Singleplayer mode
     difficultyGroup.style.display = mode === "singleplayer" ? "block" : "none";
+
+    // Show tournament group for Tournament mode
+    tournamentGroup.style.display = mode === "tournament" ? "block" : "none";
   }
 
   // Event listeners for mode buttons
@@ -27,6 +82,44 @@ function initializeGameForm() {
       toggleMode(btn.dataset.mode);
     });
   });
+
+  // Tournament player management
+  const addPlayerBtn = document.getElementById("addPlayer");
+  const playerList = document.getElementById("playerList");
+  let tournamentPlayers = [];
+
+  addPlayerBtn.addEventListener("click", () => {
+    const newPlayerInput = document.getElementById("newPlayer");
+    const name = newPlayerInput.value.trim();
+
+    if (name && /^[A-Za-z0-9]+$/.test(name)) {
+      if (tournamentPlayers.length < 8) {
+        tournamentPlayers.push(name);
+        updatePlayerList();
+        newPlayerInput.value = "";
+      } else {
+        alert("Maximum 8 players allowed!");
+      }
+    }
+  });
+
+  function updatePlayerList() {
+    playerList.innerHTML = tournamentPlayers
+      .map(
+        (player, index) => `
+        <div class="player-tag">
+          ${player}
+          <span class="remove-player" onclick="removePlayer(${index})">×</span>
+        </div>
+      `
+      )
+      .join("");
+  }
+
+  window.removePlayer = (index) => {
+    tournamentPlayers.splice(index, 1);
+    updatePlayerList();
+  };
 
   // Handle form submission
   form.addEventListener("submit", (e) => {
@@ -55,22 +148,109 @@ function initializeGameForm() {
       return;
     }
 
-    const config = {
-      mode,
-      maxScore,
-      player1,
-      player2,
-      difficulty: mode === "singleplayer" ? difficulty : null,
-    };
+    if (mode === "tournament") {
+      if (tournamentPlayers.length < 2) {
+        alert("Minimum 2 players required for tournament!");
+        return;
+      }
+      startTournament(tournamentPlayers);
+    } else {
+      const config = {
+        mode,
+        maxScore,
+        player1,
+        player2,
+        difficulty: mode === "singleplayer" ? difficulty : null,
+      };
 
-    console.log("Config:", config);
+      console.log("Config:", config);
 
-    document.querySelector(".game-config").style.display = "none";
-    document.getElementById("gameCanvas").style.display = "block";
-    document.getElementById("restartBtn").style.display = "block";
+      document.querySelector(".game-config").style.display = "none";
+      document.getElementById("gameCanvas").style.display = "block";
+      document.getElementById("restartBtn").style.display = "block";
 
-    game(config);
+      game(config);
+    }
   });
+}
+
+function startTournament(players) {
+  document.querySelector(".game-config").style.display = "none";
+  const tournament = new Tournament(players);
+  showBracket(tournament);
+  playNextMatch(tournament);
+}
+
+function showBracket(tournament) {
+  const bracketHtml = tournament.rounds
+    .map(
+      (round, roundIndex) => `
+    <div class="bracket-round">
+      <h3>${
+        roundIndex === 0
+          ? "Final"
+          : roundIndex === 1
+          ? "Semifinals"
+          : roundIndex === 2
+          ? "Quarterfinals"
+          : `Round ${tournament.rounds.length - roundIndex}`
+      }</h3>
+      ${round
+        .map(
+          (match) => `
+        <div class="matchup">
+          ${match.players
+            .map(
+              (p) => `
+            <div>${p.player} ${p.score}</div>
+          `
+            )
+            .join(" vs ")}
+          ${
+            match.winner
+              ? `<div class="winner">Winner: ${match.winner.player}</div>`
+              : ""
+          }
+        </div>
+      `
+        )
+        .join("")}
+    </div>
+  `
+    )
+    .join("");
+
+  const bracketDiv = document.createElement("div");
+  bracketDiv.className = "tournament-bracket";
+  bracketDiv.innerHTML = bracketHtml;
+  document.body.appendChild(bracketDiv);
+  bracketDiv.style.display = "block";
+}
+
+function playNextMatch(tournament) {
+  if (tournament.isTournamentOver()) {
+    alert(`Tournament winner: ${tournament.rounds[0][0].winner.player}`);
+    return;
+  }
+
+  const currentMatch = tournament.getCurrentMatch();
+  const config = {
+    mode: "tournament",
+    maxScore: 5,
+    player1: currentMatch.players[0].player,
+    player2: currentMatch.players[1].player,
+    onGameEnd: (winner) => {
+      tournament.advanceMatch(
+        currentMatch.players.find((p) => p.player === winner)
+      );
+      document.getElementById("gameCanvas").style.display = "none";
+      showBracket(tournament);
+      playNextMatch(tournament);
+    },
+  };
+
+  document.getElementById("gameCanvas").style.display = "block";
+  game(config);
 }
 
 function game(config) {
@@ -516,9 +696,7 @@ async function saveResult(
     });
 
     if (!response.ok) {
-      console.error(
-        `Failed to save game result: ${response.statusText} (Status Code: ${response.status})`
-      );
+      exit();
       throw new Error("Failed to save game result");
     }
 

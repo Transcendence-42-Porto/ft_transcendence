@@ -720,6 +720,8 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 12	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NTE2OSwiaWF0IjoxNzMzNTg4NzY5LCJqdGkiOiJlMmYzYTM5YzE4OGM0YzYxOWFlYWI0ODdmZmE5NGE2OCIsInVzZXJfaWQiOjEwfQ.6hNNg0R4aLCy_7kbJOcSsefnRt7BY8Q43QaCHuuXhEM	2024-12-07 16:26:09.416136+00	2024-12-08 16:26:09+00	10	e2f3a39c188c4c619aeab487ffa94a68
 13	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NTgyMiwiaWF0IjoxNzMzNTg5NDIyLCJqdGkiOiI1NDNlYzhkNGZhNzc0NDJiOTQ1ZGMwMDdiMTkwMzkyMiIsInVzZXJfaWQiOjEwfQ.5rnKB8qv6hT9rffN9m_CJSNJOpzdMosGdt0Gd4tJHfg	2024-12-07 16:37:02.285795+00	2024-12-08 16:37:02+00	10	543ec8d4fa77442b945dc007b1903922
 14	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NjQzMywiaWF0IjoxNzMzNTkwMDMzLCJqdGkiOiIzYWNlNjNiNDAxZGE0ZmU1ODMxMTQwODdjZmVhNGU3ZiIsInVzZXJfaWQiOjE1fQ.I42TKm7pUUE-RzJiH7cuUWQqb_Fflzch4kPhI9zuU9Y	2024-12-07 16:47:13.256631+00	2024-12-08 16:47:13+00	\N	3ace63b401da4fe583114087cfea4e7f
+15	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODYxMTgzNywiaWF0IjoxNzM4NTI1NDM3LCJqdGkiOiIyNDRjMGVmNDU4MDE0ZGFjOWRiZTQ5MjIzYjZkNmM0ZSIsInVzZXJfaWQiOjE2fQ.J8QPAFjegJDn3QnmQeYS6ySzQjuSk0lTRSjxu3dFyN8	2025-02-02 19:43:57.542642+00	2025-02-03 19:43:57+00	16	244c0ef458014dac9dbe49223b6d6c4e
+16	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODYxMTg2NywiaWF0IjoxNzM4NTI1NDY3LCJqdGkiOiJkMTQyOGU2N2EyMTg0N2M1OWJmOTUzZmZhMzM4ZTY3NyIsInVzZXJfaWQiOjE2fQ.LLasRSp-3GoEyHqXhmmgyL1AVv7IDdsCLKdXzEohbFU	2025-02-02 19:44:27.998803+00	2025-02-03 19:44:27+00	16	d1428e67a21847c59bf953ffa338e677
 \.
 
 
@@ -729,6 +731,7 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 
 COPY public.user_profiles (id, bio, avatar, last_login, email, password, username, first_name, last_name, is_active, is_staff, is_superuser, date_joined) FROM stdin;
 10	Now I am become Death, the destroyer of worlds.		2024-12-07 15:27:22.404319+00	admin@admin.com	pbkdf2_sha256$870000$9MCMTsLSgGPu3AmRKgWxyd$ci0Q4vKWVzri54KG9SPXlOlkrF94ew4J6ZTs2go+1QE=	admin			t	t	t	2024-10-31 13:50:09.248031+00
+16	\N		\N	jhsocial@icloud.com	pbkdf2_sha256$870000$HFyjNnHFKjUQs1f0FZu13O$GZT+jLy48BTIU5ylRqiNHtuQeHu7jMKsMqjrUL702Rc=	Pw			t	f	f	2025-02-02 19:43:07.509144+00
 \.
 
 
@@ -774,7 +777,7 @@ SELECT pg_catalog.setval('public.api_userprofile_groups_id_seq', 1, false);
 -- Name: api_userprofile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.api_userprofile_id_seq', 15, true);
+SELECT pg_catalog.setval('public.api_userprofile_id_seq', 16, true);
 
 
 --
@@ -865,7 +868,7 @@ SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 1, fa
 -- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 14, true);
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 16, true);
 
 
 --

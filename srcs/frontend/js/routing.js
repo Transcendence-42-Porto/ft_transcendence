@@ -5,7 +5,7 @@ function routing() {
     const url = window.location.pathname;
     console.log(`[routing.js] URL: ${url}`);
     if (url === "/") {
-      loadContent("login");
+      loadContent("menu");
     } else {
       const endpoint = url.replace("/", "");
       loadContent(endpoint);

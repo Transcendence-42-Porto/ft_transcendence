@@ -16,6 +16,8 @@
         <div class="game-mode">
           <button type="button" class="mode-btn active" data-mode="singleplayer">Singleplayer</button>
           <button type="button" class="mode-btn" data-mode="multiplayer">Multiplayer</button>
+          <!-- Add Tournament button -->
+          <button type="button" class="mode-btn" data-mode="tournament">Tournament</button>
         </div>
       </div>
 
@@ -45,6 +47,15 @@
           <option value="medium">Medium</option>
           <option value="hard">Hard</option>
         </select>
+      </div>
+
+      <div class="form-group" id="tournamentGroup" style="display: none;">
+        <label>Tournament Players (2-8):</label>
+        <div id="playerEntries">
+          <input type="text" id="newPlayer" placeholder="Player name" pattern="[A-Za-z0-9]{1,7}" maxlength="7">
+          <button type="button" id="addPlayer">Add Player</button>
+        </div>
+        <div id="playerList" class="player-list"></div>
       </div>
 
       <button type="submit" class="start-btn">Start Game</button>
