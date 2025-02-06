@@ -48,10 +48,10 @@ class Tournament {
     return this.currentRound < 0;
   }
 }
-
 function initializeGameForm() {
   console.log("[game.js] Inicializando o formulário do jogo...");
   const modeButtons = document.querySelectorAll(".mode-btn");
+  const player1Group = document.getElementById("player1").parentElement;
   const player2Group = document.getElementById("player2Group");
   const difficultyGroup = document.getElementById("difficultyGroup");
   const tournamentGroup = document.getElementById("tournamentGroup");
@@ -65,13 +65,14 @@ function initializeGameForm() {
     );
     activeBtn.classList.add("active");
 
+    // Toggle visibility and requirements
+    player1Group.style.display = mode === "tournament" ? "none" : "block";
+    document.getElementById("player1").required = mode !== "tournament";
+    
     player2Group.style.display = mode === "multiplayer" ? "block" : "none";
     document.getElementById("player2").required = mode === "multiplayer";
-
-    // Show difficulty for Singleplayer mode
+    
     difficultyGroup.style.display = mode === "singleplayer" ? "block" : "none";
-
-    // Show tournament group for Tournament mode
     tournamentGroup.style.display = mode === "tournament" ? "block" : "none";
   }
 
@@ -82,6 +83,9 @@ function initializeGameForm() {
       toggleMode(btn.dataset.mode);
     });
   });
+
+  // Initialize default mode
+  toggleMode("singleplayer");
 
   // Tournament player management
   const addPlayerBtn = document.getElementById("addPlayer");
@@ -124,21 +128,13 @@ function initializeGameForm() {
   // Handle form submission
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-
     const mode = document.querySelector(".mode-btn.active").dataset.mode;
     const maxScore = parseInt(document.getElementById("maxScore").value);
-    const player1 = document
-      .getElementById("player1")
-      .value.trim()
-      .substring(0, 7);
-    const player2 = document
-      .getElementById("player2")
-      .value.trim()
-      .substring(0, 7);
-    const difficulty = document.getElementById("difficulty").value;
+    const player1 = document.getElementById("player1").value.trim();
+    const player2 = document.getElementById("player2").value.trim();
 
-    // Validation for player names
-    if (!/^[A-Za-z0-9]+$/.test(player1)) {
+    // Only validate player1 if not in tournament mode
+    if (mode !== "tournament" && !/^[A-Za-z0-9]+$/.test(player1)) {
       alert("Nome do Jogador 1 inválido! Use apenas letras e números.");
       return;
     }
@@ -159,21 +155,17 @@ function initializeGameForm() {
         mode,
         maxScore,
         player1,
-        player2,
-        difficulty: mode === "singleplayer" ? difficulty : null,
+        player2: mode === "singleplayer" ? "CPU" : player2,
+        difficulty: document.getElementById("difficulty").value
       };
-
-      console.log("Config:", config);
 
       document.querySelector(".game-config").style.display = "none";
       document.getElementById("gameCanvas").style.display = "block";
       document.getElementById("restartBtn").style.display = "block";
-
       game(config);
     }
   });
 }
-
 function startTournament(players) {
   document.querySelector(".game-config").style.display = "none";
   const tournament = new Tournament(players);

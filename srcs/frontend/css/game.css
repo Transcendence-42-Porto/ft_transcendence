@@ -60,6 +60,19 @@ button:hover {
     margin-top: 20px;
 }
 
+.add-btn {
+    background-color: #059669;
+    color: white;
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 14px;
+    padding: 8px 16px;
+}
+
+.add-btn:hover {
+    background-color: #0d7554;
+}
+
 .start-btn:hover {
     background-color: #1d4ed8;
 }
