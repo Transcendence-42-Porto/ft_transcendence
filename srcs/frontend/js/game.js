@@ -96,7 +96,7 @@ function initializeGameForm() {
     const newPlayerInput = document.getElementById("newPlayer");
     const name = newPlayerInput.value.trim();
 
-    if (name && /^[A-Za-z0-9]+$/.test(name)) {
+    if (name && /^[A-Za-z0-9_-]+$/.test(name)) {
       if (tournamentPlayers.length < 8) {
         tournamentPlayers.push(name);
         updatePlayerList();
@@ -111,14 +111,21 @@ function initializeGameForm() {
     playerList.innerHTML = tournamentPlayers
       .map(
         (player, index) => `
-        <div class="player-tag">
+        <div class="player-tag" style="display: inline-block; margin-right: 5px; margin-bottom: 5px;">
           ${player}
           <span class="remove-player" onclick="removePlayer(${index})">×</span>
         </div>
       `
       )
       .join("");
+
+    if (tournamentPlayers.length > 4) {
+      const playerTags = playerList.querySelectorAll(".player-tag");
+      playerTags[4].style.display = "inline-block";
+      playerTags[4].style.marginTop = "5px";
+    }
   }
+
 
   window.removePlayer = (index) => {
     tournamentPlayers.splice(index, 1);
