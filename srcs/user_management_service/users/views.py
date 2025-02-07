@@ -6,7 +6,7 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from .serializers import UserProfileSerializer
 from authentication.models import UserProfile
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample, OpenApiResponse
+from drf_spectacular.utils import extend_schema,  OpenApiResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -28,20 +28,6 @@ class UserProfileViewSet(RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
         serializer = UserProfileSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    # @extend_schema(
-    #     request={
-    #         'multipart/form-data': {
-    #             'type': 'object',
-    #             'properties': {
-    #                 'avatar': {
-    #                     'type': 'string',
-    #                     'format': 'binary'  # Proper OpenAPI file format
-    #                 }
-    #             }
-    #         }
-    #     },
-    #     responses={200: UserProfileSerializer}
-    # )
     def partial_update(self, request, *args, **kwargs):
         user_profile = self.get_object()
 
@@ -49,10 +35,6 @@ class UserProfileViewSet(RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
         if user_profile != request.user:
             raise PermissionDenied("You are not allowed to edit this profile.")
         
-        # Handle avatar file upload
-        if 'avatar' in request.FILES:
-            user_profile.avatar = request.FILES['avatar']
-
         # Handle password hashing if 'password' is in the request
         if 'password' in request.data:
             user_profile.set_password(request.data['password'])  # Hash the password
@@ -224,3 +206,130 @@ class AddFriendView(APIView):
                 {"detail": f"An error occurred: {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+@extend_schema(
+    summary="delete a Friend",
+    description="remove a user from the current user's friend list",
+    request={
+        'application/json': {
+            'type': 'object',
+            'properties': {
+                'username': {
+                    'type': 'string',
+                    'description': 'User name of the user to remove from the friend list'
+                }
+            },
+            'required': ['username']
+        }
+    },
+    responses={
+        200: OpenApiResponse(
+            description="Friend removed successfully",
+            response={
+                'type': 'object',
+                'properties': {
+                    'detail': {
+                        'type': 'string',
+                        'example': 'Friend added successfully'
+                    },
+                    'friend': {
+                        'type': 'object',
+                        'properties': {
+                            'id': {'type': 'integer', 'example': 1},
+                            'username': {'type': 'string', 'example': 'frienduser'}
+                        }
+                    }
+                }
+            }
+        ),
+        400: OpenApiResponse(
+            description="Bad request",
+            response={
+                'type': 'object',
+                'properties': {
+                    'detail': {
+                        'type': 'string',
+                        'example': 'username is required'
+                    }
+                }
+            }
+        ),
+        404: OpenApiResponse(
+            description="User not found",
+            response={
+                'type': 'object',
+                'properties': {
+                    'detail': {
+                        'type': 'string',
+                        'example': 'User not found'
+                    }
+                }
+            }
+        ),
+        500: OpenApiResponse(
+            description="Internal server error",
+            response={
+                'type': 'object',
+                'properties': {
+                    'detail': {
+                        'type': 'string',
+                        'example': 'An error occurred'
+                    }
+                }
+            }
+        )
+    }
+)
+class DeleteFriendView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        """
+        Add a friend to the user's friend list.
+        Expects a username in the request data.
+        """
+        try:
+            # Get the current user's profile
+            user_profile = request.user
+
+            # Get the username from request data
+            username = request.data.get('username')
+            if not username:
+                return Response(
+                    {"detail": "username is required"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Validate friend exists
+            try:
+                friend = UserProfile.objects.get(username=username)
+            except UserProfile.DoesNotExist:
+                return Response(
+                    {"detail": "User not found"},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            # Check if it's in the list
+            if not friend in user_profile.friends.all():
+                return Response(
+                    {"detail": "User is not in the friend list"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Add friend
+            user_profile.friends.remove(friend)
+
+            return Response({
+                "detail": "Friend removed successfully",
+                "friend": {
+                    "id": friend.id,
+                    "username": friend.username
+                }
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(
+                {"detail": f"An error occurred: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
