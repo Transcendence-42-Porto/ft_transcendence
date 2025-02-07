@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from authentication.models import UserProfile
 from scores.serializers import ScoreSerializer
-from drf_spectacular.utils import extend_schema_field
 
 class UserProfileSerializer(serializers.ModelSerializer):
     scores = ScoreSerializer(many=True, read_only=True)
@@ -9,11 +8,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['id', 'username', 'email', 'password', 'avatar', 'bio', 'friends', 'scores']
+        fields = ['id', 'username', 'email', 'password', 'is_online', 'avatar', 'bio', 'friends', 'scores']
         extra_kwargs = {'password': {'write_only':True}} #password should be write only
 
     def get_friends(self, obj):
-        return [{'id': friend.id, 'username': friend.username} for friend in obj.friends.all()]
+        return [{'id': friend.id, 'username': friend.username, 'is_online': friend.is_online} for friend in obj.friends.all()]
 
     def create(self, validated_data):
         friends = validated_data.pop('friends', []) #extract the friends field
