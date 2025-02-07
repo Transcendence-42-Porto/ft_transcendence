@@ -56,24 +56,29 @@ def signin_view(request):
     if not serializer.is_valid():
         return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
 
-    data = serializer.validated_data
-    response_data = {
-    'email': str(data['user'].email),
-    }
-    response_data["id"] = str(data['user'].id)
+    user = serializer.validated_data["user"]
 
-    # Generate tokens for the authenticated user
-    refresh = RefreshToken.for_user(data["user"])
-    response_data["refresh"] = str(refresh)
-    response_data["access"] = str(refresh.access_token)
+    # Set user online
+    user.is_online = True
+    user.save(update_fields=["is_online"])
+
+    # Generate tokens
+    refresh = RefreshToken.for_user(user)
+
+    response_data = {
+        "id": user.id,
+        "email": user.email,
+        "is_online": user.is_online,
+        "refresh": str(refresh),
+        "access": str(refresh.access_token),
+    }
 
     return Response(response_data, status=status.HTTP_200_OK)
-
 
 @extend_schema(
     summary="Sign Out",
     description="Sign-out a user using the refresh token provided in the request body.",
-    request=SignOutSerializer,  # 🟢 Now using a serializer!
+    request=SignOutSerializer,
     responses={
         200: {'description': 'Successfully logged out!'},
         400: {'description': 'Bad request: Invalid or missing refresh token.'},
@@ -82,9 +87,12 @@ def signin_view(request):
 @api_view(['POST'])
 def signout_view(request):
     serializer = SignOutSerializer(data=request.data)
-    
+
     if serializer.is_valid():
-        return Response({'success': 'Successfully logged out!'}, status=status.HTTP_200_OK)
-    
+        user = request.user
+        user.is_online = False
+        user.save(update_fields=["is_online"])
+        return Response({"success": "Successfully logged out!"}, status=status.HTTP_200_OK)
+
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

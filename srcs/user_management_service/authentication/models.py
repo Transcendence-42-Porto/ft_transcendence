@@ -37,6 +37,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     avatar = models.CharField(max_length=150, blank=True)
     friends = models.ManyToManyField("self", blank=True)
     date_joined = models.DateTimeField(default=timezone.now) 
+    is_online = models.BooleanField(default=False)
 
     # Define a manager
     objects = UserProfileManager()
