@@ -56,6 +56,7 @@ function loadContent(endpoint) {
               {
                   history.pushState({}, '', '/game');
                   initializeGameForm();
+                  loadGameMenu();
               }
         })
         .catch(error => {

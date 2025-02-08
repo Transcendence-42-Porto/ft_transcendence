@@ -141,3 +141,7 @@ canvas {
 #restartBtn {
     display: none;
 }
+
+#player1::placeholder {
+    color: #00a2ff; /* Altere para a cor desejada */
+}

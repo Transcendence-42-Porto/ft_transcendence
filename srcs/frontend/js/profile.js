@@ -119,58 +119,6 @@ import tokenManager from "./token.js";
         friendsModal.show();
     }
 
-
-// async function searchFriend(){
-  
-//   try {
-//     const users = await fetch(`/api/users/`, {
-//       method: 'GET',
-//       headers: {
-//         Authorization: `Bearer ${tokenManager.getAccessToken()}`,
-//         'Content-Type': 'application/json',
-//       }
-//     });
-//     if(users.ok)
-//     {
-//       let dataUsers = await users.json();
-
-//       const tableBody = $('#friendsListModal tbody');
-//       tableBody.empty();
-
-//       console.log(dataUsers);
-//     }
-//   }
-//   catch(error)
-//   {
-//     console.error("Error: ", error)
-//   }
-
-
-//   const searchInput = document.getElementById('searchFriendInput').value;
-//   try
-//   {
-//     const searchInput = document.getElementById('searchFriendInput').value;
-  
-//       const response = await fetch(`/api/users/add-friends/`, {
-//         method: 'PATCH',
-//         headers: {
-//           Authorization: `Bearer ${tokenManager.getAccessToken()}`,
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({ username: searchInput})
-//       });
-  
-//       if(response.ok)
-//       {
-//         let data = await response.json();
-//         console.log(data);
-//       }
-//   } catch(error){
-//     console.error("Error: ", error)
-//   }
-
-// }
-
 async function searchFriend() {
   try {
     const searchInput = document.getElementById('searchFriendInput').value;

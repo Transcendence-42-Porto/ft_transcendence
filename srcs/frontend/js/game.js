@@ -1,3 +1,6 @@
+import CookieManager from "./cookieManager.js";
+import tokenManager from "./token.js";
+
 class Tournament {
   constructor(players) {
     this.players = this.shufflePlayers(players);
@@ -578,7 +581,7 @@ function game(config) {
   /*************************************************************
    * Desenho (campo, linhas, raquetes, placar, etc.)
    *************************************************************/
-  function draw() {
+  async function draw() {
     // Fundo
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
@@ -635,22 +638,27 @@ function game(config) {
           : `${player2 || "IA"} venceu!`;
       ctx.font = "24px Arial";
       ctx.fillText(winnerText, WIDTH / 2, HEIGHT / 2 + 15);
-      saveResult(player1, player2 || "IA", player1Score, player2Score);
+      await saveResult(player1, player2 || "IA", player1Score, player2Score);
     }
   }
 
   /*************************************************************
    * Loop principal do jogo
    *************************************************************/
+  let gameOverDisplayed = false; // Variável para controlar se a tela de game over já foi exibida
+
   function gameLoop() {
     if (!isGameOver) {
       updatePlayer1();
       updatePlayer2();
       updateAI();
       updateBall();
+      draw();
+      requestAnimationFrame(gameLoop);
+    } else if (!gameOverDisplayed) {
+      draw(); // Desenha a tela de game over uma última vez
+      gameOverDisplayed = true; // Marca que a tela de game over já foi exibida
     }
-    draw();
-    requestAnimationFrame(gameLoop);
   }
 
   /*************************************************************
@@ -678,24 +686,35 @@ function game(config) {
   gameLoop();
 }
 
-async function saveResult(
-  player1Name,
-  player2Name,
-  player1Score,
-  player2Score
-) {
-  score = `${player1Score} x ${player2Score}`;
+async function saveResult(player1Name, player2Name, player1Score, player2Score) {
+  let gameType = "AI opponent";
+  let tournamentName = "32";
+  const userId = CookieManager.getCookie('userId');
+  if (!userId) {
+    return;
+  }
+  
+  // Crie um objeto com os parâmetros para enviar como corpo da requisição
+  const requestBody = {
+    user: userId,
+    opponent: player2Name,
+    user_score: player1Score,
+    opponent_score: player2Score,
+    game_type: gameType,
+    tournament_name: tournamentName
+  };
+
   try {
-    const response = await fetch("/api/scores/add", {
-      method: "POST",
+    const response = await fetch("/api/scores/add/", {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(player1Name, player2Name, score),
+      body: JSON.stringify(requestBody),  // Envia o objeto como JSON
     });
 
     if (!response.ok) {
-      exit();
       throw new Error("Failed to save game result");
     }
 
@@ -704,3 +723,18 @@ async function saveResult(
     console.error("Error saving game result:", error);
   }
 }
+
+/*************************************************************
+   * Inicializa o menu de jogo 
+   *************************************************************/
+
+async function loadGameMenu() {
+  let data = await loadPersonalInfo();
+  let player1Input = document.getElementById('player1');
+  
+  player1Input.value = data.username; // Definir o valor do campo como o nome do usuário
+  player1Input.disabled = true; // Bloquear o campo para edição
+}
+
+window.initializeGameForm = initializeGameForm;
+window.loadGameMenu = loadGameMenu;
