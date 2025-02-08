@@ -720,6 +720,24 @@ COPY public.token_blacklist_blacklistedtoken (id, blacklisted_at, token_id) FROM
 --
 
 COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at, user_id, jti) FROM stdin;
+<<<<<<< HEAD
+1	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMDQ3ODYxNywiaWF0IjoxNzMwMzkyMjE3LCJqdGkiOiI2ODAyMTdjYzBhODY0Y2JmODliMmFjOGI4NzkzOWJkNyIsInVzZXJfaWQiOjEwfQ.WF6SP1RcIR19ZX2DzHJl4BvgLlBdcoUB1H_Y6H3wais	2024-10-31 16:30:17.430753+00	2024-11-01 16:30:17+00	10	680217cc0a864cbf89b2ac8b87939bd7
+2	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMDQ3OTk5NCwiaWF0IjoxNzMwMzkzNTk0LCJqdGkiOiIyMDYyODVmMzI5ZGI0YzNkYmNhM2UzYzVmZmZkZDNjZSIsInVzZXJfaWQiOjEwfQ.aogu2aER7bRzq42KI3mRYxAuJt9_bcLZzW_QjsYOeng	2024-10-31 16:53:14.43644+00	2024-11-01 16:53:14+00	10	206285f329db4c3dbca3e3c5fffdd3ce
+3	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMDQ4MDgyNiwiaWF0IjoxNzMwMzk0NDI2LCJqdGkiOiJjNmZkYjZiMTRhMDY0OTNhODcxOGQyNzI2ZDRlNThjMyIsInVzZXJfaWQiOjEwfQ.gKMPYtY2iTO-hTA5t6KhXIVAT7FfSUSRaCOt9EbWMDw	2024-10-31 17:07:06.624619+00	2024-11-01 17:07:06+00	10	c6fdb6b14a06493a8718d2726d4e58c3
+4	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMDQ5MTk4NSwiaWF0IjoxNzMwNDA1NTg1LCJqdGkiOiI0MmJjYzczNWEwZTc0OTg0YjJmZTNmY2Q2YWI3Y2U1OSIsInVzZXJfaWQiOjEwfQ.yfi_ULcCdABWxwvGTnr5gaxIJx-RVEZ5S6fTSBZgIC4	2024-10-31 20:13:05.223588+00	2024-11-01 20:13:05+00	10	42bcc735a0e74984b2fe3fcd6ab7ce59
+5	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3MTcxMSwiaWF0IjoxNzMzNTg1MzExLCJqdGkiOiI3MzZjOGFjNWU4OWQ0ZTdhOWQxZDc2NmJiMWNlMjU4YSIsInVzZXJfaWQiOjEwfQ.jS2h2rnZ7bBbE-hj2aNXOTQvuFK6SnnF3wvV1erAwQY	2024-12-07 15:28:31.727285+00	2024-12-08 15:28:31+00	10	736c8ac5e89d4e7a9d1d766bb1ce258a
+6	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3Mjc3MiwiaWF0IjoxNzMzNTg2MzcyLCJqdGkiOiI1YTZkNWNjMmE3MTk0MGZlYWMwMzUwYWE1OGMwZTE4YyIsInVzZXJfaWQiOjEwfQ.ds_Pvdne-5Gw_gM4At8FPJWunHYCZ0kIrYCipeY_ibo	2024-12-07 15:46:12.540291+00	2024-12-08 15:46:12+00	10	5a6d5cc2a71940feac0350aa58c0e18c
+7	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3MzA2MCwiaWF0IjoxNzMzNTg2NjYwLCJqdGkiOiIwYWVhYTg3ZGQ1ZTA0ZmZkYjQ1ODU4Y2E2ZTU0ZGQxMSIsInVzZXJfaWQiOjEwfQ.gurY14lwP4ET3j6tqasnfAUqwjkTQCf1stBDfumWLLg	2024-12-07 15:51:00.773318+00	2024-12-08 15:51:00+00	10	0aeaa87dd5e04ffdb45858ca6e54dd11
+8	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3MzI5NywiaWF0IjoxNzMzNTg2ODk3LCJqdGkiOiJjZTdhZTUyZDI5MTk0ZmFkYWQ4NmFlNmQ5ZTAyYTYzMSIsInVzZXJfaWQiOjEwfQ.NRounij2WMP65PXNkEpCRKnTI6MYug0bs5esrbqtzAY	2024-12-07 15:54:57.409458+00	2024-12-08 15:54:57+00	10	ce7ae52d29194fadad86ae6d9e02a631
+9	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NDEzNCwiaWF0IjoxNzMzNTg3NzM0LCJqdGkiOiI2YzU3YmViNDJjYzA0OGE2YmFiZGU3NzJlMTdjMGYzZCIsInVzZXJfaWQiOjEwfQ.WJIVWXVLcGOpb4V45zJMioo82UVHPxBANevDNQvO9ZA	2024-12-07 16:08:54.760673+00	2024-12-08 16:08:54+00	10	6c57beb42cc048a6babde772e17c0f3d
+10	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NDI2NywiaWF0IjoxNzMzNTg3ODY3LCJqdGkiOiIzYjEyNDczMWY2NzM0MmYzOWViYTA3ZWE5N2MyMDZmMCIsInVzZXJfaWQiOjEwfQ._3Biqfo1ZwZ3MhcBHosSeYJl1iiEFx7vvIGVBqewqXE	2024-12-07 16:11:07.006884+00	2024-12-08 16:11:07+00	10	3b124731f67342f39eba07ea97c206f0
+11	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NDY4NCwiaWF0IjoxNzMzNTg4Mjg0LCJqdGkiOiJlMDY4NGFiZjFlMWU0YzU0YTRkYzUwY2MwZDczMWNmNSIsInVzZXJfaWQiOjEwfQ.KhR5OJvPQuXAItlsF6RspYVE4nCwVkiG1HlubNWHpA4	2024-12-07 16:18:04.66855+00	2024-12-08 16:18:04+00	10	e0684abf1e1e4c54a4dc50cc0d731cf5
+12	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NTE2OSwiaWF0IjoxNzMzNTg4NzY5LCJqdGkiOiJlMmYzYTM5YzE4OGM0YzYxOWFlYWI0ODdmZmE5NGE2OCIsInVzZXJfaWQiOjEwfQ.6hNNg0R4aLCy_7kbJOcSsefnRt7BY8Q43QaCHuuXhEM	2024-12-07 16:26:09.416136+00	2024-12-08 16:26:09+00	10	e2f3a39c188c4c619aeab487ffa94a68
+13	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NTgyMiwiaWF0IjoxNzMzNTg5NDIyLCJqdGkiOiI1NDNlYzhkNGZhNzc0NDJiOTQ1ZGMwMDdiMTkwMzkyMiIsInVzZXJfaWQiOjEwfQ.5rnKB8qv6hT9rffN9m_CJSNJOpzdMosGdt0Gd4tJHfg	2024-12-07 16:37:02.285795+00	2024-12-08 16:37:02+00	10	543ec8d4fa77442b945dc007b1903922
+14	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzY3NjQzMywiaWF0IjoxNzMzNTkwMDMzLCJqdGkiOiIzYWNlNjNiNDAxZGE0ZmU1ODMxMTQwODdjZmVhNGU3ZiIsInVzZXJfaWQiOjE1fQ.I42TKm7pUUE-RzJiH7cuUWQqb_Fflzch4kPhI9zuU9Y	2024-12-07 16:47:13.256631+00	2024-12-08 16:47:13+00	\N	3ace63b401da4fe583114087cfea4e7f
+15	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODYxMTgzNywiaWF0IjoxNzM4NTI1NDM3LCJqdGkiOiIyNDRjMGVmNDU4MDE0ZGFjOWRiZTQ5MjIzYjZkNmM0ZSIsInVzZXJfaWQiOjE2fQ.J8QPAFjegJDn3QnmQeYS6ySzQjuSk0lTRSjxu3dFyN8	2025-02-02 19:43:57.542642+00	2025-02-03 19:43:57+00	16	244c0ef458014dac9dbe49223b6d6c4e
+16	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODYxMTg2NywiaWF0IjoxNzM4NTI1NDY3LCJqdGkiOiJkMTQyOGU2N2EyMTg0N2M1OWJmOTUzZmZhMzM4ZTY3NyIsInVzZXJfaWQiOjE2fQ.LLasRSp-3GoEyHqXhmmgyL1AVv7IDdsCLKdXzEohbFU	2025-02-02 19:44:27.998803+00	2025-02-03 19:44:27+00	16	d1428e67a21847c59bf953ffa338e677
+=======
 1	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODUyMjc2NCwiaWF0IjoxNzM4NDM2MzY0LCJqdGkiOiIyN2VhYWJkMWE2ODA0Yjg2OWRlZGNjYTM4YTBlZjAxMiIsInVzZXJfaWQiOjEwfQ.jQErVFUKZsFk5xX6GNbLsDCPUhWUwK09ZaF7jItCrmc	2025-02-01 18:59:24.630916+00	2025-02-02 18:59:24+00	10	27eaabd1a6804b869dedcca38a0ef012
 2	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODUyMjk0MywiaWF0IjoxNzM4NDM2NTQzLCJqdGkiOiI0ZTU3NzI4MWY2OTE0MTUyYWJmM2UzYzE4OGY2OTgwOCIsInVzZXJfaWQiOjExfQ.-FzW5485y5XPlwo8mm7mGwriLkU5hc-csp474BL-4gY	2025-02-01 19:02:23.742872+00	2025-02-02 19:02:23+00	11	4e577281f6914152abf3e3c188f69808
 3	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczODUyMzMzOSwiaWF0IjoxNzM4NDM2OTM5LCJqdGkiOiJhOWE1MDcwZDRlMjI0NWEwYjkxOTY5ZDk3N2M3MzQ3OSIsInVzZXJfaWQiOjExfQ.xdsemjfucIxmAUrdfIiGraRIr1NZsjTO8ESXXGdTzoU	2025-02-01 19:08:59.412235+00	2025-02-02 19:08:59+00	11	a9a5070d4e2245a0b91969d977c73479
@@ -809,6 +827,7 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 42	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczOTAxMzA2NiwiaWF0IjoxNzM4OTI2NjY2LCJqdGkiOiJkMjMzMDlmN2Y5OGY0ZDlhYTk5NmM3MGMzMjE4MzdkNiIsInVzZXJfaWQiOjF9.g1f8_U8184gEW72WVbmkZFL-gqTmNQASU9jK-E4xKek	2025-02-07 11:11:06.534929+00	2025-02-08 11:11:06+00	1	d23309f7f98f4d9aa996c70c321837d6
 43	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczOTAyNDg3NywiaWF0IjoxNzM4OTM4NDc3LCJqdGkiOiI4MjhhYmI5NDE1NzI0N2FiYWE1NmJmZjJiOGQ3ZTFjOCIsInVzZXJfaWQiOjF9.MfVO4gaj3g7_B64E8-gy1NT4EZc1ii0iCZKgShN33uc	2025-02-07 14:27:57.095284+00	2025-02-08 14:27:57+00	1	828abb94157247abaa56bff2b8d7e1c8
 44	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczOTEwMTg4NSwiaWF0IjoxNzM5MDE1NDg1LCJqdGkiOiI4OTJhMTEzYzU1NGQ0NGU3YWQxNjY4YjMzOTViNWJhOSIsInVzZXJfaWQiOjF9.FkJHn2YWHUc2MNtKcOIJq5mGSrLLOCV5A7hGgCqA5v4	2025-02-08 11:51:25.407182+00	2025-02-09 11:51:25+00	1	892a113c554d44e7ad1668b3395b5ba9
+>>>>>>> origin
 \.
 
 
@@ -816,11 +835,17 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 -- Data for Name: user_profiles; Type: TABLE DATA; Schema: public; Owner: db_user
 --
 
+<<<<<<< HEAD
+COPY public.user_profiles (id, bio, avatar, last_login, email, password, username, first_name, last_name, is_active, is_staff, is_superuser, date_joined) FROM stdin;
+10	Now I am become Death, the destroyer of worlds.		2024-12-07 15:27:22.404319+00	admin@admin.com	pbkdf2_sha256$870000$9MCMTsLSgGPu3AmRKgWxyd$ci0Q4vKWVzri54KG9SPXlOlkrF94ew4J6ZTs2go+1QE=	admin			t	t	t	2024-10-31 13:50:09.248031+00
+16	\N		\N	jhsocial@icloud.com	pbkdf2_sha256$870000$HFyjNnHFKjUQs1f0FZu13O$GZT+jLy48BTIU5ylRqiNHtuQeHu7jMKsMqjrUL702Rc=	Pw			t	f	f	2025-02-02 19:43:07.509144+00
+=======
 COPY public.user_profiles (id, bio, avatar, last_login, email, password, username, first_name, last_name, is_active, is_staff, is_superuser, date_joined, is_online) FROM stdin;
 2	\N	avatars/ava4-bg.webp	\N	yan@gmail.com	pbkdf2_sha256$870000$8JkRKbVV17i70wuMlu10Zl$cdQGKoaiB4bSqv0BTnhjCZerXZ4aD+C1/5JPhw6n9EM=	yan123			t	f	f	2025-02-05 13:41:43.296496+00	f
 3	\N		\N	mary@gmail.com	pbkdf2_sha256$870000$E7KTsoQeRkrUxlh79YCqut$EvJcOpf7iflzEi3hfk+PqVJ+dFjq7VfAtPfuufMuTGA=	mary			t	f	f	2025-02-05 14:25:02.30341+00	f
 4	\N	https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava7-bg.webp	\N	axel@axel.com	pbkdf2_sha256$870000$d3j99WWpWv5IXRbHBhFmMs$oXlVe5136VSDBhdRTLF4pix13xEWDflc5aeNkD3JMmY=	axel	axel		t	f	f	2025-02-07 10:45:26.34544+00	f
 1	\N		\N	admin@admin.com	pbkdf2_sha256$870000$4vqki67Bgje6kAEJBLkblC$RYC5FVlwIUgeP6mwVUroZI5OcCOo7y94DzTmxUR+ppU=	admin			t	t	t	2025-02-05 13:40:37.505794+00	t
+>>>>>>> origin
 \.
 
 
@@ -868,7 +893,11 @@ SELECT pg_catalog.setval('public.api_userprofile_groups_id_seq', 1, false);
 -- Name: api_userprofile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
+<<<<<<< HEAD
+SELECT pg_catalog.setval('public.api_userprofile_id_seq', 16, true);
+=======
 SELECT pg_catalog.setval('public.api_userprofile_id_seq', 4, true);
+>>>>>>> origin
 
 
 --
@@ -959,7 +988,571 @@ SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 4, tr
 -- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
+<<<<<<< HEAD
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 16, true);
+
+
+--
+-- Name: user_profiles api_userprofile_email_key; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles
+    ADD CONSTRAINT api_userprofile_email_key UNIQUE (email);
+
+
+--
+-- Name: user_profiles_friends api_userprofile_friends_from_userprofile_id_to_u_a21308bd_uniq; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles_friends
+    ADD CONSTRAINT api_userprofile_friends_from_userprofile_id_to_u_a21308bd_uniq UNIQUE (from_userprofile_id, to_userprofile_id);
+
+
+--
+-- Name: user_profiles_friends api_userprofile_friends_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles_friends
+    ADD CONSTRAINT api_userprofile_friends_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_profiles_groups api_userprofile_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles_groups
+    ADD CONSTRAINT api_userprofile_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_profiles_groups api_userprofile_groups_userprofile_id_group_id_f2d1b2f8_uniq; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles_groups
+    ADD CONSTRAINT api_userprofile_groups_userprofile_id_group_id_f2d1b2f8_uniq UNIQUE (userprofile_id, group_id);
+
+
+--
+-- Name: user_profiles api_userprofile_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles
+    ADD CONSTRAINT api_userprofile_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_profiles_user_permissions api_userprofile_user_per_userprofile_id_permissio_791df516_uniq; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles_user_permissions
+    ADD CONSTRAINT api_userprofile_user_per_userprofile_id_permissio_791df516_uniq UNIQUE (userprofile_id, permission_id);
+
+
+--
+-- Name: user_profiles_user_permissions api_userprofile_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles_user_permissions
+    ADD CONSTRAINT api_userprofile_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_profiles api_userprofile_username_key; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles
+    ADD CONSTRAINT api_userprofile_username_key UNIQUE (username);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: scores_score scores_score_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.scores_score
+    ADD CONSTRAINT scores_score_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: token_blacklist_blacklistedtoken token_blacklist_blacklistedtoken_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.token_blacklist_blacklistedtoken
+    ADD CONSTRAINT token_blacklist_blacklistedtoken_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: token_blacklist_blacklistedtoken token_blacklist_blacklistedtoken_token_id_key; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.token_blacklist_blacklistedtoken
+    ADD CONSTRAINT token_blacklist_blacklistedtoken_token_id_key UNIQUE (token_id);
+
+
+--
+-- Name: token_blacklist_outstandingtoken token_blacklist_outstandingtoken_jti_hex_d9bdf6f7_uniq; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.token_blacklist_outstandingtoken
+    ADD CONSTRAINT token_blacklist_outstandingtoken_jti_hex_d9bdf6f7_uniq UNIQUE (jti);
+
+
+--
+-- Name: token_blacklist_outstandingtoken token_blacklist_outstandingtoken_pkey; Type: CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.token_blacklist_outstandingtoken
+    ADD CONSTRAINT token_blacklist_outstandingtoken_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: api_userprofile_email_6279d7da_like; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX api_userprofile_email_6279d7da_like ON public.user_profiles USING btree (email varchar_pattern_ops);
+
+
+--
+-- Name: api_userprofile_friends_from_userprofile_id_f82d9108; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX api_userprofile_friends_from_userprofile_id_f82d9108 ON public.user_profiles_friends USING btree (from_userprofile_id);
+
+
+--
+-- Name: api_userprofile_friends_to_userprofile_id_0e1cefb8; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX api_userprofile_friends_to_userprofile_id_0e1cefb8 ON public.user_profiles_friends USING btree (to_userprofile_id);
+
+
+--
+-- Name: api_userprofile_groups_group_id_4bbb714d; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX api_userprofile_groups_group_id_4bbb714d ON public.user_profiles_groups USING btree (group_id);
+
+
+--
+-- Name: api_userprofile_groups_userprofile_id_c604c343; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX api_userprofile_groups_userprofile_id_c604c343 ON public.user_profiles_groups USING btree (userprofile_id);
+
+
+--
+-- Name: api_userprofile_user_permissions_permission_id_f8a7bcee; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX api_userprofile_user_permissions_permission_id_f8a7bcee ON public.user_profiles_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: api_userprofile_user_permissions_userprofile_id_6c285edb; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX api_userprofile_user_permissions_userprofile_id_6c285edb ON public.user_profiles_user_permissions USING btree (userprofile_id);
+
+
+--
+-- Name: api_userprofile_username_74f62e22_like; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX api_userprofile_username_74f62e22_like ON public.user_profiles USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: scores_score_user_id_efcc7268; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX scores_score_user_id_efcc7268 ON public.scores_score USING btree (user_id);
+
+
+--
+-- Name: token_blacklist_outstandingtoken_jti_hex_d9bdf6f7_like; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX token_blacklist_outstandingtoken_jti_hex_d9bdf6f7_like ON public.token_blacklist_outstandingtoken USING btree (jti varchar_pattern_ops);
+
+
+--
+-- Name: token_blacklist_outstandingtoken_user_id_83bc629a; Type: INDEX; Schema: public; Owner: db_user
+--
+
+CREATE INDEX token_blacklist_outstandingtoken_user_id_83bc629a ON public.token_blacklist_outstandingtoken USING btree (user_id);
+
+
+--
+-- Name: user_profiles_friends api_userprofile_frie_from_userprofile_id_f82d9108_fk_api_userp; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles_friends
+    ADD CONSTRAINT api_userprofile_frie_from_userprofile_id_f82d9108_fk_api_userp FOREIGN KEY (from_userprofile_id) REFERENCES public.user_profiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: user_profiles_friends api_userprofile_frie_to_userprofile_id_0e1cefb8_fk_api_userp; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles_friends
+    ADD CONSTRAINT api_userprofile_frie_to_userprofile_id_0e1cefb8_fk_api_userp FOREIGN KEY (to_userprofile_id) REFERENCES public.user_profiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: user_profiles_groups api_userprofile_grou_userprofile_id_c604c343_fk_api_userp; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles_groups
+    ADD CONSTRAINT api_userprofile_grou_userprofile_id_c604c343_fk_api_userp FOREIGN KEY (userprofile_id) REFERENCES public.user_profiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: user_profiles_groups api_userprofile_groups_group_id_4bbb714d_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles_groups
+    ADD CONSTRAINT api_userprofile_groups_group_id_4bbb714d_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: user_profiles_user_permissions api_userprofile_user_permission_id_f8a7bcee_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles_user_permissions
+    ADD CONSTRAINT api_userprofile_user_permission_id_f8a7bcee_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: user_profiles_user_permissions api_userprofile_user_userprofile_id_6c285edb_fk_api_userp; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.user_profiles_user_permissions
+    ADD CONSTRAINT api_userprofile_user_userprofile_id_6c285edb_fk_api_userp FOREIGN KEY (userprofile_id) REFERENCES public.user_profiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: scores_score scores_score_user_id_efcc7268_fk_user_profiles_id; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.scores_score
+    ADD CONSTRAINT scores_score_user_id_efcc7268_fk_user_profiles_id FOREIGN KEY (user_id) REFERENCES public.user_profiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: token_blacklist_blacklistedtoken token_blacklist_blacklistedtoken_token_id_3cc7fe56_fk; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.token_blacklist_blacklistedtoken
+    ADD CONSTRAINT token_blacklist_blacklistedtoken_token_id_3cc7fe56_fk FOREIGN KEY (token_id) REFERENCES public.token_blacklist_outstandingtoken(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: token_blacklist_outstandingtoken token_blacklist_outs_user_id_83bc629a_fk_user_prof; Type: FK CONSTRAINT; Schema: public; Owner: db_user
+--
+
+ALTER TABLE ONLY public.token_blacklist_outstandingtoken
+    ADD CONSTRAINT token_blacklist_outs_user_id_83bc629a_fk_user_prof FOREIGN KEY (user_id) REFERENCES public.user_profiles(id) DEFERRABLE INITIALLY DEFERRED;
+=======
 SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 44, true);
+>>>>>>> origin
 
 
 --

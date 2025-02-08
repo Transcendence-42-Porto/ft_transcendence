@@ -1,4 +1,3 @@
-
 function routing() {
     // Função que carrega o conteúdo HTML dentro de #app baseado no endpoint
     console.log("[routing.js] script loaded");
@@ -53,6 +52,11 @@ function loadContent(endpoint) {
             {
                 history.pushState({}, '', '/signup');
             }
+            if(endpoint == "game")
+              {
+                  history.pushState({}, '', '/game');
+                  initializeGameForm();
+              }
         })
         .catch(error => {
             console.error(`[routing.js] ${error}`);

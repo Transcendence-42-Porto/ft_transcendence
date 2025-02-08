@@ -66,7 +66,7 @@ function clearLoginFields() {
 }
 
 function verifyAuthenticationCode() {
-    loadContent('menu');
+    loadContent('game');
     
     const authenticatorModalElement = document.getElementById('authenticatorModal');
     if (authenticatorModalElement) {
