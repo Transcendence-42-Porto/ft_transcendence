@@ -420,7 +420,9 @@ CREATE TABLE public.scores_score (
     date timestamp with time zone NOT NULL,
     user_id bigint NOT NULL,
     opponent_score integer NOT NULL,
-    user_score integer NOT NULL
+    user_score integer NOT NULL,
+    game_type character varying(255) NOT NULL,
+    tournament_name character varying(255) NOT NULL
 );
 
 
@@ -671,6 +673,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 50	scores	0002_remove_score_score_score_opponent_score_and_more	2025-02-04 10:30:23.186002+00
 1	authentication	0003_alter_userprofile_avatar	2025-02-06 16:19:24.544651+00
 2	authentication	0004_userprofile_is_online	2025-02-07 10:38:41.533532+00
+3	scores	0003_score_game_type_score_tournament_name	2025-02-08 11:50:26.053366+00
 \.
 
 
@@ -692,10 +695,11 @@ pfbzf47irj4lrgx008b5wfe6ctkbtv3d	.eJxVjMsOwiAQRf-FtSFDgQFcuvcbyAwPqZo2Ke3K-O_apA
 -- Data for Name: scores_score; Type: TABLE DATA; Schema: public; Owner: db_user
 --
 
-COPY public.scores_score (id, opponent, date, user_id, opponent_score, user_score) FROM stdin;
-1	trompette	2024-12-07 16:30:21.074836+00	10	0	0
-2	trompette	2024-12-07 16:30:45.428929+00	10	0	0
-3	ziliolu	2025-02-04 13:08:57.067633+00	16	0	0
+COPY public.scores_score (id, opponent, date, user_id, opponent_score, user_score, game_type, tournament_name) FROM stdin;
+1	trompette	2024-12-07 16:30:21.074836+00	10	0	0	single_player	none
+2	trompette	2024-12-07 16:30:45.428929+00	10	0	0	single_player	none
+3	ziliolu	2025-02-04 13:08:57.067633+00	16	0	0	single_player	none
+1	mary	2025-02-08 11:52:41.833306+00	1	4	3	single_player	none
 \.
 
 
@@ -706,6 +710,8 @@ COPY public.scores_score (id, opponent, date, user_id, opponent_score, user_scor
 COPY public.token_blacklist_blacklistedtoken (id, blacklisted_at, token_id) FROM stdin;
 1	2025-02-07 10:54:09.402478+00	38
 2	2025-02-07 10:57:30.521847+00	39
+3	2025-02-07 11:10:42.051096+00	41
+4	2025-02-07 14:30:30.171476+00	43
 \.
 
 
@@ -799,6 +805,10 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 38	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczOTAxMTk5NCwiaWF0IjoxNzM4OTI1NTk0LCJqdGkiOiJjYzg2YmFmZTAwMjA0YjJjYmE5MjNiNTU1MDcwYTU0NiIsInVzZXJfaWQiOjR9.T3af5MRTd6c6_xTmHdsIV-6Ym9leo4SQobmxvO24NQY	2025-02-07 10:53:14.144961+00	2025-02-08 10:53:14+00	4	cc86bafe00204b2cba923b555070a546
 39	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczOTAxMjIxNCwiaWF0IjoxNzM4OTI1ODE0LCJqdGkiOiI4YzAxMjU3ZDZkNjI0ODgxOTNhOWRlMThiZDJmOWQ0YyIsInVzZXJfaWQiOjR9.UsL2O7SGYB3lSvzBjKK9MoZTbfcVAC9Iq2HovngNfrU	2025-02-07 10:56:54.600151+00	2025-02-08 10:56:54+00	4	8c01257d6d62488193a9de18bd2f9d4c
 40	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczOTAxMjUwMCwiaWF0IjoxNzM4OTI2MTAwLCJqdGkiOiI0ZWZhMTY4MTE2MWY0NDE2OWI3NWYwMGJjNmMwYmQ2YyIsInVzZXJfaWQiOjR9.xzfGCKlL7Qz5nlgkMez5bwL_OudCZaFeU5onQqH9LfI	2025-02-07 11:01:40.437519+00	2025-02-08 11:01:40+00	4	4efa1681161f44169b75f00bc6c0bd6c
+41	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczOTAxMjk4MiwiaWF0IjoxNzM4OTI2NTgyLCJqdGkiOiIyMDRmMTUyOGJkYTA0MGRhOGE5MWExYWM3NzY0NGRiYSIsInVzZXJfaWQiOjR9.9_eFxHyLSGlyEwtzn65m8M7atd7SClzLnjUtxzihe-c	2025-02-07 11:09:42.455925+00	2025-02-08 11:09:42+00	4	204f1528bda040da8a91a1ac77644dba
+42	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczOTAxMzA2NiwiaWF0IjoxNzM4OTI2NjY2LCJqdGkiOiJkMjMzMDlmN2Y5OGY0ZDlhYTk5NmM3MGMzMjE4MzdkNiIsInVzZXJfaWQiOjF9.g1f8_U8184gEW72WVbmkZFL-gqTmNQASU9jK-E4xKek	2025-02-07 11:11:06.534929+00	2025-02-08 11:11:06+00	1	d23309f7f98f4d9aa996c70c321837d6
+43	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczOTAyNDg3NywiaWF0IjoxNzM4OTM4NDc3LCJqdGkiOiI4MjhhYmI5NDE1NzI0N2FiYWE1NmJmZjJiOGQ3ZTFjOCIsInVzZXJfaWQiOjF9.MfVO4gaj3g7_B64E8-gy1NT4EZc1ii0iCZKgShN33uc	2025-02-07 14:27:57.095284+00	2025-02-08 14:27:57+00	1	828abb94157247abaa56bff2b8d7e1c8
+44	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczOTEwMTg4NSwiaWF0IjoxNzM5MDE1NDg1LCJqdGkiOiI4OTJhMTEzYzU1NGQ0NGU3YWQxNjY4YjMzOTViNWJhOSIsInVzZXJfaWQiOjF9.FkJHn2YWHUc2MNtKcOIJq5mGSrLLOCV5A7hGgCqA5v4	2025-02-08 11:51:25.407182+00	2025-02-09 11:51:25+00	1	892a113c554d44e7ad1668b3395b5ba9
 \.
 
 
@@ -807,10 +817,10 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 --
 
 COPY public.user_profiles (id, bio, avatar, last_login, email, password, username, first_name, last_name, is_active, is_staff, is_superuser, date_joined, is_online) FROM stdin;
-1	\N		\N	admin@admin.com	pbkdf2_sha256$870000$4vqki67Bgje6kAEJBLkblC$RYC5FVlwIUgeP6mwVUroZI5OcCOo7y94DzTmxUR+ppU=	admin			t	t	t	2025-02-05 13:40:37.505794+00	f
 2	\N	avatars/ava4-bg.webp	\N	yan@gmail.com	pbkdf2_sha256$870000$8JkRKbVV17i70wuMlu10Zl$cdQGKoaiB4bSqv0BTnhjCZerXZ4aD+C1/5JPhw6n9EM=	yan123			t	f	f	2025-02-05 13:41:43.296496+00	f
 3	\N		\N	mary@gmail.com	pbkdf2_sha256$870000$E7KTsoQeRkrUxlh79YCqut$EvJcOpf7iflzEi3hfk+PqVJ+dFjq7VfAtPfuufMuTGA=	mary			t	f	f	2025-02-05 14:25:02.30341+00	f
-4	\N	https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava7-bg.webp	\N	axel@axel.com	pbkdf2_sha256$870000$d3j99WWpWv5IXRbHBhFmMs$oXlVe5136VSDBhdRTLF4pix13xEWDflc5aeNkD3JMmY=	axel	axel		t	f	f	2025-02-07 10:45:26.34544+00	t
+4	\N	https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava7-bg.webp	\N	axel@axel.com	pbkdf2_sha256$870000$d3j99WWpWv5IXRbHBhFmMs$oXlVe5136VSDBhdRTLF4pix13xEWDflc5aeNkD3JMmY=	axel	axel		t	f	f	2025-02-07 10:45:26.34544+00	f
+1	\N		\N	admin@admin.com	pbkdf2_sha256$870000$4vqki67Bgje6kAEJBLkblC$RYC5FVlwIUgeP6mwVUroZI5OcCOo7y94DzTmxUR+ppU=	admin			t	t	t	2025-02-05 13:40:37.505794+00	t
 \.
 
 
@@ -928,28 +938,28 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 1, false);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 2, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 3, true);
 
 
 --
 -- Name: scores_score_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.scores_score_id_seq', 1, false);
+SELECT pg_catalog.setval('public.scores_score_id_seq', 1, true);
 
 
 --
 -- Name: token_blacklist_blacklistedtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 2, true);
+SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 4, true);
 
 
 --
 -- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 40, true);
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 44, true);
 
 
 --
