@@ -3,11 +3,16 @@
 .error-msg
 {
     font-size: 0.600rem;
-    color: indianred;
+    color: indianred !important;
 }
 
 #qrcode
 {
     width: 50%;
     height: auto;
+}
+
+#authenticatorModal p {
+    font-size: small;
+    color: black !important;
 }

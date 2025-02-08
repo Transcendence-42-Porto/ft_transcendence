@@ -79,10 +79,91 @@ h1, h2, h3, h4, h5, h6, span, p {
   /* background-color: #fff; */
 }
 
+.modal-error-msg small{
+  color: indianred !important;
+}
+
 .no-border {
   border: none;
 }
 
 .custom-edit-profile-icon-size {
   font-size: 1.5rem;
+}
+
+#editProfileErrorMsg {
+  font-size: 0.8rem !important;
+  color: indianred !important
+}
+
+#logoutErrorMsg
+{
+  font-size: 0.7rem !important;
+  color: indianred !important
+}
+/* Make the modal content scrollable */
+#gameHistoryModal .modal-body {
+  max-height: 50vh;
+  overflow-y: auto;  /* Adds vertical scrollbar when content overflows */
+}
+
+
+#gameHistoryModal table {
+  width: 100%;
+}
+
+#gameHistoryModal th, #gameHistoryModal td {
+  width: auto;
+  white-space: nowrap;
+}
+
+/* Make the modal body scrollable */
+#friendsListModal .modal-body {
+  max-height: 50vh;  /* 50% of the viewport height, adjust as needed */
+  overflow-y: auto;  /* Adds a vertical scrollbar when content overflows */
+}
+
+/* Ensure the table is full width */
+#friendsListModal table {
+  width: 100%;
+  table-layout: fixed; /* Distributes the width of the table evenly */
+}
+
+/* Optional: Adjust column and row styles for the table */
+#friendsListModal th, #friendsListModal td {
+  width: auto;  /* Adjust width of columns dynamically */
+  white-space: nowrap;  /* Prevent wrapping of table content */
+}
+
+/* Add the bounce effect to the error message */
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Apply the bounce effect */
+#logoutErrorMsg {
+  display: none; /* Initially hidden */
+  animation: bounce 0.5s ease-in-out;
+}
+
+/* Optional: style the error message */
+#logoutErrorMsg {
+  color: red;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
 }

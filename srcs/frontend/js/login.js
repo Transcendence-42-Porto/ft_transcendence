@@ -1,3 +1,6 @@
+import tokenManager from './token.js';
+import CookieManager from './cookieManager.js';
+
 async function onLogin() {
     const email = $('#emailInput').val();
     const password = $('#passwordInput').val();
@@ -15,8 +18,7 @@ async function onLogin() {
         return;
     }
 
-    try {
-        
+    try {   
         const response = await fetch('/api/authentication/sign-in', {
             method: 'POST',
             headers: {
@@ -35,25 +37,47 @@ async function onLogin() {
         }
 
         const data = await response.json();
-        console.log('User authenticated successfully:', data);
-        loadContent('menu');
-        //window.app = new App();
+        if (data.access) {
+            tokenManager.setAccessToken(data.access);
+            
+            CookieManager.setCookie("userId", data.id, 1); 
+            
+            console.log("userId:", CookieManager.getCookie("userId"));
+        }
 
         if (response.ok) {
-            localStorage.setItem('refresh-token', data.refresh);
-            localStorage.setItem('access-token', data.access);
+            const access_token = data.access;
         }
+
+        const authenticatorModal = new bootstrap.Modal(document.getElementById('authenticatorModal'));
+        authenticatorModal.show();
+
     } catch (error) {
         console.error('Error logging in:', error);
     }
 }
 
-
-function displayLoginErrorMessage(message) {
-    $('#error-msg-login').text(message);
-}
+window.onLogin = onLogin;
+window.verifyAuthenticationCode = verifyAuthenticationCode;
 
 function clearLoginFields() {
     $('#emailInput').val('');
     $('#passwordInput').val('');
+}
+
+function verifyAuthenticationCode() {
+    loadContent('menu');
+    
+    const authenticatorModalElement = document.getElementById('authenticatorModal');
+    if (authenticatorModalElement) {
+        const authenticatorModal = bootstrap.Modal.getInstance(authenticatorModalElement);
+        if (authenticatorModal) {
+            authenticatorModal.hide();
+        }
+    }
+}
+
+function displayLoginErrorMessage(msg) {
+    let errorMsg = document.getElementById('error-msg-login');
+    errorMsg.textContent = msg;
 }
