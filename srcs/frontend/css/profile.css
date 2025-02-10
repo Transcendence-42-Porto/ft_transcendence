@@ -167,3 +167,15 @@ h1, h2, h3, h4, h5, h6, span, p {
   font-weight: bold;
   margin-top: 10px;
 }
+
+.custom-button {
+    background-color: #2290f0;
+    color: white;
+    font-weight: bold;
+    margin-top: 20px;
+    border-radius: 4px;
+}
+
+.custom-button:hover {
+  background-color: #176bb5;
+}
