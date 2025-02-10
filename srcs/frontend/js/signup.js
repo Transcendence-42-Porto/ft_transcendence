@@ -9,9 +9,6 @@ async function onSignUp() {
     if (!checkSignupFields(email, name, username, password, confirmPassword))
         return;
     try {
-
-
-
         const response = await fetch('/api/authentication/sign-up', {
             method: 'POST',
             headers: {

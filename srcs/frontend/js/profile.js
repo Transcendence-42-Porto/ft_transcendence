@@ -35,6 +35,22 @@ import tokenManager from "./token.js";
       document.getElementById('profile-email').textContent = email;
     }
 
+    function handleInput() {
+      const searchInput = document.getElementById('searchFriendInput');
+      if (searchInput.value.trim() === '') {
+          loadFriendsList();
+      } else {
+          searchFriend();
+      }
+    }
+  
+    function handleFocusOut() {
+        const searchInput = document.getElementById('searchFriendInput');
+        if (searchInput.value.trim() === '') {
+            loadFriendsList();
+        }
+    }
+  
     async function loadEditProfile() {
       try {
         const data = await loadPersonalInfo();
@@ -106,7 +122,7 @@ import tokenManager from "./token.js";
     
     async function searchFriend() {
       try {
-        const searchInput = document.getElementById('searchFriendInput').value;
+        const searchInput = document.getElementById('searchFriendInput').value.trim();
         if (!searchInput) return;
     
         const users = await fetch(`/api/users/`, {
@@ -124,30 +140,36 @@ import tokenManager from "./token.js";
           tableBody.empty();
     
           const personalData = await loadPersonalInfo();
-          
+    
           const matchingUser = dataUsers.find(user => user.username.toLowerCase().includes(searchInput.toLowerCase()));
           const currentUserId = CookieManager.getCookie('userId');
-          const isAlreadyFriend = personalData.friends.some(friend => friend.username === searchInput);
     
-          if (matchingUser && matchingUser.id != currentUserId && !isAlreadyFriend) {
-            const statusColor = matchingUser.isOnline ? 'green' : 'red';
-            const truncatedEmail = matchingUser.email.length > 12 ? matchingUser.email.substring(0, 12) + '...' : matchingUser.email;
-            const newRow = `
-              <tr>
-                <td><img src="${matchingUser.avatar}" class="rounded-circle img-fluid" width="50" /></td>
-                <td>${matchingUser.username}</td>
-                <td>
-                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="${matchingUser.email}" style="color: black !important">
-                      ${truncatedEmail}
-                    </span>
-                </td>
-                <td><span class="status-bullet" style="width: 10px; height: 10px; background-color: ${statusColor}; border-radius: 50%; display: inline-block;"></span></td>
-                <td>
-                  <button class="btn btn-success btn-sm" onclick="addFriend('${matchingUser.username}')">Add Friend</button>
-                </td>
-              </tr>
-            `;
-            tableBody.append(newRow);
+          if (matchingUser && matchingUser.id !== currentUserId) {
+            const isAlreadyFriend = personalData.friends.some(friend => friend.username === matchingUser.username);
+    
+            if (!isAlreadyFriend) {
+              const statusColor = matchingUser.isOnline ? 'green' : 'red';
+              const truncatedEmail = matchingUser.email.length > 12 ? matchingUser.email.substring(0, 12) + '...' : matchingUser.email;
+              const newRow = `
+                <tr>
+                  <td><img src="${matchingUser.avatar}" class="rounded-circle img-fluid" width="50" /></td>
+                  <td>${matchingUser.username}</td>
+                  <td>
+                      <span data-bs-toggle="tooltip" data-bs-placement="top" title="${matchingUser.email}" style="color: black !important">
+                        ${truncatedEmail}
+                      </span>
+                  </td>
+                  <td><span class="status-bullet" style="width: 10px; height: 10px; background-color: ${statusColor}; border-radius: 50%; display: inline-block;"></span></td>
+                  <td>
+                    <button class="btn btn-success btn-sm" onclick="addFriend('${matchingUser.username}')">Add Friend</button>
+                  </td>
+                </tr>
+              `;
+              tableBody.append(newRow);
+            } else {
+              const noResultRow = `<tr><td colspan="5" class="text-center text-muted modal-error-msg"><small>User is already your friend.</small></td></tr>`;
+              tableBody.append(noResultRow);
+            }
           } else {
             const noResultRow = `<tr><td colspan="5" class="text-center text-muted modal-error-msg"><small>No user found with that username.</small></td></tr>`;
             tableBody.append(noResultRow);
@@ -212,6 +234,8 @@ window.openEditProfileModal = openEditProfileModal;
 window.searchFriend = searchFriend;
 window.addFriend = addFriend;
 window.getRandomAvatar = getRandomAvatar;
+window.handleInput = handleInput;
+window.handleFocusOut = handleFocusOut;
 
 function convertToBase64(file) {
   return new Promise((resolve, reject) => {
