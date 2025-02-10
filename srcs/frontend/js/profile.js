@@ -1,7 +1,5 @@
 import CookieManager from "./cookieManager.js";
 import tokenManager from "./token.js";
-    // Função para carregar a lista de amigos
-    
 
     async function loadPersonalInfo() {
       let data = ""; 
@@ -24,7 +22,8 @@ import tokenManager from "./token.js";
 
     async function loadProfile() {
       const data = await loadPersonalInfo(); 
-
+      if(data == "")
+        loadContent('login');
       const profilePic = data.avatar ? data.avatar : getRandomAvatar();
       const name = data.name ? data.name : data.username;
       const username = "@"+ data.username;
@@ -38,37 +37,30 @@ import tokenManager from "./token.js";
 
     async function loadEditProfile() {
       try {
-        const data = await loadPersonalInfo(); // Fetch the data from your API
+        const data = await loadPersonalInfo();
+        const profilePic = data.avatar || getRandomAvatar();
+        const name = data.name || "";
+        const username = data.username ? "@" + data.username : "";
+        const email = data.email || "";
     
-        // Handle API data and provide fallback values
-        const profilePic = data.avatar || getRandomAvatar(); // Default avatar if not provided
-        const name = data.name || ""; // Default empty name
-        const username = data.username ? "@" + data.username : ""; // Default empty username
-        const email = data.email || ""; // Default empty email
-    
-        // Populate modal fields with fetched data
         document.getElementById('editProfilePic').src = profilePic;
         document.getElementById('editName').value = name;
         document.getElementById('editUsername').value = username;
         document.getElementById('editEmail').value = email;
       } catch (error) {
         console.error("Error loading profile data:", error);
-        // Optionally, display an error message in the modal or alert the user
       }
     }
 
     async function loadFriendsList() {
-      const data = await loadPersonalInfo(); // Carregar as informações pessoais
+      const data = await loadPersonalInfo();
       const tableBody = $('#friendsListModal tbody');
-      let friends = 0; // Contador de amigos
-      tableBody.empty(); // Limpar a tabela
+      let friends = 0;
+      tableBody.empty();
     
-      // Verificar se existem amigos
       if (data && data.friends && data.friends.length > 0) {
-        // Iterar sobre os amigos
         for (let friend of data.friends) {
           try {
-            // Obter os detalhes de cada amigo
             const friendResponse = await fetch(`/api/users/${friend.id}/`, {
               method: 'GET',
               headers: {
@@ -77,9 +69,9 @@ import tokenManager from "./token.js";
             });
     
             if (friendResponse.ok) {
-              friends++; // Incrementa o contador de amigos
+              friends++;
               const friendData = await friendResponse.json();
-              const avatar = friendData.avatar ? friendData.avatar : getRandomAvatar(); // Obter avatar ou usar um aleatório
+              const avatar = friendData.avatar ? friendData.avatar : getRandomAvatar();
               const statusColor = friendData.isOnline ? 'green' : 'red';
               const truncatedEmail = friendData.email.length > 12 ? friendData.email.substring(0, 12) + '...' : friendData.email;
               const friendRow = `
@@ -95,21 +87,19 @@ import tokenManager from "./token.js";
                   <td><button class="btn btn-danger btn-sm" onclick="excludeFriend('${friendData.id}')">Exclude</button></td>
                 </tr>
               `;
-              tableBody.append(friendRow); // Adicionar linha na tabela
+              tableBody.append(friendRow);
             }
           } catch (error) {
-            console.error('Error fetching friend data:', error); // Tratamento de erro na chamada da API
+            console.error('Error fetching friend data:', error);
           }
         }
       }
     
-      // Caso não haja amigos
       if (friends === 0) {
         const noFriendsRow = `<tr><td colspan="5" class="text-center text-muted modal-error-msg"><small>Ops! You have no friends yet.</small></td></tr>`;
         tableBody.append(noFriendsRow);
       }
     
-      // Exibir o modal de amigos
       const friendsModal = new bootstrap.Modal(document.getElementById('friendsListModal'));
       friendsModal.show();
     }
@@ -117,9 +107,8 @@ import tokenManager from "./token.js";
     async function searchFriend() {
       try {
         const searchInput = document.getElementById('searchFriendInput').value;
-        if (!searchInput) return; // Don't proceed if search input is empty
+        if (!searchInput) return;
     
-        // Fetch all users
         const users = await fetch(`/api/users/`, {
           method: 'GET',
           headers: {
@@ -132,19 +121,15 @@ import tokenManager from "./token.js";
           let dataUsers = await users.json();
     
           const tableBody = $('#friendsListModal tbody');
-          tableBody.empty(); // Clear existing rows
+          tableBody.empty();
     
-          // Load personal data
           const personalData = await loadPersonalInfo();
-          console.log(personalData);
           
-          // Find the matching user based on the search input
           const matchingUser = dataUsers.find(user => user.username.toLowerCase().includes(searchInput.toLowerCase()));
           const currentUserId = CookieManager.getCookie('userId');
           const isAlreadyFriend = personalData.friends.some(friend => friend.username === searchInput);
     
-          // If a matching user is found and they are not already a friend, add a row to the table
-          if (matchingUser && matchingUser.id !== currentUserId && !isAlreadyFriend) {
+          if (matchingUser && matchingUser.id != currentUserId && !isAlreadyFriend) {
             const statusColor = matchingUser.isOnline ? 'green' : 'red';
             const truncatedEmail = matchingUser.email.length > 12 ? matchingUser.email.substring(0, 12) + '...' : matchingUser.email;
             const newRow = `
@@ -163,8 +148,7 @@ import tokenManager from "./token.js";
               </tr>
             `;
             tableBody.append(newRow);
-          } else if (!matchingUser || isAlreadyFriend) {
-            // If no matching user is found
+          } else {
             const noResultRow = `<tr><td colspan="5" class="text-center text-muted modal-error-msg"><small>No user found with that username.</small></td></tr>`;
             tableBody.append(noResultRow);
           }
@@ -195,21 +179,6 @@ async function addFriend(friendUsername) {
       const data = response.json();
       loadFriendsList();
       console.log(data);
-    } 
-    else {
-      console.error("Error excluding friend:", response.statusText);
-      const users = await fetch(`/api/users/`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${tokenManager.getAccessToken()}`,
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (users.ok) {
-        let dataUsers = await users.json();
-        console.log(dataUsers);
-      }
     }
   }
   catch (error)
@@ -247,7 +216,7 @@ window.getRandomAvatar = getRandomAvatar;
 function convertToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result.split(',')[1]); // Get base64 string
+    reader.onloadend = () => resolve(reader.result.split(',')[1]);
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
@@ -256,7 +225,7 @@ function convertToBase64(file) {
 // Function to upload image to BBImage
 async function uploadImage() {
   const fileInput = document.getElementById('editProfilePic');
-  const file = fileInput.files[0]; // Get the file from the input field
+  const file = fileInput.files[0]; 
 
   if (!file) {
     console.error('No file selected');
@@ -264,7 +233,7 @@ async function uploadImage() {
   }
 
   try {
-    const base64Image = await convertToBase64(file); // Convert image to base64
+    const base64Image = await convertToBase64(file);
     const formData = new FormData();
     formData.append('image', base64Image);
 
@@ -276,12 +245,12 @@ async function uploadImage() {
 
     const data = await response.json();
     if (data.success) {
-      const imageUrl = data.data.url; // The URL of the uploaded image
+      const imageUrl = data.data.url;
       console.log("Image uploaded successfully:", imageUrl);
-      return imageUrl; // Return the URL for further use
+      return imageUrl;
     } else {
       console.error('Image upload failed:', data.error);
-      return null; // Return null if upload fails
+      return null;
     }
   } catch (error) {
     console.error('Error uploading image:', error);
@@ -295,7 +264,6 @@ async function onEditFormSubmit() {
     let newEmail = document.getElementById('editEmail').value;
     let newUsername = document.getElementById('editUsername').value.replace('@', '');
     let newAvatarFile = await uploadImage();
-    //let newAvatarFile = '';
 
     const userId = CookieManager.getCookie('userId');
     if (!userId) {
@@ -361,14 +329,12 @@ async function excludeFriend(id) {
   const data = await loadPersonalInfo();
   const friendId = Number(id);
 
-  // Verificar se o amigo está na lista de amigos
   const friend = data.friends.find(friend => friend.id === friendId);
   if (!friend) {
     console.error("Friend not found.");
     return;
   }
 
-  // Enviar a atualização da lista de amigos via PATCH
   const response = await fetch(`/api/users/remove-friends`, {
     method: 'POST',
     headers: {
@@ -380,12 +346,11 @@ async function excludeFriend(id) {
 
   if (response.ok) {
     console.log('Friend excluded successfully!');
-    loadFriendsList(); // Atualiza a lista de amigos
+    loadFriendsList();
   } else {
     console.error("Error excluding friend:", response.statusText);
   }
 }
-
 
 async function onLogout() {
   const logoutErrorMsg = document.getElementById('logoutErrorMsg');
@@ -431,68 +396,21 @@ async function onLogout() {
   }
 }
 
-
-// Ensure CookieManager and tokenManager are defined or imported properly at the top
-
-async function addScore() {
-  console.log("[TEST] adding dummy score");
-
-  // Check if CookieManager and tokenManager are available
-  const userId = CookieManager.getCookie('userId');
-  if (!userId) {
-    console.error('No userId found in cookies');
-    return;
-  }
-  
-  // Ensure tokenManager.getAccessToken() is available
-  const accessToken = tokenManager.getAccessToken();
-  if (!accessToken) {
-    console.error('No access token found');
-    return;
-  }
-  
-  // Send the POST request with the dummy score
-  try {
-    const response = await fetch(`/api/scores/add/`, {
-      method: 'POST', // Use POST instead of GET when sending data
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ user: userId, opponent: "ziliolu", user_score: 5, opponent_score: 4})
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-    } else {
-      console.error('Failed to add score:', response.statusText);
-    }
-  } catch (error) {
-    console.error('Error in fetch request:', error);
-  }
-}
-
 async function loadGameHistory() {
-
-  await addScore();  // Presumo que esta função seja para adicionar um novo score
 
   const data = await loadPersonalInfo();
   const scores = data.scores;
 
-  // Limpa o conteúdo da tabela para evitar duplicação
   const tableBody = document.querySelector('#gameHistoryModal tbody');
   tableBody.innerHTML = '';
 
-  // Itera sobre os scores e cria as linhas da tabela
   scores.forEach(score => {
       const date = new Date(score.date);
-      const dateString = date.toISOString().split('T')[0];  // Formato YYYY-MM-DD
-      const timeString = date.toTimeString().split(' ')[0];  // Formato HH:MM:SS
+      const dateString = date.toISOString().split('T')[0];
+      const timeString = date.toTimeString().split(' ')[0];
       const scoreString = `${score.user_score}-${score.opponent_score}`;
       const opponent = score.opponent;
 
-      // Cria a linha da tabela (tr)
       const row = document.createElement('tr');
       row.innerHTML = `
           <td>${dateString}</td>
@@ -500,8 +418,6 @@ async function loadGameHistory() {
           <td>${scoreString}</td>
           <td>@${opponent}</td>
       `;
-
-      // Adiciona a linha na tabela
       tableBody.appendChild(row);
   });
 }

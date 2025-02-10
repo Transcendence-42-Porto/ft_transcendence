@@ -31,7 +31,8 @@ body
     height: 50vh; /* 60% da altura da tela */
 	margin-bottom: 20vh !important;
 	margin-left: 32.5vw !important;
-    background-color: #03213d;
+    background-color: #042849;
+	/*background-color: #1e293b;*/
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
