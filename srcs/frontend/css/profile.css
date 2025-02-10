@@ -15,10 +15,6 @@ h1, h2, h3, h4, h5, h6, span, p {
   border: none !important;
 }
 
-.custom-edit-profile-icon-size {
-    font-size: 0.9rem;
-}
-
 .no-border {
     border: none;
 }
@@ -39,12 +35,12 @@ h1, h2, h3, h4, h5, h6, span, p {
 }
 
 .card-profile h5 {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   margin-top: 10px;
 }
 
 .card-profile p {
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 
 .card.mt-4 {
@@ -80,7 +76,7 @@ h1, h2, h3, h4, h5, h6, span, p {
 }
 
 .modal-error-msg small{
-  color: indianred !important;
+  color: #176bb5 !important;
 }
 
 .no-border {
@@ -88,18 +84,18 @@ h1, h2, h3, h4, h5, h6, span, p {
 }
 
 .custom-edit-profile-icon-size {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
 
 #editProfileErrorMsg {
   font-size: 0.8rem !important;
-  color: indianred !important
+  color: #176bb5 !important
 }
 
 #logoutErrorMsg
 {
   font-size: 0.7rem !important;
-  color: indianred !important
+  color: #176bb5 !important
 }
 /* Make the modal content scrollable */
 #gameHistoryModal .modal-body {
@@ -162,7 +158,7 @@ h1, h2, h3, h4, h5, h6, span, p {
 
 /* Optional: style the error message */
 #logoutErrorMsg {
-  color: red;
+  color: #176bb5;
   font-size: 16px;
   font-weight: bold;
   margin-top: 10px;
@@ -178,4 +174,12 @@ h1, h2, h3, h4, h5, h6, span, p {
 
 .custom-button:hover {
   background-color: #176bb5;
+}
+
+.edit-profile-custom {
+  --bs-btn-color: #2290f0 !important;
+  --bs-btn-border-color: #2290f0 !important;
+  --bs-btn-hover-color: #ffffff !important;
+  --bs-btn-hover-bg: #176bb5 !important;
+  --bs-btn-font-size: 0.75rem !important
 }
