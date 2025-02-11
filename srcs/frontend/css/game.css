@@ -145,3 +145,80 @@ canvas {
 #player1::placeholder {
     color: #00a2ff; /* Altere para a cor desejada */
 }
+
+/** Tournament Bracket CSS */
+
+.tournament-bracket {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 20px;
+  }
+  
+  .bracket-round {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+.match {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    padding: 20px;
+    min-width: 160px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    background-color: #222;
+    color: #fff;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .match {
+        min-width: 120px;
+        font-size: 16px;
+        padding: 15px;
+    }
+}
+  
+  .match.winner {
+    background-color: #4CAF50;
+  }
+  
+  .match:after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 30px;
+    background-color: white;
+    top: 50%;
+    left: 100%;
+  }
+  
+  .match:last-child:after {
+    display: none;
+  }
+  
+  @media (max-width: 768px) {
+    .tournament-bracket {
+      flex-direction: column;
+    }
+  
+    .bracket-round {
+      flex-direction: row;
+    }
+  
+    .match {
+      min-width: 80px;
+      font-size: 14px;
+    }
+  }
+  
