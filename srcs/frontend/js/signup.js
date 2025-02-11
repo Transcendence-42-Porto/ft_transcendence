@@ -1,10 +1,10 @@
 async function onSignUp() {
 
-    const email = $('#emailSignUp').val();
-    const name = $('#nameSignUp').val();
-    const username = $('#usernameSignUp').val();
-    const password = $('#passwordSignUp').val();
-    const confirmPassword = $('#confirmPasswordSignUp').val();
+    const email = $('#emailSignUp').val().trim();
+    const name = $('#nameSignUp').val().trim();
+    const username = $('#usernameSignUp').val().trim();
+    const password = $('#passwordSignUp').val().trim();
+    const confirmPassword = $('#confirmPasswordSignUp').val().trim();
 
     if (!checkSignupFields(email, name, username, password, confirmPassword))
         return;
@@ -105,6 +105,11 @@ function checkSignupFields(email, name, username, password, confirmPassword) {
         displaySignupErrorMessage('Ops! Confirm Password field is empty.');
         return false;
     }
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailRegex.test(email)) {
+        displaySignupErrorMessage('Ops! Please enter a valid email address.');
+        return false;
+    }
     if (password !== confirmPassword) {
         displaySignupErrorMessage('Ops! Passwords do not match.');
         return false;
@@ -113,8 +118,10 @@ function checkSignupFields(email, name, username, password, confirmPassword) {
         displaySignupErrorMessage('Ops! Password must have at least 8 characters.');
         return false;
     }
+
     return true;
 }
+
 
 function displaySignupErrorMessage(message) {
     $('#error-msg-signup').text(message);

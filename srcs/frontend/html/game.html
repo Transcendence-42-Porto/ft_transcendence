@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../css/game.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+  <div id="bracketContainer" class="tournament-bracket" style="display: none;"></div>
+
+  <div class="game-config">
+    <div class="position-absolute" style="top: 6%; left: 4%; cursor: pointer;">
+      <i class="fas fa-user-circle fa-2x" onclick="loadContent('profile')"></i>
+    </div> 
+    <h1>Pong Game</h1>
+    <form id="gameSettings">
+      <div class="form-group">
+        <label>Game Mode:</label>
+        <div class="game-mode">
+          <button type="button" class="mode-btn active" data-mode="singleplayer">Singleplayer</button>
+          <button type="button" class="mode-btn" data-mode="multiplayer">Multiplayer</button>
+          <!-- Add Tournament button -->
+          <button type="button" class="mode-btn" data-mode="tournament">Tournament</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="maxScore">Max Score:</label>
+        <select id="maxScore">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="player1">Player 1:</label>
+        <input type="text" id="player1" placeholder="Player 1 name" required pattern="[A-Za-z0-9]{1,7}" maxlength="7">
+      </div>
+
+      <div class="form-group" id="player2Group" style="display: none;">
+        <label for="player2">Player 2:</label>
+        <input type="text" id="player2" placeholder="Player 2 name" required pattern="[A-Za-z0-9]{1,7}" maxlength="7">
+      </div>
+
+      <div class="form-group" id="difficultyGroup" style="display: none;">
+        <label for="difficulty">Difficulty:</label>
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="tournamentGroup" style="display: none;">
+        <label>Tournament Players (2-8):</label>
+        <div id="playerEntries">
+          <input type="text" id="newPlayer" placeholder="Player name" pattern="[A-Za-z0-9]{1,7}" maxlength="7">
+            <button type="button" id="addPlayer" class="add-btn">Add Player</button>
+        </div>
+        <div id="playerList" class="player-list"></div>
+      </div>
+
+      <button type="submit" class="start-btn">Start Game</button>
+    </form>
+  </div>
+
+  <canvas id="gameCanvas" style="display: none;"></canvas>
+  <button id="restartBtn" style="display: none;">Restart</button>
+
+  <script src="../js/game.js"></script>
+</body>
+
+</html>

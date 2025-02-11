@@ -1,6 +1,7 @@
 class TokenManager {
     constructor() {
-        this.accessToken = null; // Initialize the access token as null
+        // Initialize the access token by checking sessionStorage (or fallback to null)
+        this.accessToken = sessionStorage.getItem('accessToken') || null;
     }
 
     /**
@@ -9,6 +10,8 @@ class TokenManager {
      */
     setAccessToken(token) {
         this.accessToken = token;
+        // Save the token in sessionStorage so it persists during the session
+        sessionStorage.setItem('accessToken', token);
     }
 
     /**
@@ -24,6 +27,8 @@ class TokenManager {
      */
     clearAccessToken() {
         this.accessToken = null;
+        // Remove the token from sessionStorage
+        sessionStorage.removeItem('accessToken');
     }
 }
 

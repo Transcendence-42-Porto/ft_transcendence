@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./css/profile.css">
   <!-- Link para o Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
@@ -15,6 +16,10 @@
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-md-12">
+          <div class="position-absolute" style="top: 6%; left: 4%; cursor: pointer;">
+            <i class="fas fa-gamepad fa-2x text-white" onclick="loadContent('game')"></i>
+          </div>
+          
           <!-- Profile Card -->
           <div class="card card-profile no-border position-relative">
             <div class="card-body text-center">
@@ -34,36 +39,28 @@
                     <div class="modal-body">
                       Are you sure you want to logout?
                     </div>
+                    <div class="mb-3">
+                      <span id="logoutErrorMsg"></span>
+                    </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                      <button type="button" class="btn btn-primary" id="confirmLogoutButton">Logout</button>
+                      <button type="button" class="btn btn-primary" style="background-color: #2290f0; border: 1px solid #2290f0;" id="confirmLogoutButton" onclick="onLogout()">Logout</button>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <script>
-                document.querySelector('.logout-icon').addEventListener('click', function() {
-                  var logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-                  logoutModal.show();
-                });
-
-                document.getElementById('confirmLogoutButton').addEventListener('click', function() {
-                  // Add your logout logic here
-                  window.location.href = '/logout'; // Example redirect to logout endpoint
-                });
-              </script>
               </div>
 
               <div class="mt-2 mb-2">
-                <img id="profile-pic" src="" class="rounded-circle img-fluid" />
+                <img id="profile-pic" class="mb-2" src="" class="rounded-circle" style="width: 4vw; height: 4vw; object-fit: cover;" />
               </div>
+              
               <div class="mb-2 pb-1">
-                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary btn-floating btn-sm no-border" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="edit-profile-custom btn btn-outline-primary btn-floating btn-sm no-border" onclick="openEditProfileModal()">
                   <i class="bi bi-pencil-square custom-edit-profile-icon-size"></i>
                 </button>
               </div>
-              <h5 class="mb-2" id="profile-name"></h5>
+              <h5 class="mt-3 mb-2" id="profile-name"></h5>
               <p class="text-muted mb-3">
                 <span id="profile-username"></span> <span class="mx-2">|</span>
                 <span id="profile-email"></span>
@@ -72,10 +69,10 @@
           </div>
 
           <div>
-            <button type="button" onclick="loadFriendsList();" class="btn btn-primary">
+            <button type="button" onclick="loadFriendsList();" class="custom-button">
               Friends
             </button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gameHistoryModal">
+            <button type="button" onclick="loadGameHistory()" class="custom-button" data-bs-toggle="modal" data-bs-target="#gameHistoryModal">
               Game history
             </button>
           </div>
@@ -114,13 +111,18 @@
               <label for="editHandle" class="form-label">Username</label>
               <input type="text" class="form-control" id="editUsername" value="" />
             </div>
+            <div class="mb-3">
+              <span id="editProfileErrorMsg"></span>
+            </div>
           </form>
         </div>
+        
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" form="editProfileForm" class="btn btn-primary" onclick="onEditFormSubmit()">Save changes</button>
+          <button type="button" form="editProfileForm" class="btn btn-primary" onclick="onEditFormSubmit()">Save changes</button>
         </div>
-      </div>
+
+      </div>  
     </div>
   </div>
 
@@ -132,8 +134,8 @@
         <div class="modal-header d-flex justify-content-between align-items-center">
           <h6 class="modal-title" id="friendsListModalLabel" style="color: black; margin-right: 70px">Friends List</h6>
             <div class="input-group ms-auto w-50">
-            <input type="text" class="form-control" placeholder="Search for a friend" id="searchFriendInput">
-            <button class="btn btn-outline-secondary" type="button" id="searchFriendButton">
+            <input type="text" class="form-control" placeholder="Search for a friend" id="searchFriendInput" onchange="loadFriendsList()">
+            <button class="btn btn-outline-secondary" type="button" id="searchFriendButton" onclick="searchFriend()">
               <i class="bi bi-search"></i>
             </button>
             </div>
@@ -144,18 +146,19 @@
           <table class="table table-hover">
             <thead>
               <tr>
-                <th scope="col">Profile Picture</th>
+                <th scope="col">Avatar</th>
                 <th scope="col">Username</th>
                 <th scope="col">Email</th>
+                <th scope="col">Status</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
               <!-- Example row -->
               <tr>
-                <td><img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp" class="rounded-circle img-fluid" width="50" /></td>
-                <td>John Doe</td>
-                <td>@johndoe</td>
+                <td><img src="" class="rounded-circle img-fluid" width="50" /></td>
+                <td></td>
+                <td></td>
                 <td><button class="btn btn-danger btn-sm" onclick="excludeFriend()">Exclude</button></td>
               </tr>
               <!-- Repeat rows as needed -->

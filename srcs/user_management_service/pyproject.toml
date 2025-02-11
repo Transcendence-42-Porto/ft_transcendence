@@ -21,9 +21,13 @@ pyaml = "14.04.3" #render the OpenAPI view
 uritemplate = "4.1.1" #render the OpenAPI view
 drf-spectacular = { version = "0.27.2", extras = ["swagger-ui"] } # provide more control on OpenAPI views with Swagger UI
 django = "^5.1.3"
+<<<<<<< HEAD
 qrcode = "^8.0"
 pyotp = "^2.9.0"
 pyjwt = "2.6.0"
+=======
+requests = "2.32.3"
+>>>>>>> main
 
 
 [tool.poetry.group.dev.dependencies]
