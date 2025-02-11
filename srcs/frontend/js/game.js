@@ -4,48 +4,73 @@ import tokenManager from "./token.js";
 class Tournament {
   constructor(players) {
     this.players = this.shufflePlayers(players);
-    this.rounds = [];
+    this.rounds = this.generateBracket();
     this.currentRound = 0;
     this.currentMatchIndex = 0;
-    this.generateBracket();
   }
 
   shufflePlayers(players) {
     return players.sort(() => Math.random() - 0.5);
   }
 
+  
+
   generateBracket() {
-    let bracket = [this.players.map((player) => ({ player, score: 0 }))];
+    const numPlayers = this.players.length;
+    let bracket = [];
 
-    while (bracket[0].length > 1) {
-      const newRound = [];
-      for (let i = 0; i < bracket[0].length; i += 2) {
-        newRound.push({
-          players: [bracket[0][i], bracket[0][i + 1]],
-          winner: null,
-        });
-      }
-      bracket.unshift(newRound);
+    // Helper function to create a match structure
+    const createMatch = (matchName, players) => ({
+      match: matchName,
+      players: players || [null, null], // If no players, we set as null for later
+      winner: null,
+    });
+
+    if (numPlayers === 4) {
+      // For 4 players, we create a semi-final and final bracket
+      bracket = [
+        createMatch("Semifinal 1", [this.players[0], this.players[1]]),
+        createMatch("Semifinal 2", [this.players[2], this.players[3]]),
+        createMatch("Final"),
+      ];
     }
+    console.log(bracket);
+    return bracket;
+  }
 
-    this.rounds = bracket;
+
+  isPowerOfTwo(n) {
+    return (Math.log2(n) % 1) === 0;
   }
 
   getCurrentMatch() {
     return this.rounds[this.currentRound][this.currentMatchIndex];
   }
 
-  advanceMatch(winner) {
-    const currentMatch = this.getCurrentMatch();
-    currentMatch.winner = winner;
+  // advanceMatch(winner) {
+  //   const currentMatch = this.getCurrentMatch();
+  //   currentMatch.winner = winner;
 
-    if (this.currentMatchIndex < this.rounds[this.currentRound].length - 1) {
-      this.currentMatchIndex++;
-    } else {
-      this.currentRound--;
-      this.currentMatchIndex = 0;
-    }
-  }
+  //   // Avança o vencedor para a próxima fase
+  //   if (this.currentRound > 0) {
+  //     const nextRound = this.rounds[this.currentRound - 1];
+  //     const nextMatchIndex = Math.floor(this.currentMatchIndex / 2);
+
+  //     if (!nextRound[nextMatchIndex].players[0]) {
+  //       nextRound[nextMatchIndex].players[0] = winner;
+  //     } else {
+  //       nextRound[nextMatchIndex].players[1] = winner;
+  //     }
+  //   }
+
+  //   // Passa para o próximo jogo ou avança para a próxima rodada
+  //   if (this.currentMatchIndex < this.rounds[this.currentRound].length - 1) {
+  //     this.currentMatchIndex++;
+  //   } else {
+  //     this.currentRound--;
+  //     this.currentMatchIndex = 0;
+  //   }
+  // }
 
   isTournamentOver() {
     return this.currentRound < 0;
@@ -59,78 +84,172 @@ function startTournament(players) {
   playNextMatch(tournament);
 }
 
-function showBracket(tournament) {
-  const bracketHtml = tournament.rounds
-    .map(
-      (round, roundIndex) => `
-    <div class="bracket-round">
-      <h3>${
-        roundIndex === 0
-          ? "Final"
-          : roundIndex === 1
-          ? "Semifinals"
-          : roundIndex === 2
-          ? "Quarterfinals"
-          : `Round ${tournament.rounds.length - roundIndex}`
-      }</h3>
-      ${round
-        .map(
-          (match) => `
-        <div class="matchup">
-          ${match.players
-            .map(
-              (p) => `
-            <div>${p.player} ${p.score}</div>
-          `
-            )
-            .join(" vs ")}
-          ${
-            match.winner
-              ? `<div class="winner">Winner: ${match.winner.player}</div>`
-              : ""
-          }
-        </div>
-      `
-        )
-        .join("")}
-    </div>
-  `
-    )
-    .join("");
-
-  const bracketDiv = document.createElement("div");
-  bracketDiv.className = "tournament-bracket";
-  bracketDiv.innerHTML = bracketHtml;
-  document.body.appendChild(bracketDiv);
-  bracketDiv.style.display = "block";
-}
-
 function playNextMatch(tournament) {
-  if (tournament.isTournamentOver()) {
-    alert(`Tournament winner: ${tournament.rounds[0][0].winner.player}`);
+  // Check if the tournament is over (no more rounds)
+  if (tournament.isTournamentOver() || tournament.currentRound >= tournament.rounds.length) {
+    alert(`Tournament winner: ${tournament.rounds[tournament.rounds.length - 1].winner}`);
     return;
   }
+  // Get players for the current match
+  const player1 = tournament.rounds[tournament.currentRound].players[0];
+  const player2 = tournament.rounds[tournament.currentRound].players[1];
 
-  const currentMatch = tournament.getCurrentMatch();
+  // Create the game configuration
   const config = {
     mode: "tournament",
-    maxScore: 5,
-    player1: currentMatch.players[0].player,
-    player2: currentMatch.players[1].player,
+    maxScore: 1,
+    player1: player1 ? player1 : "Bye",  // If a player is null, treat it as "Bye"
+    player2: player2 ? player2 : "Bye",
     onGameEnd: (winner) => {
-      tournament.advanceMatch(
-        currentMatch.players.find((p) => p.player === winner)
-      );
-      document.getElementById("gameCanvas").style.display = "none";
-      showBracket(tournament);
-      playNextMatch(tournament);
+      // Update the match winner
+      tournament.rounds[tournament.currentRound].winner = winner;
+      tournament.currentRound++;
+
+      // Hide the game canvas and show the updated bracket
+      setTimeout(() => {
+
+        if(tournament.currentRound >= tournament.rounds.length)
+        {
+            const winner = tournament.rounds[tournament.rounds.length - 1].winner;
+            const winnerAnnouncement = document.createElement("div");
+            winnerAnnouncement.style.position = "absolute";
+            winnerAnnouncement.style.top = "50%";
+            winnerAnnouncement.style.left = "50%";
+            winnerAnnouncement.style.transform = "translate(-50%, -50%)";
+            winnerAnnouncement.style.fontSize = "48px";
+            winnerAnnouncement.style.color = "white";
+            winnerAnnouncement.style.textAlign = "center";
+            winnerAnnouncement.style.zIndex = "1000";
+            winnerAnnouncement.textContent = `Tournament winner: ${winner}`;
+            document.body.appendChild(winnerAnnouncement);
+        }
+        else
+        {
+          showBracket(tournament); // Display the updated bracket
+          document.getElementById("gameCanvas").style.display = "none";
+          setTimeout(() => {
+            if(tournament.rounds[tournament.currentRound].match == "Final"){ 
+              verifyPlayersRound(tournament);
+            }
+            playNextMatch(tournament); // Continue to the next match after 3 seconds
+          }, 3000);
+        }
+      }, 3000);
     },
   };
+  
+  // Show the game canvas and start the game
+  document.getElementById('bracketContainer').style.display = "none";
+  announcement(player1, player2, config);
 
-  document.getElementById("gameCanvas").style.display = "block";
-  game(config);
 }
 
+function verifyPlayersRound(tournament){
+  
+    const match = tournament.rounds[tournament.currentRound];
+    const semifinal1Winner = tournament.rounds.find(m => m.match === "Semifinal 1").winner;
+    const semifinal2Winner = tournament.rounds.find(m => m.match === "Semifinal 2").winner;
+    
+    if (semifinal1Winner && semifinal2Winner) {
+      match.players[0] = semifinal1Winner;
+      match.players[1] = semifinal2Winner;
+    }
+}
+
+function announcement(player1, player2, config){
+
+  const announcement = document.createElement("div");
+  announcement.style.position = "absolute";
+  announcement.style.top = "50%";
+  announcement.style.left = "50%";
+  announcement.style.transform = "translate(-50%, -50%)";
+  announcement.style.fontSize = "48px";
+  announcement.style.color = "white";
+  announcement.style.textAlign = "center";
+  announcement.style.zIndex = "1000";
+  announcement.textContent = `${player1} VS ${player2}`;
+  
+  document.body.appendChild(announcement);
+  
+  // Countdown
+  let countdown = 3;
+  const countdownInterval = setInterval(() => {
+    announcement.textContent = `${player1} VS ${player2}\n${countdown}`;
+    countdown--;
+    if (countdown < 0) {
+      clearInterval(countdownInterval);
+      document.body.removeChild(announcement);
+      document.getElementById("gameCanvas").style.display = "block";
+      game(config);
+    }
+  }, 1000);
+}
+
+
+function  showBracket(tournament) {
+  const bracketContainer = document.getElementById("bracketContainer");
+  
+  // Limpar o conteúdo anterior
+  bracketContainer.innerHTML = "";
+
+  // Criar um elemento de tabela para o chaveamento
+  const table = document.createElement("table");
+  table.classList.add("bracket-table");
+  const tbody = document.createElement("tbody");
+
+  // Função para criar uma linha de partida
+  const createMatchRow = (match) => {
+      const row = document.createElement("tr");
+
+      // Criar as células para os jogadores
+      const cell1 = document.createElement("td");
+      const cell2 = document.createElement("td");
+      const cell3 = document.createElement("td");
+      const winnerCell = document.createElement("td");
+
+      // Exibir os jogadores ou "Bye" caso o jogador esteja ausente
+      cell1.textContent = match.players[0] ? match.players[0]: "Bye";
+      cell2.textContent = " vs ";
+      cell3.textContent = match.players[1] ? match.players[1]: "Bye";
+
+      // Exibir o vencedor, se já houver um
+      winnerCell.textContent = match.winner ? `Winner: ${match.winner}` : "No winner yet";
+
+      row.appendChild(cell1);
+      row.appendChild(cell2);
+      row.appendChild(cell3);
+      row.appendChild(winnerCell);
+      
+      return row;
+  };
+
+  // Função para exibir todos os rounds (partidas) no bracket
+  const createBracketRows = (rounds) => {
+      const rows = [];
+      
+      tournament.rounds.forEach((round) => {
+          const matchRow = createMatchRow(round);
+          rows.push(matchRow);
+      });
+
+      return rows;
+  };
+
+  // Exibir cada round
+  const matchRows = createBracketRows(tournament.rounds);
+
+  // Adicionar as linhas da tabela no tbody
+  matchRows.forEach((row) => {
+      tbody.appendChild(row);
+  });
+
+  // Adicionar a tabela no bracketContainer
+  table.appendChild(tbody);
+  bracketContainer.appendChild(table);
+
+  // Tornar o container visível
+  bracketContainer.style.display = "block";
+}
 function game(config) {
   "use strict";
 
@@ -500,22 +619,30 @@ function game(config) {
     ctx.fillText(`${player2Score}`, WIDTH * 0.75, HEIGHT - 15);
 
     // Game over overlay
-    if (isGameOver) {
+    if (isGameOver && !gameOverDisplayed) {
+      gameOverDisplayed = true; // Marca que o overlay já foi exibido
+  
       ctx.fillStyle = "rgba(0,0,0,0.6)";
       ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
+      
       ctx.fillStyle = "#fff";
       ctx.font = "36px Arial";
       ctx.fillText("GAME OVER", WIDTH / 2, HEIGHT / 2 - 20);
-
+      
       const winnerText =
         player1Score >= maxScore
           ? `${player1} venceu!`
           : `${player2 || "IA"} venceu!`;
       ctx.font = "24px Arial";
       ctx.fillText(winnerText, WIDTH / 2, HEIGHT / 2 + 15);
-      await saveResult(player1, player2 || "IA", player1Score, player2Score);
+  
+      setTimeout(() => {
+        const winner = player1Score >= maxScore ? player1 : player2;
+        config.onGameEnd(winner); // Chama a função de callback com o vencedor
+      }, 2000);
     }
+  // Botão de voltar
+ 
   }
 
   /*************************************************************
