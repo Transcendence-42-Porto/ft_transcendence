@@ -3,14 +3,15 @@ from django.utils				import timezone
 from django.conf import settings
 
 class UserLoginManager(models.Manager):
-    def register_user(self, email, key=None):
+    def register_user(self, user_email, key=None):
         user = self.model(
-            email=email,
+            email=user_email,
             secret_key=key,
+            attempts=0,
             last_successful_attempt=timezone.now() - timezone.timedelta(days=365),
             last_failed_attempt=timezone.now() - timezone.timedelta(days=365),
         )
-        user.save(using=self._db)
+        user.save()
         return user
 
 class UserLoginAttempt(models.Model):
