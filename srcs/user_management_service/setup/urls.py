@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from .views import redirect_to_api
+from Two_factor_authentication.views import token_generation
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -28,4 +29,6 @@ urlpatterns = [
     path("api/authentication/", include("authentication.urls")),
     path("api/users/", include("users.urls")),
     path("api/scores/", include("scores.urls")),
+    path("api/qrcode/", include("Two_factor_authentication.urls")),
+    path("api/token_ref/", token_generation.as_view, name='token_generation'),
 ]
