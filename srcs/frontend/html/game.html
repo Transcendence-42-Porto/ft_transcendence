@@ -21,7 +21,7 @@
         <div class="game-mode">
           <button type="button" class="mode-btn active" data-mode="singleplayer">Singleplayer</button>
           <button type="button" class="mode-btn" data-mode="multiplayer">Multiplayer</button>
-          <!-- Add Tournament button -->
+          <button type="button" class="mode-btn" data-mode="2X2">2 X 2</button>
           <button type="button" class="mode-btn" data-mode="tournament">Tournament</button>
         </div>
       </div>
@@ -45,13 +45,14 @@
         <input type="text" id="player2" placeholder="Player 2 name" required pattern="[A-Za-z0-9]{1,7}" maxlength="7">
       </div>
 
-      <div class="form-group" id="difficultyGroup" style="display: none;">
-        <label for="difficulty">Difficulty:</label>
-        <select id="difficulty">
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
+      <div class="form-group" id="player3Group" style="display: none;">
+        <label for="player3">Player 3:</label>
+        <input type="text" id="player3" placeholder="Player 3 name" required pattern="[A-Za-z0-9]{1,7}" maxlength="7">
+      </div>
+
+      <div class="form-group" id="player4Group" style="display: none;">
+        <label for="player4">Player 4:</label>
+        <input type="text" id="player4" placeholder="Player 4 name" required pattern="[A-Za-z0-9]{1,7}" maxlength="7">
       </div>
 
       <div class="form-group" id="tournamentGroup" style="display: none;">
