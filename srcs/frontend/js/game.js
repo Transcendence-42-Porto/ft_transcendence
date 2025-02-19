@@ -302,8 +302,8 @@ function game(config) {
 
   // Add to variables section
   let buttons = {
-    restart: { x: 0, y: 0, w: 150, h: 40, text: "Restart" },
-    menu: { x: 0, y: 0, w: 150, h: 40, text: "Back to Menu" }
+    restart: { x: 0, y: 0, w: 150, h: 40, text: "RESTART" },
+    menu: { x: 0, y: 0, w: 150, h: 40, text: "MENU" }
   };
 
   /*************************************************************

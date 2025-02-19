@@ -64,13 +64,22 @@
         <div id="playerList" class="player-list"></div>
       </div>
 
+      <div class="form-group" id="difficultyGroup" style="display: none;">
+        <label for="difficulty">Difficulty:</label>
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+
       <button type="submit" class="start-btn">Start Game</button>
     </form>
   </div>
 
   <canvas id="gameCanvas" style="display: none;"></canvas>
-  <button id="restartBtn" style="display: none;">Restart</button>
-  <button id="menuBtn" style="display: none;">Back to Menu</button>
+  <button id="restartBtn" style="display: none;">RESTART</button>
+  <button id="menuBtn" style="display: none;">BACK TO MENU</button>
 
   <script src="../js/game.js"></script>
 </body>
