@@ -329,13 +329,21 @@ function game(config) {
 
   // Posições das raquetes
   let player1X = PADDLE_OFFSET;
-  let player1Y = (HEIGHT - PADDLE_HEIGHT * 2 - 20) / 2;
-  let player2X = WIDTH - PADDLE_OFFSET - PADDLE_WIDTH;
-  let player2Y = (HEIGHT - PADDLE_HEIGHT * 2 - 20) / 2;
-  let player3X = PADDLE_OFFSET;
-  let player3Y = player1Y + PADDLE_HEIGHT + 20;
-  let player4X = WIDTH - PADDLE_OFFSET - PADDLE_WIDTH;
-  let player4Y = player2Y + PADDLE_HEIGHT + 20;
+  let player1Y, player2X = WIDTH - PADDLE_OFFSET - PADDLE_WIDTH;
+  let player2Y, player3X, player3Y, player4X, player4Y;
+
+  if (mode === '2X2') {
+    player1Y = (HEIGHT - PADDLE_HEIGHT * 2 - 20) / 2;
+    player3Y = player1Y + PADDLE_HEIGHT + 20;
+    player2Y = (HEIGHT - PADDLE_HEIGHT * 2 - 20) / 2;
+    player4Y = player2Y + PADDLE_HEIGHT + 20;
+    player3X = PADDLE_OFFSET;
+    player4X = WIDTH - PADDLE_OFFSET - PADDLE_WIDTH;
+  } else {
+    player1Y = (HEIGHT - PADDLE_HEIGHT) / 2;
+    player2Y = (HEIGHT - PADDLE_HEIGHT) / 2;
+    player3X = player4X = -100; // Move para fora da tela
+  }
 
   // Controles adicionais
   let aPressed = false;
@@ -466,7 +474,7 @@ function game(config) {
     }
 
     // Limitar movimento para não ultrapassar a raquete do player3
-    if (player1Y + PADDLE_HEIGHT > player3Y) {
+    if (mode === '2X2' && player1Y + PADDLE_HEIGHT > player3Y) {
       player1Y = player3Y - PADDLE_HEIGHT;
     }
     
@@ -500,7 +508,7 @@ function game(config) {
     }
 
     // Limitar movimento para não ultrapassar a raquete do player4
-    if (player2Y + PADDLE_HEIGHT > player4Y) {
+    if (mode === '2X2' && player2Y + PADDLE_HEIGHT > player4Y) {
       player2Y = player4Y - PADDLE_HEIGHT;
     }
     
@@ -665,11 +673,15 @@ function game(config) {
     // Raquetes
     ctx.fillStyle = "#bb66ff"; // Time esquerdo (Player 1 e 3)
     ctx.fillRect(player1X, player1Y, PADDLE_WIDTH, PADDLE_HEIGHT);
-    ctx.fillRect(player3X, player3Y, PADDLE_WIDTH, PADDLE_HEIGHT);
+    if (mode === '2X2') {
+      ctx.fillRect(player3X, player3Y, PADDLE_WIDTH, PADDLE_HEIGHT);
+    }
 
     ctx.fillStyle = "#66ffda"; // Time direito (Player 2 e 4)
     ctx.fillRect(player2X, player2Y, PADDLE_WIDTH, PADDLE_HEIGHT);
-    ctx.fillRect(player4X, player4Y, PADDLE_WIDTH, PADDLE_HEIGHT);
+    if (mode === '2X2') {
+      ctx.fillRect(player4X, player4Y, PADDLE_WIDTH, PADDLE_HEIGHT);
+    }
 
     // Placar
     ctx.font = "30px Arial";
