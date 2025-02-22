@@ -76,7 +76,6 @@ function initializeGameForm() {
       }
     }
   
-  
     window.removePlayer = (index) => {
       tournamentPlayers.splice(index, 1);
       updatePlayerList();
@@ -123,7 +122,12 @@ function initializeGameForm() {
       }
     });
   }
-  
+
+  // function checkPlayersNumber()
+  // {
+
+  // }
+
   window.initializeGameForm = initializeGameForm;
 
   
