@@ -2,11 +2,18 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
-from .serializers import SignInSerializer, SignUpSerializer, SignInResponseSerializer, SignOutSerializer
+from .serializers import (
+    SignInSerializer,
+    SignUpSerializer,
+    SignInResponseSerializer,
+    SignOutSerializer,
+)
 from .models import UserProfile
 from rest_framework_simplejwt.tokens import RefreshToken
 from drf_spectacular.utils import extend_schema
 
+
+# Your existing code
 @extend_schema(
     summary="Sign Up",
     description="Create a user using info passed in the request body.",
@@ -14,10 +21,10 @@ from drf_spectacular.utils import extend_schema
     parameters=None,
     responses={
         201: SignUpSerializer,
-        409: {'description': 'Conflict: Email or username already exists.'},
+        409: {"description": "Conflict: Email or username already exists."},
     },
 )
-@api_view(['POST'])
+@api_view(["POST"])
 @permission_classes([AllowAny])
 def signup_view(request):
     email = request.data.get("email", None)
@@ -45,11 +52,11 @@ def signup_view(request):
     request=SignInSerializer,
     responses={
         200: SignInResponseSerializer,
-        401: {'description': 'Unauthorized: Invalid credentials.'},
-        409: {'description': 'Conflict: Email or username already exists.'},
+        401: {"description": "Unauthorized: Invalid credentials."},
+        409: {"description": "Conflict: Email or username already exists."},
     },
 )
-@api_view(['POST'])
+@api_view(["POST"])
 @permission_classes([AllowAny])
 def signin_view(request):
     serializer = SignInSerializer(data=request.data)
@@ -75,16 +82,17 @@ def signin_view(request):
 
     return Response(response_data, status=status.HTTP_200_OK)
 
+
 @extend_schema(
     summary="Sign Out",
     description="Sign-out a user using the refresh token provided in the request body.",
     request=SignOutSerializer,
     responses={
-        200: {'description': 'Successfully logged out!'},
-        400: {'description': 'Bad request: Invalid or missing refresh token.'},
+        200: {"description": "Successfully logged out!"},
+        400: {"description": "Bad request: Invalid or missing refresh token."},
     },
 )
-@api_view(['POST'])
+@api_view(["POST"])
 def signout_view(request):
     serializer = SignOutSerializer(data=request.data)
 
@@ -92,7 +100,8 @@ def signout_view(request):
         user = request.user
         user.is_online = False
         user.save(update_fields=["is_online"])
-        return Response({"success": "Successfully logged out!"}, status=status.HTTP_200_OK)
+        return Response(
+            {"success": "Successfully logged out!"}, status=status.HTTP_200_OK
+        )
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
