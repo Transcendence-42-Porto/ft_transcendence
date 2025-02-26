@@ -14,11 +14,28 @@ class TokenManager {
         sessionStorage.setItem('accessToken', token);
     }
 
+    async refreshToken(){
+        const response = await fetch(`/api/token_ref/`, {
+            method: 'GET',
+        });
+        if (!response.ok) {
+            throw new Error('Token refresh failed!');
+        }
+        const data = await response.json();
+        if (data.access) {
+            this.setAccessToken(data.access);
+            console.log("Token refreshed");
+            return this.accessToken;
+        } 
+        console.log("Error: token not refreshed. Returning old token");
+        return this.accessToken;
+    }
     /**
      * Get the stored access token.
      * @returns {string|null} - The access token, or null if not set.
      */
     getAccessToken() {
+        console.log("Returning token: ", this.accessToken);
         return this.accessToken;
     }
 

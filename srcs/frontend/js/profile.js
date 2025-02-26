@@ -8,12 +8,26 @@ import tokenManager from "./token.js";
       if (!userId) {
         return;
       }
-      const response = await fetch(`/api/users/${userId}/`, {
+      let response = await fetch(`/api/users/${userId}/`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+            'Content-Type': 'application/json',
         }
       });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+       }
+      // if (response.status === 401) {
+      //   await tokenManager.refreshToken();
+      //   response = await fetch(`/api/users/${userId}/`, {
+      //     method: 'GET',
+      //     headers: {
+      //         'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+      //         'Content-Type': 'application/json',
+      //     }
+      //   });
+      // }
       if (response.ok) {
         data = await response.json();
       }
@@ -169,7 +183,7 @@ async function addFriend(friendUsername) {
     const response = await fetch(`/api/users/add-friends`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+        Authorization: `Bearer ${await tokenManager.getAccessToken()}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username: friendUsername})
@@ -408,6 +422,7 @@ async function loadGameHistory() {
       const date = new Date(score.date);
       const dateString = date.toISOString().split('T')[0];
       const timeString = date.toTimeString().split(' ')[0];
+      const gameType = score.game_type;
       const scoreString = `${score.user_score}-${score.opponent_score}`;
       const opponent = score.opponent;
 
@@ -415,6 +430,7 @@ async function loadGameHistory() {
       row.innerHTML = `
           <td>${dateString}</td>
           <td>${timeString}</td>
+          <td>${gameType}</td>
           <td>${scoreString}</td>
           <td>@${opponent}</td>
       `;

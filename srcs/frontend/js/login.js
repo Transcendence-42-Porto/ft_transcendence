@@ -39,9 +39,8 @@ async function onLogin() {
         const data = await response.json();
         if (data.access) {
             tokenManager.setAccessToken(data.access);
-            
+            console.log("access token:", tokenManager.accessToken);
             CookieManager.setCookie("userId", data.id, 1); 
-            
             console.log("userId:", CookieManager.getCookie("userId"));
         }
 
@@ -87,8 +86,10 @@ async function verifyAuthenticationCode() {
     else 
     {
         const data = await response.json();
-        console.log(data);
-        loadContent('menu');
+        console.log('Code verified. New data:', data);
+        tokenManager.setAccessToken(data.access_token);
+        console.log("access token:", tokenManager.accessToken);
+        loadContent('game');
         const authenticatorModalElement = document.getElementById('authenticatorModal');
         if (authenticatorModalElement) {
             const authenticatorModal = bootstrap.Modal.getInstance(authenticatorModalElement);
@@ -96,7 +97,6 @@ async function verifyAuthenticationCode() {
                 authenticatorModal.hide();
             }
         }
-
     }
 }
 
