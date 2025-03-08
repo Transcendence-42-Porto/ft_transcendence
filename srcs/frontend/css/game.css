@@ -292,3 +292,15 @@ canvas {
   cursor: pointer;
   text-align: center;
 }
+
+.bracket-table {
+  width: 100%;
+  border-collapse: collapse; /* Ensures spacing is consistent */
+}
+
+.bracket-table td {
+  padding: 4px 4px; /* Adjusts vertical and horizontal spacing */
+  text-align: center; /* Centers text for better alignment */
+  font-size: 1.5rem;
+  border: none; /* Optional: Adds borders for better visibility */
+}

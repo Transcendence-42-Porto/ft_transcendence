@@ -174,10 +174,11 @@ function showBracket(tournament) {
     const cell2 = document.createElement("td");
     const cell3 = document.createElement("td");
     const winnerCell = document.createElement("td");
-
+    winnerCell.classList.add("winner-cell");
+    
     // Exibir os jogadores ou "Bye" caso o jogador esteja ausente
     cell1.textContent = match.players[0] ? match.players[0] : "Bye";
-    cell2.textContent = " vs ";
+    cell2.textContent = "vs";
     cell3.textContent = match.players[1] ? match.players[1] : "Bye";
 
     // Exibir o vencedor, se já houver um
