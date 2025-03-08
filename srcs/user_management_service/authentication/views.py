@@ -57,18 +57,6 @@ def signin_view(request):
     if not serializer.is_valid():
         return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
 
-<<<<<<< HEAD
-    data = serializer.validated_data
-    response_data = {
-        'email': str(data['user'].email),
-        'id': str(data['user'].id),
-    }
-
-    # Generate tokens for the authenticated user
-    #refresh = RefreshToken.for_user(data["user"])
-    #response_data["refresh"] = str(refresh)
-    #response_data["access"] = str(refresh.access_token)
-=======
     user = serializer.validated_data["user"]
 
     # Set user online
@@ -85,7 +73,6 @@ def signin_view(request):
         "refresh": str(refresh),
         "access": str(refresh.access_token),
     }
->>>>>>> main
 
     return Response(response_data, status=status.HTTP_200_OK)
 
