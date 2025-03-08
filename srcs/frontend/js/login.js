@@ -29,13 +29,11 @@ async function onLogin() {
                 password
             })
         });
-
         if (!response.ok) {
             clearLoginFields();
             displayLoginErrorMessage('Ops! Your credentials are incorrect. Please try again.');
             throw new Error('Login failed!');
         }
-
         const data = await response.json();
         if (data.access) {
             tokenManager.setAccessToken(data.access);
@@ -43,11 +41,6 @@ async function onLogin() {
             CookieManager.setCookie("userId", data.id, 1); 
             console.log("userId:", CookieManager.getCookie("userId"));
         }
-
-        //if (response.ok) {
-        //    const access_token = data.access;
-        //}
-
         const authenticatorModal = new bootstrap.Modal(document.getElementById('authenticatorModal'));
         authenticatorModal.show();
 

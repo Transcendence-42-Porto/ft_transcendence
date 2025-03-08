@@ -11,23 +11,13 @@ import tokenManager from "./token.js";
       let response = await fetch(`/api/users/${userId}/`, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+            'Authorization': `Bearer ${await tokenManager.getAccessToken()}`,
             'Content-Type': 'application/json',
         }
       });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
        }
-      // if (response.status === 401) {
-      //   await tokenManager.refreshToken();
-      //   response = await fetch(`/api/users/${userId}/`, {
-      //     method: 'GET',
-      //     headers: {
-      //         'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
-      //         'Content-Type': 'application/json',
-      //     }
-      //   });
-      // }
       if (response.ok) {
         data = await response.json();
       }
@@ -78,7 +68,7 @@ import tokenManager from "./token.js";
             const friendResponse = await fetch(`/api/users/${friend.id}/`, {
               method: 'GET',
               headers: {
-                'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+                'Authorization': `Bearer ${await tokenManager.getAccessToken()}`,
               },
             });
     
@@ -126,7 +116,7 @@ import tokenManager from "./token.js";
         const users = await fetch(`/api/users/`, {
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+            Authorization: `Bearer ${await tokenManager.getAccessToken()}`,
             'Content-Type': 'application/json',
           },
         });
@@ -300,7 +290,7 @@ async function onEditFormSubmit() {
       const response = await fetch(`/api/users/${userId}/`, {
         method: 'PATCH',
         headers: {
-          Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+          Authorization: `Bearer ${await tokenManager.getAccessToken()}`,
         },
         body: formData
       });
@@ -352,7 +342,7 @@ async function excludeFriend(id) {
   const response = await fetch(`/api/users/remove-friends`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+      'Authorization': `Bearer ${await tokenManager.getAccessToken()}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ username: friend.username})
@@ -380,7 +370,7 @@ async function onLogout() {
     const response = await fetch(`/api/authentication/sign-out`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+        'Authorization': `Bearer ${await tokenManager.getAccessToken()}`,
       },
     });
 

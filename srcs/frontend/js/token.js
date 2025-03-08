@@ -14,6 +14,24 @@ class TokenManager {
         sessionStorage.setItem('accessToken', token);
     }
 
+    /**
+     * Check if the access token is valid.
+     * @returns {boolean} - True if the token is valid, false otherwise.
+     */
+    isTokenValid() {
+        if (!this.accessToken) {
+            return false;
+        }
+        const payload = JSON.parse(atob(this.accessToken.split('.')[1]));
+        const expiry = payload.exp * 1000;
+        return Date.now() < expiry;
+    }
+
+    /**
+     * Get the stored access token, refreshing it if necessary.
+     * @returns {Promise<string|null>} - The access token, or null if not set.
+     */
+
     async refreshToken(){
         const response = await fetch(`/api/token_ref/`, {
             method: 'GET',
@@ -34,9 +52,11 @@ class TokenManager {
      * Get the stored access token.
      * @returns {string|null} - The access token, or null if not set.
      */
-    getAccessToken() {
-        console.log("Returning token: ", this.accessToken);
-        return this.accessToken;
+    async getAccessToken() {
+        if (this.isTokenValid()) {
+            return this.accessToken;
+        }
+        return await this.refreshToken();
     }
 
     /**

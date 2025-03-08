@@ -849,7 +849,7 @@ async function saveResult(player1Name, player2Name, player1Score, player2Score, 
     const response = await fetch("/api/scores/add/", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+        Authorization: `Bearer ${await tokenManager.getAccessToken()}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(requestBody), // Envia o objeto como JSON
