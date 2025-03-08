@@ -9,7 +9,7 @@
 
 <body>
   <div id="bracketContainer" class="tournament-bracket" style="display: none;"></div>
-
+  <div id="announcementGame" style="display:none"></div>
   <div class="game-config">
     <div class="position-absolute" style="top: 6%; left: 4%; cursor: pointer;">
       <i class="fas fa-user-circle fa-2x" onclick="loadContent('profile')"></i>
@@ -56,10 +56,12 @@
       </div>
 
       <div class="form-group" id="tournamentGroup" style="display: none;">
-        <label>Tournament Players (2-8):</label>
+        <label for="tournamentName">Tournament name:</label>
+        <input type="text" id="tournamentName" placeholder="Tournament name" maxlength="8">
+        <label>Players (4):</label>
         <div id="playerEntries">
           <input type="text" id="newPlayer" placeholder="Player name" pattern="[A-Za-z0-9]{1,7}" maxlength="7">
-            <button type="button" id="addPlayer" class="add-btn">Add Player</button>
+            <button type="button" id="addPlayer" class="add-btn" onclick="">Add Player</button>
         </div>
         <div id="playerList" class="player-list"></div>
       </div>

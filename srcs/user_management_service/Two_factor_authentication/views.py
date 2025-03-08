@@ -104,7 +104,8 @@ class token_generation(APIView):
 		)
 		return response
 
-	def post(self, request):
+	permission_classes = [AllowAny]
+	def get(self, request):
 		refresh_token = request.COOKIES.get('refresh_token')
 		if refresh_token is None:
 			return Response({'error':'Refresh token is required.'}, status=status.HTTP_400_BAD_REQUEST)
