@@ -37,6 +37,7 @@ class TokenManager {
             method: 'GET',
         });
         if (!response.ok) {
+            loadContent('login');
             throw new Error('Token refresh failed!');
         }
         const data = await response.json();

@@ -113,6 +113,10 @@ import tokenManager from "./token.js";
         const searchInput = document.getElementById('searchFriendInput').value;
         if (!searchInput) return;
     
+        // Remove the existing backdrop manually before showing the modal again
+        $('.modal-backdrop').remove(); // Removes any leftover backdrop
+    
+        // Update the modal content
         const users = await fetch(`/api/users/`, {
           method: 'GET',
           headers: {
@@ -128,7 +132,7 @@ import tokenManager from "./token.js";
           tableBody.empty();
     
           const personalData = await loadPersonalInfo();
-          
+    
           const matchingUser = dataUsers.find(user => user.username.toLowerCase().includes(searchInput.toLowerCase()));
           const currentUserId = CookieManager.getCookie('userId');
           const isAlreadyFriend = personalData.friends.some(friend => friend.username === searchInput);
@@ -141,9 +145,9 @@ import tokenManager from "./token.js";
                 <td><img src="${matchingUser.avatar}" class="rounded-circle img-fluid" width="50" /></td>
                 <td>${matchingUser.username}</td>
                 <td>
-                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="${matchingUser.email}" style="color: black !important">
-                      ${truncatedEmail}
-                    </span>
+                  <span data-bs-toggle="tooltip" data-bs-placement="top" title="${matchingUser.email}" style="color: black !important">
+                    ${truncatedEmail}
+                  </span>
                 </td>
                 <td><span class="status-bullet" style="width: 10px; height: 10px; background-color: ${statusColor}; border-radius: 50%; display: inline-block;"></span></td>
                 <td>
@@ -160,10 +164,14 @@ import tokenManager from "./token.js";
         } else {
           console.error("Failed to fetch users:", users.statusText);
         }
+    
+        // Show the modal again after the content is updated
+        $('#friendsListModal').modal('show');
+    
       } catch (error) {
         console.error("Error:", error);
       }
-    }
+    }    
     
 
 async function addFriend(friendUsername) {
