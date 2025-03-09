@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from decouple import config
 from datetime import timedelta
+from vault_connector.vault_connection import get_vault_credentials
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,7 +47,8 @@ INSTALLED_APPS = [
     'authentication',
     'users',
     'scores',
-    'Two_factor_authentication'
+    'Two_factor_authentication',
+    'vault_connector'
 ]
 
 MIDDLEWARE = [
@@ -80,14 +82,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "setup.wsgi.application"
 
+# Database environment variables setup
+db_user, db_password = get_vault_credentials()
 
 # Database
 DATABASES = {
     "default": {
         "ENGINE": config("DB_ENGINE"),
         "NAME": config("POSTGRES_DB"),
-        "USER": config("POSTGRES_USER"),
-        "PASSWORD": config("POSTGRES_PASSWORD"),
+        "USER": db_user,
+        "PASSWORD": db_password,
         "HOST": config("POSTGRES_HOST"),
         "PORT": config("POSTGRES_PORT"),
     }
