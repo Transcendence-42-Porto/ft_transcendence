@@ -84,7 +84,6 @@ function initializeGameForm() {
       }
     }
   
-  
     window.removePlayer = (index) => {
       tournamentPlayers.splice(index, 1);
       updatePlayerList();
@@ -148,7 +147,9 @@ function initializeGameForm() {
           document.getElementById("restartBtn").style.display = "block";
           game(config);
       }
-  });
-}
+    });
+  }
+  
+  window.initializeGameForm = initializeGameForm;
 
-window.initializeGameForm = initializeGameForm;
+  

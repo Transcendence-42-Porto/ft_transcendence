@@ -44,31 +44,6 @@ class Tournament {
     return this.rounds[this.currentRound][this.currentMatchIndex];
   }
 
-  // advanceMatch(winner) {
-  //   const currentMatch = this.getCurrentMatch();
-  //   currentMatch.winner = winner;
-
-  //   // Avança o vencedor para a próxima fase
-  //   if (this.currentRound > 0) {
-  //     const nextRound = this.rounds[this.currentRound - 1];
-  //     const nextMatchIndex = Math.floor(this.currentMatchIndex / 2);
-
-  //     if (!nextRound[nextMatchIndex].players[0]) {
-  //       nextRound[nextMatchIndex].players[0] = winner;
-  //     } else {
-  //       nextRound[nextMatchIndex].players[1] = winner;
-  //     }
-  //   }
-
-  //   // Passa para o próximo jogo ou avança para a próxima rodada
-  //   if (this.currentMatchIndex < this.rounds[this.currentRound].length - 1) {
-  //     this.currentMatchIndex++;
-  //   } else {
-  //     this.currentRound--;
-  //     this.currentMatchIndex = 0;
-  //   }
-  // }
-
   isTournamentOver() {
     return this.currentRound < 0;
   }
@@ -111,20 +86,21 @@ function playNextMatch(tournament) {
 
       // Hide the game canvas and show the updated bracket
       setTimeout(() => {
-        if (tournament.currentRound >= tournament.rounds.length) {
-          const winner = tournament.rounds[tournament.rounds.length - 1].winner;
-          const winnerAnnouncement = document.createElement("div");
-          winnerAnnouncement.style.position = "absolute";
-          winnerAnnouncement.style.top = "50%";
-          winnerAnnouncement.style.left = "50%";
-          winnerAnnouncement.style.transform = "translate(-50%, -50%)";
-          winnerAnnouncement.style.fontSize = "48px";
-          winnerAnnouncement.style.color = "white";
-          winnerAnnouncement.style.textAlign = "center";
-          winnerAnnouncement.style.zIndex = "1000";
-          winnerAnnouncement.textContent = `Tournament winner: ${winner}`;
-          document.body.appendChild(winnerAnnouncement);
-        } else {
+
+        if(tournament.currentRound >= tournament.rounds.length)
+        {
+            document.getElementById("gameCanvas").style.display = "none";
+            const winner = tournament.rounds[tournament.rounds.length - 1].winner;
+            const winnerAnnouncement = document.getElementById("announcementGame");
+            winnerAnnouncement.style.display = "block";
+            winnerAnnouncement.textContent = `${winner} is the winner 🎉`;
+            setTimeout(() => {
+              winnerAnnouncement.style.display = "none";
+              loadContent("game");
+            }, 3000); // Wait for 3 seconds before disappearing
+        }
+        else
+        {
           showBracket(tournament); // Display the updated bracket
           document.getElementById("gameCanvas").style.display = "none";
           setTimeout(() => {
@@ -158,20 +134,12 @@ function verifyPlayersRound(tournament) {
   }
 }
 
-function announcement(player1, player2, config) {
-  const announcement = document.createElement("div");
-  announcement.style.position = "absolute";
-  announcement.style.top = "50%";
-  announcement.style.left = "50%";
-  announcement.style.transform = "translate(-50%, -50%)";
-  announcement.style.fontSize = "48px";
-  announcement.style.color = "white";
-  announcement.style.textAlign = "center";
-  announcement.style.zIndex = "1000";
+function announcement(player1, player2, config){
+
+  const announcement = document.getElementById("announcementGame");
+  announcement.style.display = "block";
   announcement.textContent = `${player1} VS ${player2}`;
-
-  document.body.appendChild(announcement);
-
+  
   // Countdown
   let countdown = 3;
   const countdownInterval = setInterval(() => {
@@ -179,8 +147,8 @@ function announcement(player1, player2, config) {
     countdown--;
     if (countdown < 0) {
       clearInterval(countdownInterval);
-      document.body.removeChild(announcement);
       document.getElementById("gameCanvas").style.display = "block";
+      announcement.style.display = "none";  
       game(config);
     }
   }, 1000);
@@ -684,11 +652,17 @@ function game(config) {
     }
 
     // Placar
-    ctx.font = "30px Arial";
+    ctx.font = "30px Pixel";
     ctx.fillStyle = "#fff";
     ctx.textAlign = "center";
     ctx.fillText(`${player1Score}`, WIDTH * 0.25, HEIGHT - 15);
     ctx.fillText(`${player2Score}`, WIDTH * 0.75, HEIGHT - 15);
+
+    //Player's names
+    ctx.font = "20px Pixel";
+    ctx.fillText(`${player1}`, WIDTH * 0.25, 40);
+    ctx.fillText(`${player2}`, WIDTH * 0.75, 40);
+
 
     // Game over overlay
     if (isGameOver && !gameOverDisplayed) {
@@ -698,14 +672,14 @@ function game(config) {
       ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
       ctx.fillStyle = "#fff";
-      ctx.font = "36px Arial";
+      ctx.font = "36px Pixel";
       ctx.fillText("GAME OVER", WIDTH / 2, HEIGHT / 2 - 20);
 
       const winnerText =
         player1Score >= maxScore
-          ? `${player1} venceu!`
-          : `${player2 || "IA"} venceu!`;
-      ctx.font = "24px Arial";
+          ? `${player1} won 🎉`
+          : `${player2 || "IA"} won 🎉`;
+      ctx.font = "24px Pixel";
       ctx.fillText(winnerText, WIDTH / 2, HEIGHT / 2 + 15);
 
       const canvasStyle = window.getComputedStyle(canvas);
@@ -751,7 +725,8 @@ function game(config) {
       setTimeout(() => {
         const winner = player1Score >= maxScore ? player1 : player2;
         config.onGameEnd(winner); // Chama a função de callback com o vencedor
-      }, 2000);
+      }, 1000);
+      saveResult(player1, player2, player1Score, player2Score, config);
     }
     // Botão de voltar
   }
@@ -852,34 +827,29 @@ function game(config) {
   gameLoop();
 }
 
-async function saveResult(
-  player1Name,
-  player2Name,
-  player1Score,
-  player2Score
-) {
-  let gameType = "AI opponent";
-  let tournamentName = "32";
-  const userId = CookieManager.getCookie("userId");
+async function saveResult(player1Name, player2Name, player1Score, player2Score, config) {
+  let gameType = config.mode;
+  let tournamentName = "42";
+  const userId = CookieManager.getCookie('userId');
   if (!userId) {
     return;
   }
 
   // Crie um objeto com os parâmetros para enviar como corpo da requisição
   const requestBody = {
-    user: userId,
+    user: player1Name,
     opponent: player2Name,
     user_score: player1Score,
     opponent_score: player2Score,
-    game_type: gameType,
-    tournament_name: tournamentName,
+    game_type: gameType.toUpperCase(),
+    tournament_name: tournamentName
   };
 
   try {
     const response = await fetch("/api/scores/add/", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+        Authorization: `Bearer ${await tokenManager.getAccessToken()}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(requestBody), // Envia o objeto como JSON

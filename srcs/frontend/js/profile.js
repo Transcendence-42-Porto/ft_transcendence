@@ -8,12 +8,16 @@ import tokenManager from "./token.js";
       if (!userId) {
         return;
       }
-      const response = await fetch(`/api/users/${userId}/`, {
+      let response = await fetch(`/api/users/${userId}/`, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+            'Authorization': `Bearer ${await tokenManager.getAccessToken()}`,
+            'Content-Type': 'application/json',
         }
       });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+       }
       if (response.ok) {
         data = await response.json();
       }
@@ -64,7 +68,7 @@ import tokenManager from "./token.js";
             const friendResponse = await fetch(`/api/users/${friend.id}/`, {
               method: 'GET',
               headers: {
-                'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+                'Authorization': `Bearer ${await tokenManager.getAccessToken()}`,
               },
             });
     
@@ -109,10 +113,14 @@ import tokenManager from "./token.js";
         const searchInput = document.getElementById('searchFriendInput').value;
         if (!searchInput) return;
     
+        // Remove the existing backdrop manually before showing the modal again
+        $('.modal-backdrop').remove(); // Removes any leftover backdrop
+    
+        // Update the modal content
         const users = await fetch(`/api/users/`, {
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+            Authorization: `Bearer ${await tokenManager.getAccessToken()}`,
             'Content-Type': 'application/json',
           },
         });
@@ -124,7 +132,7 @@ import tokenManager from "./token.js";
           tableBody.empty();
     
           const personalData = await loadPersonalInfo();
-          
+    
           const matchingUser = dataUsers.find(user => user.username.toLowerCase().includes(searchInput.toLowerCase()));
           const currentUserId = CookieManager.getCookie('userId');
           const isAlreadyFriend = personalData.friends.some(friend => friend.username === searchInput);
@@ -137,9 +145,9 @@ import tokenManager from "./token.js";
                 <td><img src="${matchingUser.avatar}" class="rounded-circle img-fluid" width="50" /></td>
                 <td>${matchingUser.username}</td>
                 <td>
-                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="${matchingUser.email}" style="color: black !important">
-                      ${truncatedEmail}
-                    </span>
+                  <span data-bs-toggle="tooltip" data-bs-placement="top" title="${matchingUser.email}" style="color: black !important">
+                    ${truncatedEmail}
+                  </span>
                 </td>
                 <td><span class="status-bullet" style="width: 10px; height: 10px; background-color: ${statusColor}; border-radius: 50%; display: inline-block;"></span></td>
                 <td>
@@ -156,10 +164,14 @@ import tokenManager from "./token.js";
         } else {
           console.error("Failed to fetch users:", users.statusText);
         }
+    
+        // Show the modal again after the content is updated
+        $('#friendsListModal').modal('show');
+    
       } catch (error) {
         console.error("Error:", error);
       }
-    }
+    }    
     
 
 async function addFriend(friendUsername) {
@@ -169,7 +181,7 @@ async function addFriend(friendUsername) {
     const response = await fetch(`/api/users/add-friends`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+        Authorization: `Bearer ${await tokenManager.getAccessToken()}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username: friendUsername})
@@ -286,7 +298,7 @@ async function onEditFormSubmit() {
       const response = await fetch(`/api/users/${userId}/`, {
         method: 'PATCH',
         headers: {
-          Authorization: `Bearer ${tokenManager.getAccessToken()}`,
+          Authorization: `Bearer ${await tokenManager.getAccessToken()}`,
         },
         body: formData
       });
@@ -338,7 +350,7 @@ async function excludeFriend(id) {
   const response = await fetch(`/api/users/remove-friends`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+      'Authorization': `Bearer ${await tokenManager.getAccessToken()}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ username: friend.username})
@@ -366,7 +378,7 @@ async function onLogout() {
     const response = await fetch(`/api/authentication/sign-out`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${tokenManager.getAccessToken()}`,
+        'Authorization': `Bearer ${await tokenManager.getAccessToken()}`,
       },
     });
 
@@ -408,6 +420,7 @@ async function loadGameHistory() {
       const date = new Date(score.date);
       const dateString = date.toISOString().split('T')[0];
       const timeString = date.toTimeString().split(' ')[0];
+      const gameType = score.game_type;
       const scoreString = `${score.user_score}-${score.opponent_score}`;
       const opponent = score.opponent;
 
@@ -415,6 +428,7 @@ async function loadGameHistory() {
       row.innerHTML = `
           <td>${dateString}</td>
           <td>${timeString}</td>
+          <td>${gameType}</td>
           <td>${scoreString}</td>
           <td>@${opponent}</td>
       `;

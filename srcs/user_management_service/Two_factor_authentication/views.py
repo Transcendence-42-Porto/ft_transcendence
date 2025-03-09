@@ -4,11 +4,9 @@ from django.utils				import timezone
 from rest_framework.views		import APIView
 from rest_framework				import status
 from io							import BytesIO
-from .JWTmiddleware				import auth_verif
 import qrcode
 import base64
 import pyotp
-import jwt
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
@@ -42,6 +40,9 @@ class QRVerView(APIView):
 	def post(self, request):
 		user_email = request.data.get("email")
 		code = request.data.get("code")
+		if (user_email is None or code is None):
+			return Response({"error": "Email and code are required"},
+					status=status.HTTP_400_BAD_REQUEST)
 		login_attempt = UserLoginAttempt.objects.get(email=user_email)
 		succ_time_dif = timezone.now() - login_attempt.last_successful_attempt
 		fail_time_dif = timezone.now() - login_attempt.last_failed_attempt 
@@ -104,11 +105,13 @@ class token_generation(APIView):
 		)
 		return response
 
-	def post(self, request):
-		refresh_token = request.COOKIES.get('refresh_token')
-		if refresh_token is None:
-			return Response({'error':'Refresh token is required.'}, status=status.HTTP_400_BAD_REQUEST)
+	permission_classes = [AllowAny]
+	def get(self, request):
+		refresh_token_str = request.COOKIES.get('refresh_token')
+		if refresh_token_str is None:
+			return Response({'error':'Refresh token is required.'}, status=status.HTTP_403_FORBIDDEN)
 		try:
+			refresh_token = RefreshToken(refresh_token_str)
 			#refresh_token = self.gen_refresh_token(old_token.user)
 			#old_token.blacklist() # Add the token to the blacklist provided by the jwt library. This list contains all the invalidated tokens.
 			#response = self.set_refresh_token_cookie("Refresh token sucessfully renewed", refresh_token)
@@ -119,6 +122,6 @@ class token_generation(APIView):
         		})
 			return response
 		except TokenError as e:
-			return Response({'error': e.__str__()}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({'error': e.__str__()}, status=status.HTTP_403_FORBIDDEN)
 		except Exception as e:
-			return Response({'error': e.__str__()}, status = status.HTTP_400_BAD_REQUEST)
+			return Response({'error': e.__str__()}, status = status.HTTP_403_FORBIDDEN)
