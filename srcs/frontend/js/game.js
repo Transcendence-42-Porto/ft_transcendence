@@ -32,7 +32,6 @@ class Tournament {
         createMatch("Final"),
       ];
     }
-    console.log(bracket);
     return bracket;
   }
 
@@ -227,19 +226,9 @@ function game(config) {
 
   const { mode, maxScore, player1, player2, difficulty, player3, player4 } = config;
 
-  console.log(`Game mode: ${mode}`);
-  console.log(`Players: ${player1}, ${player2}, ${player3 || ''}, ${player4 || ''}`);
-
-  // Example function using the destructured variables
-  function startGame() {
-    console.log(
-      `Starting a ${mode} game between ${player1} and ${player2} with a max score of ${maxScore} on ${difficulty} difficulty.`
-    );
-  }
+  function startGame() {}
 
   startGame();
-
-  console.log("[game.js] Iniciando o jogo Pong...");
 
   /*************************************************************
    * Seleciona elementos HTML
@@ -248,7 +237,6 @@ function game(config) {
   const restartBtn = document.getElementById("restartBtn");
   const menuBtn = document.getElementById("menuBtn"); // Novo botão
   if (!canvas || !restartBtn || !menuBtn) {
-    console.error("[game.js] Elementos não encontrados. Abortando...");
     return;
   }
 
@@ -859,9 +847,7 @@ async function saveResult(player1Name, player2Name, player1Score, player2Score, 
       throw new Error("Failed to save game result");
     }
 
-    console.log("Game result saved successfully");
   } catch (error) {
-    console.error("Error saving game result:", error);
   }
 }
 

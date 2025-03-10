@@ -17,7 +17,7 @@
     <h1>Pong Game</h1>
     <form id="gameSettings">
       <div class="form-group">
-        <label>Game Mode:</label>
+        <label class="mb-3">Game Mode:</label>
         <div class="game-mode">
           <button type="button" class="mode-btn active" data-mode="singleplayer">Singleplayer</button>
           <button type="button" class="mode-btn" data-mode="multiplayer">Multiplayer</button>
@@ -58,8 +58,8 @@
       <div class="form-group" id="tournamentGroup" style="display: none;">
         <label for="tournamentName">Tournament name:</label>
         <input type="text" id="tournamentName" placeholder="Tournament name" maxlength="8">
-        <label>Players (4):</label>
         <div id="playerEntries">
+          <label>Players (4):</label>
           <input type="text" id="newPlayer" placeholder="Player name" pattern="[A-Za-z0-9]{1,7}" maxlength="7">
             <button type="button" id="addPlayer" class="add-btn" onclick="">Add Player</button>
         </div>

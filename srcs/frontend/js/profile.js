@@ -52,7 +52,6 @@ import tokenManager from "./token.js";
         document.getElementById('editUsername').value = username;
         document.getElementById('editEmail').value = email;
       } catch (error) {
-        console.error("Error loading profile data:", error);
       }
     }
 
@@ -94,7 +93,6 @@ import tokenManager from "./token.js";
               tableBody.append(friendRow);
             }
           } catch (error) {
-            console.error('Error fetching friend data:', error);
           }
         }
       }
@@ -162,21 +160,18 @@ import tokenManager from "./token.js";
           }
     
         } else {
-          console.error("Failed to fetch users:", users.statusText);
         }
     
         // Show the modal again after the content is updated
         $('#friendsListModal').modal('show');
     
       } catch (error) {
-        console.error("Error:", error);
       }
     }    
     
 
 async function addFriend(friendUsername) {
 
-  console.log("Adding friend with username:", friendUsername);
   try {
     const response = await fetch(`/api/users/add-friends`, {
       method: 'POST',
@@ -190,12 +185,10 @@ async function addFriend(friendUsername) {
     if(response.ok){
       const data = response.json();
       loadFriendsList();
-      console.log(data);
     }
   }
   catch (error)
   { 
-    console.log("Error: ", error);
   }
 };
 
@@ -240,7 +233,6 @@ async function uploadImage() {
   const file = fileInput.files[0]; 
 
   if (!file) {
-    console.error('No file selected');
     return;
   }
 
@@ -258,14 +250,11 @@ async function uploadImage() {
     const data = await response.json();
     if (data.success) {
       const imageUrl = data.data.url;
-      console.log("Image uploaded successfully:", imageUrl);
       return imageUrl;
     } else {
-      console.error('Image upload failed:', data.error);
       return null;
     }
   } catch (error) {
-    console.error('Error uploading image:', error);
   }
 }
 
@@ -279,7 +268,6 @@ async function onEditFormSubmit() {
 
     const userId = CookieManager.getCookie('userId');
     if (!userId) {
-      console.error("User ID not found in cookies.");
       return;
     }
 
@@ -315,11 +303,9 @@ async function onEditFormSubmit() {
       return;
 
     } catch (error) {
-      console.error('Error requesting API to update profile:', error);
       $('#editProfileErrorMsg').html("Ops! There was a problem updating the profile. Try it again later!");
     }
   } catch (error) {
-    console.error('Error updating profile:', error);
     $('#editProfileErrorMsg').html("Ops! There was a problem updating the profile. Try it again later!");
   }
 }
@@ -334,7 +320,6 @@ function openEditProfileModal()
 async function excludeFriend(id) {
   const userId = CookieManager.getCookie('userId');
   if (!userId) {
-    console.error("User ID not found in cookies.");
     return;
   }
 
@@ -343,7 +328,6 @@ async function excludeFriend(id) {
 
   const friend = data.friends.find(friend => friend.id === friendId);
   if (!friend) {
-    console.error("Friend not found.");
     return;
   }
 
@@ -357,10 +341,8 @@ async function excludeFriend(id) {
   });
 
   if (response.ok) {
-    console.log('Friend excluded successfully!');
     loadFriendsList();
   } else {
-    console.error("Error excluding friend:", response.statusText);
   }
 }
 
@@ -372,7 +354,6 @@ async function onLogout() {
   try {
     const userId = CookieManager.getCookie('userId');
     if (!userId) {
-      console.log('No user ID found, user may already be logged out.');
       return;
     }
     const response = await fetch(`/api/authentication/sign-out`, {
@@ -384,13 +365,11 @@ async function onLogout() {
 
     if (response.ok) {
       const data = await response.json();
-      console.log('Logout successful:', data);
       const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
       logoutModal.hide();
   
       loadContent("login");
     } else {
-      console.error('Logout failed: ', response.statusText);
       const logoutErrorMsg = document.getElementById('logoutErrorMsg');
       if (logoutErrorMsg) {
         logoutErrorMsg.textContent = 'An error occurred while logging out. Please try again.';
@@ -399,7 +378,6 @@ async function onLogout() {
     }
 
   } catch (error) {
-    console.error('Logout error:', error);
     const logoutErrorMsg = document.getElementById('logoutErrorMsg');
     if (logoutErrorMsg) {
       logoutErrorMsg.textContent = 'An error occurred while logging out. Please try again.';

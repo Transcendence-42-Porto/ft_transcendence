@@ -29,7 +29,7 @@
     </div>
 </section>
 
-<div class="modal fade" id="authenticatorModal" tabindex="-1" aria-labelledby="authenticatorModalLabel" aria-hidden="true">
+<div class="modal fade" id="authenticatorModal" tabindex="-1" aria-labelledby="authenticatorModalLabel">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -39,17 +39,20 @@
             <div class="modal-body">
                 <p>Please enter the 6-digit code from your Microsoft Authenticator app:</p>
                 <div class="d-flex justify-content-center">
-                    <input id="number1" type="text" class="form-control form-control-sm text-center mx-1" maxlength="1" style="width: 2rem;" />
-                    <input id="number2" type="text" class="form-control form-control-sm text-center mx-1" maxlength="1" style="width: 2rem;" />
-                    <input id="number3" type="text" class="form-control form-control-sm text-center mx-1" maxlength="1" style="width: 2rem;" />
-                    <input id="number4" type="text" class="form-control form-control-sm text-center mx-1" maxlength="1" style="width: 2rem;" />
-                    <input id="number5" type="text" class="form-control form-control-sm text-center mx-1" maxlength="1" style="width: 2rem;" />
-                    <input id="number6" type="text" class="form-control form-control-sm text-center mx-1" maxlength="1" style="width: 2rem;" />
+                    <input id="number1" type="text" class="form-control form-control-sm text-center mx-1" maxlength="1" style="width: 2rem;" oninput="moveFocus(event, 'number2')" onkeydown="moveFocusOnDelete(event, 'number1')" />
+                    <input id="number2" type="text" class="form-control form-control-sm text-center mx-1" maxlength="1" style="width: 2rem;" oninput="moveFocus(event, 'number3')" onkeydown="moveFocusOnDelete(event, 'number1')" />
+                    <input id="number3" type="text" class="form-control form-control-sm text-center mx-1" maxlength="1" style="width: 2rem;" oninput="moveFocus(event, 'number4')" onkeydown="moveFocusOnDelete(event, 'number2')" />
+                    <input id="number4" type="text" class="form-control form-control-sm text-center mx-1" maxlength="1" style="width: 2rem;" oninput="moveFocus(event, 'number5')" onkeydown="moveFocusOnDelete(event, 'number3')" />
+                    <input id="number5" type="text" class="form-control form-control-sm text-center mx-1" maxlength="1" style="width: 2rem;" oninput="moveFocus(event, 'number6')" onkeydown="moveFocusOnDelete(event, 'number4')" />
+                    <input id="number6" type="text" class="form-control form-control-sm text-center mx-1" maxlength="1" style="width: 2rem;" oninput="checkInputs()" onkeydown="moveFocusOnDelete(event, 'number5')" />
                 </div>
             </div>
+            <div id="errorMessage" class="error-msg mb-3" style="font-size: 0.8rem; display: none;">
+                Your code is wrong. Please try again.
+            </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="verifyAuthenticationCode()">Verify</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="verifyButton" type="button" class="btn btn-primary" disabled onclick="verifyAuthenticationCode()">Verify</button>
             </div>
         </div>
     </div>
