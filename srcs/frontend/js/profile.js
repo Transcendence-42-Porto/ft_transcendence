@@ -367,20 +367,18 @@ async function onLogout() {
     if (response.ok) {
       const data = await response.json();
       
-      // Get the modal instance
       const logoutModalElement = document.getElementById('logoutModal');
       const logoutModal = bootstrap.Modal.getInstance(logoutModalElement);
       if (logoutModal) {
-        logoutModal.hide();  // Hide the modal
+        logoutModal.hide();
       }
 
-      // Remove the modal backdrop
       const backdrop = document.querySelector('.modal-backdrop');
       if (backdrop) {
-        backdrop.remove();  // Manually remove the backdrop
+        backdrop.remove();
       }
 
-      loadContent("login");  // Load login content
+      loadContent("login");
     } else {
       const logoutErrorMsg = document.getElementById('logoutErrorMsg');
       if (logoutErrorMsg) {
