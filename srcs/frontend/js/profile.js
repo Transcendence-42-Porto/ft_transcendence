@@ -350,12 +350,13 @@ async function onLogout() {
   const logoutErrorMsg = document.getElementById('logoutErrorMsg');
   logoutErrorMsg.textContent = '';
   logoutErrorMsg.style.display = 'block';
-  
+
   try {
     const userId = CookieManager.getCookie('userId');
     if (!userId) {
       return;
     }
+
     const response = await fetch(`/api/authentication/sign-out`, {
       method: 'POST',
       headers: {
@@ -365,10 +366,21 @@ async function onLogout() {
 
     if (response.ok) {
       const data = await response.json();
-      const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-      logoutModal.hide();
-  
-      loadContent("login");
+      
+      // Get the modal instance
+      const logoutModalElement = document.getElementById('logoutModal');
+      const logoutModal = bootstrap.Modal.getInstance(logoutModalElement);
+      if (logoutModal) {
+        logoutModal.hide();  // Hide the modal
+      }
+
+      // Remove the modal backdrop
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.remove();  // Manually remove the backdrop
+      }
+
+      loadContent("login");  // Load login content
     } else {
       const logoutErrorMsg = document.getElementById('logoutErrorMsg');
       if (logoutErrorMsg) {
@@ -385,6 +397,7 @@ async function onLogout() {
     }
   }
 }
+
 
 async function loadGameHistory() {
 
