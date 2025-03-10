@@ -43,10 +43,8 @@ class TokenManager {
         const data = await response.json();
         if (data.access) {
             this.setAccessToken(data.access);
-            console.log("Token refreshed");
             return this.accessToken;
         } 
-        console.log("Error: token not refreshed. Returning old token");
         return this.accessToken;
     }
     /**

@@ -1,5 +1,4 @@
 function initializeGameForm() {
-  console.log("[game.js] Inicializando o formulário do jogo...");
   const modeButtons = document.querySelectorAll(".mode-btn");
   const player1Group = document.getElementById("player1").parentElement;
   const player2Group = document.getElementById("player2Group");
@@ -47,20 +46,21 @@ function initializeGameForm() {
   
     // Tournament player management
     const addPlayerBtn = document.getElementById("addPlayer");
+    const newPlayerInput = document.getElementById("newPlayer");
     const playerList = document.getElementById("playerList");
     let tournamentPlayers = [];
   
     addPlayerBtn.addEventListener("click", () => {
-      const newPlayerInput = document.getElementById("newPlayer");
       const name = newPlayerInput.value.trim();
-  
-      if (name && /^[A-Za-z0-9_-]+$/.test(name)) {
-        if (tournamentPlayers.length < 8) {
-          tournamentPlayers.push(name);
-          updatePlayerList();
-          newPlayerInput.value = "";
-        } else {
-          alert("Maximum 8 players allowed!");
+    
+      if (name && tournamentPlayers.length < 4) {
+        tournamentPlayers.push(name);
+        updatePlayerList();
+    
+        newPlayerInput.value = "";
+    
+        if (tournamentPlayers.length === 4) {
+          addPlayerBtn.disabled = true;
         }
       }
     });
@@ -100,26 +100,6 @@ function initializeGameForm() {
       const player4 = mode === "2X2" ? document.getElementById("player4").value.trim() : "";
 
       // Validações
-      if (mode !== "tournament" && !/^[A-Za-z0-9]+$/.test(player1)) {
-          alert("Nome do Jogador 1 inválido! Use apenas letras e números.");
-          return;
-      }
-
-      if ((mode === "multiplayer" || mode === "2X2") && !/^[A-Za-z0-9]+$/.test(player2)) {
-          alert("Nome do Jogador 2 inválido! Use apenas letras e números.");
-          return;
-      }
-
-      if (mode === "2X2") {
-          if (!/^[A-Za-z0-9]+$/.test(player3)) {
-              alert("Nome do Jogador 3 inválido! Use apenas letras e números.");
-              return;
-          }
-          if (!/^[A-Za-z0-9]+$/.test(player4)) {
-              alert("Nome do Jogador 4 inválido! Use apenas letras e números.");
-              return;
-          }
-      }
 
       if (mode === "tournament") {
           if (tournamentPlayers.length < 4) {

@@ -43,14 +43,11 @@ async function onSignUp() {
         if (qrCodeCreated) {
             const data = await response.json();
             document.getElementById('successPopupSignup').style.display = 'flex';  
-            console.log('User authenticated successfully:', data);
         } else {
-            console.error("QR code creation failed. Rolling back user creation...");
             // Call API to delete user or handle rollback logic
         }
         
     } catch (error) {
-        console.error('Error signing up:', error);
     }
 }
 
@@ -65,16 +62,13 @@ async function createQrCode(email) {
         });
 
         if (!response.ok) {
-            console.error('Failed to create QR code');
             return false; // Retorna false em caso de falha
         }
 
         const data = await response.json(); // Aguarda e processa o JSON
         document.getElementById('qrcode').src = `data:image/png;base64,${data.qrcode}`;
-        console.log("QR code created successfully");
         return true; // Retorna true em caso de sucesso
     } catch (error) {
-        console.error('Error creating QR code:', error);
         return false; // Retorna false em caso de erro
     }
 }

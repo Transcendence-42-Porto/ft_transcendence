@@ -37,20 +37,15 @@ async function onLogin() {
         const data = await response.json();
         if (data.access) {
             tokenManager.setAccessToken(data.access);
-            console.log("access token:", tokenManager.accessToken);
             CookieManager.setCookie("userId", data.id, 1); 
-            console.log("userId:", CookieManager.getCookie("userId"));
         }
         const authenticatorModal = new bootstrap.Modal(document.getElementById('authenticatorModal'));
         authenticatorModal.show();
 
     } catch (error) {
-        console.error('Error logging in:', error);
     }
 }
 
-window.onLogin = onLogin;
-window.verifyAuthenticationCode = verifyAuthenticationCode;
 
 function clearLoginFields() {
     $('#emailInput').val('');
@@ -58,31 +53,38 @@ function clearLoginFields() {
 }
 
 async function verifyAuthenticationCode() {
-    
     let code = $('#number1').val() + $('#number2').val() + $('#number3').val() + $('#number4').val() + $('#number5').val() + $('#number6').val();
     let email = $('#emailInput').val();
-    const response = await fetch('/api/qrcode/verify/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email,
-            code
-        })
-    });
 
-    if (!response.ok) {
-        console.log('Invalid code');
-        return;
+    const errorMessageElement = document.getElementById('errorMessage');
+    if (errorMessageElement) {
+        errorMessageElement.style.display = 'none';  // Hide error message if we are checking for a new submission
     }
-    else 
-    {
+
+    try {
+        const response = await fetch('/api/qrcode/verify/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email,
+                code
+            })
+        });
+
+        if (!response.ok) {
+            if (errorMessageElement) {
+                errorMessageElement.style.display = 'block';
+                errorMessageElement.textContent = 'Invalid code. Please try again.'; 
+            }
+            return;
+        }
+
         const data = await response.json();
-        console.log('Code verified. New data:', data);
         tokenManager.setAccessToken(data.access_token);
-        console.log("access token:", tokenManager.accessToken);
         loadContent('game');
+
         const authenticatorModalElement = document.getElementById('authenticatorModal');
         if (authenticatorModalElement) {
             const authenticatorModal = bootstrap.Modal.getInstance(authenticatorModalElement);
@@ -90,10 +92,48 @@ async function verifyAuthenticationCode() {
                 authenticatorModal.hide();
             }
         }
+    } catch (error) {
+        if (errorMessageElement) {
+            errorMessageElement.style.display = 'block';
+            errorMessageElement.textContent = 'An unexpected error occurred. Please try again later.';
+        }
     }
 }
+
+function checkInputs() {
+    const inputs = document.querySelectorAll('#authenticatorModal input');
+    const allFilled = Array.from(inputs).every(input => input.value.length === 1);
+    document.getElementById('verifyButton').disabled = !allFilled;
+}
+
+function moveFocus(event, nextInputId) {
+    checkInputs();
+    
+    if (event.target.value.length === 1) {
+        const nextInput = document.getElementById(nextInputId);
+        if (nextInput) {
+            nextInput.focus();
+        }
+    }
+}
+
+function moveFocusOnDelete(event, previousInputId) {
+    if (event.key === "Backspace" && event.target.value.length === 0) {
+        const previousInput = document.getElementById(previousInputId);
+        if (previousInput) {
+            previousInput.focus();
+        }
+    }
+}
+
 
 function displayLoginErrorMessage(msg) {
     let errorMsg = document.getElementById('error-msg-login');
     errorMsg.textContent = msg;
 }
+
+window.onLogin = onLogin;
+window.verifyAuthenticationCode = verifyAuthenticationCode;
+window.checkInputs = checkInputs;
+window.moveFocus = moveFocus;
+window.moveFocusOnDelete = moveFocusOnDelete;

@@ -292,3 +292,10 @@ canvas {
   cursor: pointer;
   text-align: center;
 }
+
+#addPlayer:disabled {
+  background-color: #ccc;  /* Light gray background */
+  color: #888;  /* Gray text */
+  border-color: #ccc;  /* Gray border */
+  cursor: not-allowed;  /* Not allowed cursor */
+}

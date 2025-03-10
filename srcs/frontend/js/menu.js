@@ -1,6 +1,5 @@
 // file: /js/menu.js
 function showSingleplayerForm() {
-	console.log("Showing singleplayer form");
 	document.getElementById("singleplayerForm").style.display = "block";
 	document.getElementById("multiplayerForm").style.display = "none";
   }
