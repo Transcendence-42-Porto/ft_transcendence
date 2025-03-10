@@ -85,11 +85,11 @@ def signin_view(request):
 
 @extend_schema(
     summary="Sign Out",
-    description="Sign-out a user using the refresh token provided in the request body.",
+    description="Sign-out a user ",
     request=SignOutSerializer,
     responses={
         200: {"description": "Successfully logged out!"},
-        400: {"description": "Bad request: Invalid or missing refresh token."},
+        400: {"description": "Bad request: couldnt fetch refresh token."},
     },
 )
 @api_view(["POST"])
@@ -98,6 +98,14 @@ def signout_view(request):
 
     if serializer.is_valid():
         user = request.user
+        try:
+            refresh_token_str = request.COOKIES.get('refresh_token')
+            refresh_token = RefreshToken(refresh_token_str)
+            refresh_token.blacklist()
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, status=status.HTTP_400_BAD_REQUEST
+            )
         user.is_online = False
         user.save(update_fields=["is_online"])
         return Response(
