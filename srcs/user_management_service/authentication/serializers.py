@@ -14,9 +14,7 @@ def get_random_avatar():
             'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp',
             'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp',
             'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp',
-            'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp',
-            'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava7-bg.webp',
-            'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava8-bg.webp',]
+            'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp',]
     return random.choice(avatars)
 
 
@@ -55,13 +53,7 @@ class SignInSerializer(serializers.Serializer):
         return attrs
 
 class SignOutSerializer(serializers.Serializer):
-    refresh = serializers.CharField()
-
     def validate(self, attrs):
-        try:
-            RefreshToken(attrs['refresh']).blacklist()
-        except Exception as e:
-            raise serializers.ValidationError({"error": str(e)})
         return attrs
 
 #Serializer to display neatly the type of response expected from signin view with swagger-ui
