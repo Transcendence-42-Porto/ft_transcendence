@@ -41,8 +41,8 @@ class TokenManager {
             throw new Error('Token refresh failed!');
         }
         const data = await response.json();
-        if (data.access) {
-            this.setAccessToken(data.access);
+        if (data.access_token) {
+            this.setAccessToken(data.access_token);
             return this.accessToken;
         } 
         return this.accessToken;

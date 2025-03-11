@@ -33,7 +33,6 @@ function initializeGameForm() {
       tournamentGroup.style.display = mode === "tournament" ? "block" : "none";
   }
   
-    // Event listeners for mode buttons
     modeButtons.forEach((btn) => {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
@@ -41,26 +40,28 @@ function initializeGameForm() {
       });
     });
   
-    // Default mode
     toggleMode("singleplayer");
-  
-    // Tournament player management
+
     const addPlayerBtn = document.getElementById("addPlayer");
     const newPlayerInput = document.getElementById("newPlayer");
     const playerList = document.getElementById("playerList");
     let tournamentPlayers = [];
-  
+
     addPlayerBtn.addEventListener("click", () => {
       const name = newPlayerInput.value.trim();
-    
-      if (name && tournamentPlayers.length < 4) {
-        tournamentPlayers.push(name);
-        updatePlayerList();
-    
-        newPlayerInput.value = "";
-    
-        if (tournamentPlayers.length === 4) {
-          addPlayerBtn.disabled = true;
+      
+      if (name) {
+        if (tournamentPlayers.includes(name)) {
+          alert("This player is already in the tournament!");
+        } else if (tournamentPlayers.length < 4) {
+          tournamentPlayers.push(name);
+          updatePlayerList();
+
+          newPlayerInput.value = "";
+
+          if (tournamentPlayers.length === 4) {
+            addPlayerBtn.disabled = true;
+          }
         }
       }
     });
@@ -102,11 +103,18 @@ function initializeGameForm() {
       // Validações
 
       if (mode === "tournament") {
-          if (tournamentPlayers.length < 4) {
-              alert("Minimum 4 players required for tournament!");
-              return;
-          }
-          startTournament(tournamentPlayers);
+        const tournamentName = document.getElementById("tournamentName").value.trim();
+    
+        if (!tournamentName) {
+          alert("Tournament name is required!");
+          return;
+        }
+
+        if (tournamentPlayers.length < 4) {
+            alert("Minimum 4 players required for tournament!");
+            return;
+        }
+        startTournament(tournamentPlayers);
       } else {
           const config = {
               mode,

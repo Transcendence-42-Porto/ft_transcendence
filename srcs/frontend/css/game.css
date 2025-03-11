@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Pixel';
+  src: url('../fonts/pixel.otf') format('truetype'); /* Caminho para o arquivo da fonte */
+}
+
 /* Estilização geral do formulário */
 body {
   font-family: Arial, sans-serif;
@@ -57,7 +62,7 @@ button:hover {
   background-color: #2290f0;
   color: white;
   font-weight: bold;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .add-btn {
@@ -280,17 +285,19 @@ canvas {
 
 #restartBtn,
 #menuBtn {
+  font-family: 'Pixel';
   display: inline-block;
   width: auto;
   margin: 10px 5px;
   padding: 5px 10px;
   font-size: 14px;
-  background-color: #4caf50;
+  background-color: #042849;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
+
 }
 
 #addPlayer:disabled {
@@ -299,3 +306,15 @@ canvas {
   border-color: #ccc;  /* Gray border */
   cursor: not-allowed;  /* Not allowed cursor */
 }
+
+.player-tag {
+  margin-top: 5px;
+}
+
+/* Adiciona padding entre as células da tabela */
+table.bracket-table td {
+  padding: 5px; /* Ajuste esse valor conforme necessário */
+  text-align: center; /* Alinha o texto no centro, se necessário */
+  font-size: 1.5rem;
+}
+/* 

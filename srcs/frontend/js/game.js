@@ -3,15 +3,15 @@ import tokenManager from "./token.js";
 
 class Tournament {
   constructor(players) {
-    this.players = this.shufflePlayers(players);
+    this.players = players;
     this.rounds = this.generateBracket();
     this.currentRound = 0;
     this.currentMatchIndex = 0;
   }
 
-  shufflePlayers(players) {
-    return players.sort(() => Math.random() - 0.5);
-  }
+  // shufflePlayers(players) {
+  //   return players.sort(() => Math.random() - 0.5);
+  // }
 
   generateBracket() {
     const numPlayers = this.players.length;
@@ -52,10 +52,10 @@ function startTournament(players) {
   document.querySelector(".game-config").style.display = "none";
   const tournament = new Tournament(players);
   showBracket(tournament);
-  playNextMatch(tournament);
+  playNextMatch(tournament, players);
 }
 
-function playNextMatch(tournament) {
+function playNextMatch(tournament, players) {
   // Check if the tournament is over (no more rounds)
   if (
     tournament.isTournamentOver() ||
@@ -68,22 +68,21 @@ function playNextMatch(tournament) {
     );
     return;
   }
-  // Get players for the current match
+
   const player1 = tournament.rounds[tournament.currentRound].players[0];
   const player2 = tournament.rounds[tournament.currentRound].players[1];
 
-  // Create the game configuration
   const config = {
     mode: "tournament",
-    maxScore: 1,
-    player1: player1 ? player1 : "Bye", // If a player is null, treat it as "Bye"
+    maxScore: parseInt(document.getElementById("maxScore").value),
+    player1: player1 ? player1 : "Bye",
     player2: player2 ? player2 : "Bye",
+    userPlayer: players[0],
+    tournamentName: document.getElementById('tournamentName').value,
     onGameEnd: (winner) => {
-      // Update the match winner
       tournament.rounds[tournament.currentRound].winner = winner;
       tournament.currentRound++;
 
-      // Hide the game canvas and show the updated bracket
       setTimeout(() => {
 
         if(tournament.currentRound >= tournament.rounds.length)
@@ -96,24 +95,23 @@ function playNextMatch(tournament) {
             setTimeout(() => {
               winnerAnnouncement.style.display = "none";
               loadContent("game");
-            }, 3000); // Wait for 3 seconds before disappearing
+            }, 2000);
         }
         else
         {
-          showBracket(tournament); // Display the updated bracket
+          showBracket(tournament);
           document.getElementById("gameCanvas").style.display = "none";
           setTimeout(() => {
             if (tournament.rounds[tournament.currentRound].match == "Final") {
               verifyPlayersRound(tournament);
             }
-            playNextMatch(tournament); // Continue to the next match after 3 seconds
-          }, 3000);
+            playNextMatch(tournament, players);
+          }, 2000);
         }
-      }, 3000);
+      }, 2000);
     },
   };
 
-  // Show the game canvas and start the game
   document.getElementById("bracketContainer").style.display = "none";
   announcement(player1, player2, config);
 }
@@ -156,30 +154,24 @@ function announcement(player1, player2, config){
 function showBracket(tournament) {
   const bracketContainer = document.getElementById("bracketContainer");
 
-  // Limpar o conteúdo anterior
   bracketContainer.innerHTML = "";
 
-  // Criar um elemento de tabela para o chaveamento
   const table = document.createElement("table");
   table.classList.add("bracket-table");
   const tbody = document.createElement("tbody");
 
-  // Função para criar uma linha de partida
   const createMatchRow = (match) => {
     const row = document.createElement("tr");
 
-    // Criar as células para os jogadores
     const cell1 = document.createElement("td");
     const cell2 = document.createElement("td");
     const cell3 = document.createElement("td");
     const winnerCell = document.createElement("td");
 
-    // Exibir os jogadores ou "Bye" caso o jogador esteja ausente
     cell1.textContent = match.players[0] ? match.players[0] : "Bye";
-    cell2.textContent = " vs ";
+    cell2.textContent = "vs";
     cell3.textContent = match.players[1] ? match.players[1] : "Bye";
 
-    // Exibir o vencedor, se já houver um
     winnerCell.textContent = match.winner
       ? `Winner: ${match.winner}`
       : "No winner yet";
@@ -192,7 +184,6 @@ function showBracket(tournament) {
     return row;
   };
 
-  // Função para exibir todos os rounds (partidas) no bracket
   const createBracketRows = (rounds) => {
     const rows = [];
 
@@ -204,19 +195,15 @@ function showBracket(tournament) {
     return rows;
   };
 
-  // Exibir cada round
   const matchRows = createBracketRows(tournament.rounds);
 
-  // Adicionar as linhas da tabela no tbody
   matchRows.forEach((row) => {
     tbody.appendChild(row);
   });
 
-  // Adicionar a tabela no bracketContainer
   table.appendChild(tbody);
   bracketContainer.appendChild(table);
 
-  // Tornar o container visível
   bracketContainer.style.display = "block";
 }
 
@@ -249,18 +236,18 @@ function game(config) {
   canvas.style.width = "100%";
   canvas.style.height = "100%";
 
-  // Escala para manter coordenadas lógicas
   const ctx = canvas.getContext("2d");
   ctx.scale(dpr, dpr);
 
   const WIDTH = LOGICAL_WIDTH;
   const HEIGHT = LOGICAL_HEIGHT;
 
-  // Add to variables section
   let buttons = {
     restart: { x: 0, y: 0, w: 150, h: 40, text: "RESTART" },
     menu: { x: 0, y: 0, w: 150, h: 40, text: "MENU" }
   };
+
+  buttons.menu.font = "Pixel"
 
   /*************************************************************
    * Configurações e variáveis do Pong
@@ -372,47 +359,37 @@ function game(config) {
   function updateAI() {
     if (mode !== "singleplayer") return;
 
-    // Verifica se é hora de "enxergar" novamente
     if (performance.now() > nextAiCheckTime) {
       nextAiCheckTime = performance.now() + aiVisionInterval;
 
-      // Calcula a velocidade X e Y da bola
       const vx = Math.cos(ballAngle) * ballSpeed;
       const vy = Math.sin(ballAngle) * ballSpeed;
 
-      // Se a bola está se movendo para a direita (em direção à IA)
       if (vx > 0) {
         const distX = player2X - ballX - BALL_RADIUS;
         const timeToReach = distX / vx;
 
         if (timeToReach > 0) {
-          // Predição de onde a bola estará em "timeToReach" segundos
           let predictedY = ballY + vy * timeToReach;
 
-          // Limita a predição ao canvas
           if (predictedY < 0) predictedY = 0;
           if (predictedY > HEIGHT) predictedY = HEIGHT;
 
-          // Centraliza a raquete na posição prevista da bola
           aiTargetY = predictedY - PADDLE_HEIGHT / 2;
         } else {
-          // Se a bola já passou do ponto de interceptação
           aiTargetY = (HEIGHT - PADDLE_HEIGHT) / 2;
         }
       } else {
-        // Se a bola não está vindo para a direita
         aiTargetY = (HEIGHT - PADDLE_HEIGHT) / 2;
       }
     }
 
-    // Move a raquete em direção ao target
     if (player2Y < aiTargetY) {
       player2Y += PADDLE_SPEED;
     } else if (player2Y > aiTargetY) {
       player2Y -= PADDLE_SPEED;
     }
 
-    // Limita as bordas
     if (player2Y < 0) player2Y = 0;
     if (player2Y + PADDLE_HEIGHT > HEIGHT) {
       player2Y = HEIGHT - PADDLE_HEIGHT;
@@ -817,10 +794,22 @@ function game(config) {
 
 async function saveResult(player1Name, player2Name, player1Score, player2Score, config) {
   let gameType = config.mode;
-  let tournamentName = "42";
   const userId = CookieManager.getCookie('userId');
   if (!userId) {
     return;
+  }
+
+  if(gameType.toUpperCase() == "TOURNAMENT")
+  {
+      if(player1Name != config.userPlayer && player1Name != config.userPlayer)
+          return;
+
+      if (player2Name == config.userPlayer)
+      {
+          swap = player1Name;
+          player1Name = player2Name;
+          player2Name = player1Name;
+      }
   }
 
   // Crie um objeto com os parâmetros para enviar como corpo da requisição
@@ -830,7 +819,7 @@ async function saveResult(player1Name, player2Name, player1Score, player2Score, 
     user_score: player1Score,
     opponent_score: player2Score,
     game_type: gameType.toUpperCase(),
-    tournament_name: tournamentName
+    tournament_name: config.tournamentName
   };
 
   try {
@@ -858,9 +847,12 @@ async function saveResult(player1Name, player2Name, player1Score, player2Score, 
 async function loadGameMenu() {
   let data = await loadPersonalInfo();
   let player1Input = document.getElementById("player1");
+  let playerTournamentInput = document.getElementById("newPlayer");
 
   player1Input.value = data.username; // Definir o valor do campo como o nome do usuário
   player1Input.disabled = true; // Bloquear o campo para edição
+
+  playerTournamentInput.value = data.username;
 }
 
 window.game = game;

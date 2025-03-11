@@ -310,7 +310,6 @@ async function onEditFormSubmit() {
   }
 }
 
-
 function openEditProfileModal()
 {
   const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
@@ -396,31 +395,62 @@ async function onLogout() {
   }
 }
 
-
 async function loadGameHistory() {
+  try {
+    const data = await loadPersonalInfo();
+    
+    // Verificar se a variável 'data' e 'scores' são válidas
+    if (!data || !Array.isArray(data.scores)) {
+      console.error("A variável 'scores' não está disponível ou não é um array.");
+      return;
+    }
 
-  const data = await loadPersonalInfo();
-  const scores = data.scores;
+    const scores = data.scores;
 
-  const tableBody = document.querySelector('#gameHistoryModal tbody');
-  tableBody.innerHTML = '';
+    // Verificando os dados de scores
+    console.log(scores); // Verifique o que está sendo retornado
 
-  scores.forEach(score => {
+    const tableBody = document.querySelector('#gameHistoryModal tbody');
+    tableBody.innerHTML = ''; // Limpar a tabela antes de adicionar as novas linhas
+
+    // Verificando se o 'scores' tem dados para iterar
+    if (scores.length === 0) {
+      console.log("Não há jogos para exibir.");
+      return;
+    }
+
+    // Loop através dos scores e adicionar as linhas na tabela
+    scores.forEach(score => {
       const date = new Date(score.date);
       const dateString = date.toISOString().split('T')[0];
       const timeString = date.toTimeString().split(' ')[0];
       const gameType = score.game_type;
+      const tournamentName = score.tournament_name;
       const scoreString = `${score.user_score}-${score.opponent_score}`;
       const opponent = score.opponent;
 
       const row = document.createElement('tr');
-      row.innerHTML = `
+      if (gameType === "TOURNAMENT") {
+        row.innerHTML = `
+          <td>${dateString}</td>
+          <td>${timeString}</td>
+          <td>${gameType} ${tournamentName}</td>
+          <td>${scoreString}</td>
+          <td>@${opponent}</td>
+        `;
+      } else {
+        row.innerHTML = `
           <td>${dateString}</td>
           <td>${timeString}</td>
           <td>${gameType}</td>
           <td>${scoreString}</td>
           <td>@${opponent}</td>
-      `;
+        `;
+      }
       tableBody.appendChild(row);
-  });
+    });
+
+  } catch (error) {
+    console.error("Erro ao carregar os dados:", error);
+  }
 }
