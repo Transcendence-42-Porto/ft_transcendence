@@ -1,4 +1,4 @@
---
+c--
 -- PostgreSQL database dump
 --
 
@@ -591,6 +591,8 @@ COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 --
 
 COPY public.scores_score (id, opponent, date, user_id, opponent_score, user_score, game_type, tournament_name) FROM stdin;
+1	sd	2025-03-11 22:51:40.795609+00	7	1	5	MULTIPLAYER	none
+2	sd	2025-03-11 22:52:05.781522+00	7	4	5	MULTIPLAYER	none
 \.
 
 
@@ -612,6 +614,10 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 3	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MDg0NTk3NSwiaWF0IjoxNzQwMjQxMTc1LCJqdGkiOiI2YmI4YjNjNjY0MmU0ZWM4OTg4YmM5NWNiYWFhNzFmYyIsInVzZXJfaWQiOjZ9.rW4lGQNp_7I4-Y9sEJl2J1x73B5cHiFS1WcRXh6HXFc	2025-02-22 16:19:35.952112+00	2025-03-01 16:19:35+00	6	6bb8b3c6642e4ec8988bc95cbaaa71fc
 4	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MjMzMTY2MywiaWF0IjoxNzQxNzI2ODYzLCJqdGkiOiI3M2JjZmExMDU1OGI0MDZkYWY3YTU0ZWM5OThmOGZiYSIsInVzZXJfaWQiOjd9.0fUBemC-dCRnxLuM8Aeg1AG9ojjK8WYJ-dBO0nZUPmM	2025-03-11 21:01:03.349868+00	2025-03-18 21:01:03+00	7	73bcfa10558b406daf7a54ec998f8fba
 5	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MjMzMTY3NCwiaWF0IjoxNzQxNzI2ODc0LCJqdGkiOiIwY2E5MWM3ODM5ZmU0MzBhYmIxNmYwOTc1M2NlY2EyYSIsInVzZXJfaWQiOjd9.0VSNkTtpYmxoqZBhXaEnLsZ0Qzn-yLU1Oxq5UJAEMuQ	2025-03-11 21:01:14.874646+00	2025-03-18 21:01:14+00	7	0ca91c7839fe430abb16f09753ceca2a
+6	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MjMzNTE2MiwiaWF0IjoxNzQxNzMwMzYyLCJqdGkiOiJlYjFjZWY3NWExNjI0NGY4YjE1YzkxNDgwNmJmZTg5YyIsInVzZXJfaWQiOjd9.K02uHrRs2QRjgUtEbxaCaQzdafnaSdoVE67n3kXmK-I	2025-03-11 21:59:22.620217+00	2025-03-18 21:59:22+00	7	eb1cef75a16244f8b15c914806bfe89c
+7	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MjMzNTE4MywiaWF0IjoxNzQxNzMwMzgzLCJqdGkiOiI5OTgxODg5MjRlZWQ0ODg4YjJkYzA0OTczY2E2Zjk1NSIsInVzZXJfaWQiOjd9.SaTPIC8V8DaRqDysoJ-insg4w7Fwew4Deq1GPVZX2lU	2025-03-11 21:59:43.63409+00	2025-03-18 21:59:43+00	7	998188924eed4888b2dc04973ca6f955
+8	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MjMzNTIwMSwiaWF0IjoxNzQxNzMwNDAxLCJqdGkiOiIxMjA1M2JmZjMwNmI0ZmQwOTM1OWU3MGY5YzU1MzE2NSIsInVzZXJfaWQiOjd9.Mo-4TKVZHD3e1Os-7bKeNcAHZSMmjlUFFAJitxaFUag	2025-03-11 22:00:01.50478+00	2025-03-18 22:00:01+00	7	12053bff306b4fd09359e70f9c553165
+9	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MjMzNTIxMiwiaWF0IjoxNzQxNzMwNDEyLCJqdGkiOiI3MTIzMmE1OGMyZjE0MmVmOTIwMmM4MGZhYjAyMjBhOCIsInVzZXJfaWQiOjd9.Rea2A0JYVCtguDElMzFLG74iZWdYEA4-XXDHiIxtOgk	2025-03-11 22:00:12.787077+00	2025-03-18 22:00:12+00	7	71232a58c2f142ef9202c80fab0220a8
 \.
 
 
@@ -625,7 +631,7 @@ COPY public.user_login (id, attempts, last_failed_attempt, last_successful_attem
 3	0	2024-02-19 13:31:46.337619+00	2024-02-19 13:31:46.337609+00	Y4B76SUODBMPLFDASZOEVQSLWA2LVAB2	test@test.com
 4	0	2024-02-23 14:45:54.111529+00	2024-02-23 14:45:54.11152+00	D3VGG4LCWDZTBZNKO3BJRLPZF75RMY6W	TEST@TEST.COM
 5	3	2025-02-22 16:12:59.406011+00	2024-02-23 15:44:03.350517+00	7IUGCBXUV67AR6Q6A7MKDSSJSQBRWIFY	la@la.com
-6	0	2024-03-11 20:59:12.485931+00	2025-03-11 21:01:14.870812+00	WNFWCLWXKYFAELRYHMVWG5S7JWC5ZL4O	j@j.com
+6	0	2025-03-11 21:59:41.49144+00	2025-03-11 22:00:12.784193+00	WNFWCLWXKYFAELRYHMVWG5S7JWC5ZL4O	j@j.com
 \.
 
 
@@ -714,7 +720,7 @@ SELECT pg_catalog.setval('public.django_migrations_id_seq', 39, true);
 -- Name: scores_score_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.scores_score_id_seq', 1, false);
+SELECT pg_catalog.setval('public.scores_score_id_seq', 2, true);
 
 
 --
@@ -728,7 +734,7 @@ SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 1, fa
 -- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: db_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 5, true);
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 9, true);
 
 
 --
@@ -1240,6 +1246,8 @@ ALTER TABLE ONLY public.user_profiles_user_permissions
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_group TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_group TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_group TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_group TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1248,6 +1256,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_group TO "v-token-django_
 
 GRANT SELECT,USAGE ON SEQUENCE public.auth_group_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.auth_group_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.auth_group_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.auth_group_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1256,6 +1266,8 @@ GRANT SELECT,USAGE ON SEQUENCE public.auth_group_id_seq TO "v-token-django_u-4Kz
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_group_permissions TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_group_permissions TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_group_permissions TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_group_permissions TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1264,6 +1276,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_group_permissions TO "v-t
 
 GRANT SELECT,USAGE ON SEQUENCE public.auth_group_permissions_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.auth_group_permissions_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.auth_group_permissions_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.auth_group_permissions_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1272,6 +1286,8 @@ GRANT SELECT,USAGE ON SEQUENCE public.auth_group_permissions_id_seq TO "v-token-
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_permission TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_permission TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_permission TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_permission TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1280,6 +1296,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.auth_permission TO "v-token-dj
 
 GRANT SELECT,USAGE ON SEQUENCE public.auth_permission_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.auth_permission_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.auth_permission_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.auth_permission_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1288,6 +1306,8 @@ GRANT SELECT,USAGE ON SEQUENCE public.auth_permission_id_seq TO "v-token-django_
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_admin_log TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_admin_log TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_admin_log TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_admin_log TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1296,6 +1316,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_admin_log TO "v-token-d
 
 GRANT SELECT,USAGE ON SEQUENCE public.django_admin_log_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.django_admin_log_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.django_admin_log_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.django_admin_log_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1304,6 +1326,8 @@ GRANT SELECT,USAGE ON SEQUENCE public.django_admin_log_id_seq TO "v-token-django
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_content_type TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_content_type TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_content_type TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_content_type TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1312,6 +1336,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_content_type TO "v-toke
 
 GRANT SELECT,USAGE ON SEQUENCE public.django_content_type_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.django_content_type_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.django_content_type_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.django_content_type_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1320,6 +1346,8 @@ GRANT SELECT,USAGE ON SEQUENCE public.django_content_type_id_seq TO "v-token-dja
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_migrations TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_migrations TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_migrations TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_migrations TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1328,6 +1356,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_migrations TO "v-token-
 
 GRANT SELECT,USAGE ON SEQUENCE public.django_migrations_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.django_migrations_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.django_migrations_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.django_migrations_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1336,6 +1366,8 @@ GRANT SELECT,USAGE ON SEQUENCE public.django_migrations_id_seq TO "v-token-djang
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_session TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_session TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_session TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_session TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1344,6 +1376,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.django_session TO "v-token-dja
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.scores_score TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.scores_score TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.scores_score TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.scores_score TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1352,6 +1386,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.scores_score TO "v-token-djang
 
 GRANT SELECT,USAGE ON SEQUENCE public.scores_score_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.scores_score_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.scores_score_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.scores_score_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1360,6 +1396,8 @@ GRANT SELECT,USAGE ON SEQUENCE public.scores_score_id_seq TO "v-token-django_u-4
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.token_blacklist_blacklistedtoken TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.token_blacklist_blacklistedtoken TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.token_blacklist_blacklistedtoken TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.token_blacklist_blacklistedtoken TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1368,6 +1406,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.token_blacklist_blacklistedtok
 
 GRANT SELECT,USAGE ON SEQUENCE public.token_blacklist_blacklistedtoken_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.token_blacklist_blacklistedtoken_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.token_blacklist_blacklistedtoken_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.token_blacklist_blacklistedtoken_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1376,6 +1416,8 @@ GRANT SELECT,USAGE ON SEQUENCE public.token_blacklist_blacklistedtoken_id_seq TO
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.token_blacklist_outstandingtoken TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.token_blacklist_outstandingtoken TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.token_blacklist_outstandingtoken TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.token_blacklist_outstandingtoken TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1384,6 +1426,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.token_blacklist_outstandingtok
 
 GRANT SELECT,USAGE ON SEQUENCE public.token_blacklist_outstandingtoken_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.token_blacklist_outstandingtoken_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.token_blacklist_outstandingtoken_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.token_blacklist_outstandingtoken_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1392,6 +1436,8 @@ GRANT SELECT,USAGE ON SEQUENCE public.token_blacklist_outstandingtoken_id_seq TO
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_login TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_login TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_login TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_login TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1400,6 +1446,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_login TO "v-token-django_
 
 GRANT SELECT,USAGE ON SEQUENCE public.user_login_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.user_login_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.user_login_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.user_login_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1408,6 +1456,8 @@ GRANT SELECT,USAGE ON SEQUENCE public.user_login_id_seq TO "v-token-django_u-4Kz
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1416,6 +1466,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles TO "v-token-djan
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_friends TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_friends TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_friends TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_friends TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1424,6 +1476,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_friends TO "v-to
 
 GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_friends_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_friends_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_friends_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_friends_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1432,6 +1486,8 @@ GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_friends_id_seq TO "v-token-d
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_groups TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_groups TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_groups TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_groups TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1440,6 +1496,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_groups TO "v-tok
 
 GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_groups_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_groups_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_groups_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_groups_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1448,6 +1506,8 @@ GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_groups_id_seq TO "v-token-dj
 
 GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1456,6 +1516,8 @@ GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_id_seq TO "v-token-django_u-
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_user_permissions TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_user_permissions TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_user_permissions TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_user_permissions TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --
@@ -1464,6 +1526,8 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.user_profiles_user_permissions
 
 GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_user_permissions_id_seq TO "v-token-django_u-OF7me80dAu12u6clgtm0-1741729794";
 GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_user_permissions_id_seq TO "v-token-django_u-4KzLIlcoNJriUt6eWuTn-1741729795";
+GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_user_permissions_id_seq TO "v-token-django_u-fQ9cHPD5xWowbLP6cjYc-1741734843";
+GRANT SELECT,USAGE ON SEQUENCE public.user_profiles_user_permissions_id_seq TO "v-token-django_u-8oT9PougKoGi7VAt0j66-1741734844";
 
 
 --

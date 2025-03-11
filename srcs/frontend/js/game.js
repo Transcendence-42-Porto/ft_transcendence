@@ -256,9 +256,9 @@ function game(config) {
 
   // Ball
   const BALL_RADIUS = 6;
-  const BALL_MIN_SPEED = 7;
+  const BALL_MIN_SPEED = 3; // Start slower
+  const BALL_SPEED_INCREMENT = 0.5; // Keep increment or adjust if needed
   const BALL_MAX_SPEED = 20;
-  const BALL_SPEED_INCREMENT = 0.5;
 
   // Angles and rotation
   const SPIN_FACTOR = 0.5;
@@ -403,15 +403,15 @@ function game(config) {
       player1Y += PADDLE_SPEED;
     }
 
-    // No modo 2X2, impede que o player 1 ultrapasse o player 3
+    // In 2X2 mode, prevents player 1 from overlapping player 3
     if (mode === "2X2" && player1Y + PADDLE_HEIGHT > player3Y) {
       player1Y = player3Y - PADDLE_HEIGHT;
     }
 
-    // Limita o movimento no topo
+    // Limits movement at the top
     if (player1Y < 0) player1Y = 0;
 
-    // NOVA: Limita o movimento na parte inferior do campo
+    // NEW: Limits movement at the bottom of the field
     if (player1Y + PADDLE_HEIGHT > HEIGHT) {
       player1Y = HEIGHT - PADDLE_HEIGHT;
     }
@@ -449,6 +449,10 @@ function game(config) {
 
     // Upper limit
     if (player2Y < 0) player2Y = 0;
+    // Lower limit
+    if (player2Y + PADDLE_HEIGHT > HEIGHT) {
+      player2Y = HEIGHT - PADDLE_HEIGHT;
+    }
   }
 
   function updatePlayer4() {
@@ -693,12 +697,12 @@ function game(config) {
       // Draw buttons using canvas API
       function drawButton(btn, visible = true) {
         if (!visible) return;
-        ctx.fillStyle = "#4CAF50";
+        ctx.fillStyle = "#0000FF";
         ctx.fillRect(btn.x, btn.y, btn.w, btn.h);
         ctx.fillStyle = "#fff";
-        ctx.font = "20px Arial";
+        ctx.font = "20px Pixel"; // Changed font size to 20px
         ctx.textAlign = "center";
-        ctx.fillText(btn.text, btn.x + btn.w / 2, btn.y + 27);
+        ctx.fillText(btn.text, btn.x + btn.w / 2, btn.y + 25); // Adjusted text position
       }
 
       // Only show restart button in non-tournament modes
@@ -838,6 +842,12 @@ async function saveResult(
       player1Name = player2Name;
       player2Name = player1Name;
     }
+  }
+
+  // Handle 2x2 mode by concatenating player names
+  if (gameType === "2X2") {
+    player1Name = `${config.player1}/${config.player2}`;
+    player2Name = `${config.player3}/${config.player4}`;
   }
 
   // Create an object with the parameters to send as the request body
