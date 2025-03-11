@@ -78,27 +78,24 @@ function playNextMatch(tournament, players) {
     player1: player1 ? player1 : "Bye",
     player2: player2 ? player2 : "Bye",
     userPlayer: players[0],
-    tournamentName: document.getElementById('tournamentName').value,
+    tournamentName: document.getElementById("tournamentName").value,
     onGameEnd: (winner) => {
       tournament.rounds[tournament.currentRound].winner = winner;
       tournament.currentRound++;
 
       setTimeout(() => {
-
-        if(tournament.currentRound >= tournament.rounds.length)
-        {
-            document.getElementById("gameCanvas").style.display = "none";
-            const winner = tournament.rounds[tournament.rounds.length - 1].winner;
-            const winnerAnnouncement = document.getElementById("announcementGame");
-            winnerAnnouncement.style.display = "block";
-            winnerAnnouncement.textContent = `${winner} is the winner 🎉`;
-            setTimeout(() => {
-              winnerAnnouncement.style.display = "none";
-              loadContent("game");
-            }, 2000);
-        }
-        else
-        {
+        if (tournament.currentRound >= tournament.rounds.length) {
+          document.getElementById("gameCanvas").style.display = "none";
+          const winner = tournament.rounds[tournament.rounds.length - 1].winner;
+          const winnerAnnouncement =
+            document.getElementById("announcementGame");
+          winnerAnnouncement.style.display = "block";
+          winnerAnnouncement.textContent = `${winner} is the winner 🎉`;
+          setTimeout(() => {
+            winnerAnnouncement.style.display = "none";
+            loadContent("game");
+          }, 2000);
+        } else {
           showBracket(tournament);
           document.getElementById("gameCanvas").style.display = "none";
           setTimeout(() => {
@@ -131,12 +128,11 @@ function verifyPlayersRound(tournament) {
   }
 }
 
-function announcement(player1, player2, config){
-
+function announcement(player1, player2, config) {
   const announcement = document.getElementById("announcementGame");
   announcement.style.display = "block";
   announcement.textContent = `${player1} VS ${player2}`;
-  
+
   // Countdown
   let countdown = 3;
   const countdownInterval = setInterval(() => {
@@ -145,7 +141,7 @@ function announcement(player1, player2, config){
     if (countdown < 0) {
       clearInterval(countdownInterval);
       document.getElementById("gameCanvas").style.display = "block";
-      announcement.style.display = "none";  
+      announcement.style.display = "none";
       game(config);
     }
   }, 1000);
@@ -207,22 +203,22 @@ function showBracket(tournament) {
   bracketContainer.style.display = "block";
 }
 
-
 function game(config) {
   "use strict";
 
-  const { mode, maxScore, player1, player2, difficulty, player3, player4 } = config;
+  const { mode, maxScore, player1, player2, difficulty, player3, player4 } =
+    config;
 
   function startGame() {}
 
   startGame();
 
   /*************************************************************
-   * Seleciona elementos HTML
+   * Select HTML elements
    *************************************************************/
   const canvas = document.getElementById("gameCanvas");
   const restartBtn = document.getElementById("restartBtn");
-  const menuBtn = document.getElementById("menuBtn"); // Novo botão
+  const menuBtn = document.getElementById("menuBtn"); // New button
   if (!canvas || !restartBtn || !menuBtn) {
     return;
   }
@@ -244,38 +240,39 @@ function game(config) {
 
   let buttons = {
     restart: { x: 0, y: 0, w: 150, h: 40, text: "RESTART" },
-    menu: { x: 0, y: 0, w: 150, h: 40, text: "MENU" }
+    menu: { x: 0, y: 0, w: 150, h: 40, text: "MENU" },
   };
 
-  buttons.menu.font = "Pixel"
+  buttons.menu.font = "Pixel";
 
   /*************************************************************
-   * Configurações e variáveis do Pong
+   * Pong settings and variables
    *************************************************************/
-  // Raquete
+  // Paddle
   const PADDLE_SPEED = 6;
   const PADDLE_WIDTH = 10;
   const PADDLE_HEIGHT = 70;
   const PADDLE_OFFSET = 30;
 
-  // Bola
+  // Ball
   const BALL_RADIUS = 6;
   const BALL_MIN_SPEED = 7;
   const BALL_MAX_SPEED = 20;
   const BALL_SPEED_INCREMENT = 0.5;
 
-  // Ângulos e rotação
+  // Angles and rotation
   const SPIN_FACTOR = 0.5;
   const MAX_BOUNCE_ANGLE = Math.PI / 3;
 
-  // Placar
+  // Scoreboard
 
-  // Posições das raquetes
+  // Paddle positions
   let player1X = PADDLE_OFFSET;
-  let player1Y, player2X = WIDTH - PADDLE_OFFSET - PADDLE_WIDTH;
+  let player1Y,
+    player2X = WIDTH - PADDLE_OFFSET - PADDLE_WIDTH;
   let player2Y, player3X, player3Y, player4X, player4Y;
 
-  if (mode === '2X2') {
+  if (mode === "2X2") {
     player1Y = (HEIGHT - PADDLE_HEIGHT * 2 - 20) / 2;
     player3Y = player1Y + PADDLE_HEIGHT + 20;
     player2Y = (HEIGHT - PADDLE_HEIGHT * 2 - 20) / 2;
@@ -285,25 +282,25 @@ function game(config) {
   } else {
     player1Y = (HEIGHT - PADDLE_HEIGHT) / 2;
     player2Y = (HEIGHT - PADDLE_HEIGHT) / 2;
-    player3X = player4X = -100; // Move para fora da tela
+    player3X = player4X = -100; // Move offscreen
   }
 
-  // Controles adicionais
+  // Additional controls
   let aPressed = false;
   let zPressed = false;
   let num6Pressed = false;
   let num3Pressed = false;
 
-  // Posição da bola
+  // Ball position
   let ballX = WIDTH / 2;
   let ballY = HEIGHT / 2;
 
-  // Placar
+  // Scoreboard
   let player1Score = 0;
   let player2Score = 0;
   let isGameOver = false;
 
-  // Controles do jogador
+  // Player controls
   let wPressed = false;
   let sPressed = false;
   let upPressed = false;
@@ -328,7 +325,7 @@ function game(config) {
 
   /**
    * Resets the ball to the center of the game area with a random angle and minimum speed.
-   * The angle is chosen such that it avoids the vertical and horizontal directions.
+   * The angle is chosen so it avoids vertical and horizontal directions.
    */
   function resetBall() {
     do {
@@ -354,7 +351,7 @@ function game(config) {
   }
 
   /*************************************************************
-   * IA (só usado no modo singleplayer)
+   * AI (only used in singleplayer mode)
    *************************************************************/
   function updateAI() {
     if (mode !== "singleplayer") return;
@@ -397,7 +394,7 @@ function game(config) {
   }
 
   /*************************************************************
-   * Jogadores
+   * Players
    *************************************************************/
   function updatePlayer1() {
     if (wPressed) {
@@ -406,13 +403,18 @@ function game(config) {
       player1Y += PADDLE_SPEED;
     }
 
-    // Limitar movimento para não ultrapassar a raquete do player3
-    if (mode === '2X2' && player1Y + PADDLE_HEIGHT > player3Y) {
+    // No modo 2X2, impede que o player 1 ultrapasse o player 3
+    if (mode === "2X2" && player1Y + PADDLE_HEIGHT > player3Y) {
       player1Y = player3Y - PADDLE_HEIGHT;
     }
-    
-    // Limite superior
+
+    // Limita o movimento no topo
     if (player1Y < 0) player1Y = 0;
+
+    // NOVA: Limita o movimento na parte inferior do campo
+    if (player1Y + PADDLE_HEIGHT > HEIGHT) {
+      player1Y = HEIGHT - PADDLE_HEIGHT;
+    }
   }
 
   function updatePlayer3() {
@@ -422,12 +424,12 @@ function game(config) {
       player3Y += PADDLE_SPEED;
     }
 
-    // Limitar movimento para não ultrapassar a raquete do player1
+    // Limit movement so it doesn't overlap player1
     if (player3Y < player1Y + PADDLE_HEIGHT) {
       player3Y = player1Y + PADDLE_HEIGHT;
     }
-    
-    // Limite inferior
+
+    // Lower limit
     if (player3Y + PADDLE_HEIGHT > HEIGHT) {
       player3Y = HEIGHT - PADDLE_HEIGHT;
     }
@@ -440,12 +442,12 @@ function game(config) {
       player2Y += PADDLE_SPEED;
     }
 
-    // Limitar movimento para não ultrapassar a raquete do player4
-    if (mode === '2X2' && player2Y + PADDLE_HEIGHT > player4Y) {
+    // Limit movement so it doesn't overlap player4
+    if (mode === "2X2" && player2Y + PADDLE_HEIGHT > player4Y) {
       player2Y = player4Y - PADDLE_HEIGHT;
     }
-    
-    // Limite superior
+
+    // Upper limit
     if (player2Y < 0) player2Y = 0;
   }
 
@@ -456,19 +458,19 @@ function game(config) {
       player4Y += PADDLE_SPEED;
     }
 
-    // Limitar movimento para não ultrapassar a raquete do player2
+    // Limit movement so it doesn't overlap player2
     if (player4Y < player2Y + PADDLE_HEIGHT) {
       player4Y = player2Y + PADDLE_HEIGHT;
     }
-    
-    // Limite inferior
+
+    // Lower limit
     if (player4Y + PADDLE_HEIGHT > HEIGHT) {
       player4Y = HEIGHT - PADDLE_HEIGHT;
     }
   }
 
   /*************************************************************
-   * Física de rebote na raquete
+   * Paddle bounce physics
    *************************************************************/
   function bounceOffPaddle(isPlayer1, paddleNumber) {
     let paddleY;
@@ -491,9 +493,10 @@ function game(config) {
 
     const bounceAngle = normalized * MAX_BOUNCE_ANGLE;
 
-    // Aceleração e spin
+    // Acceleration and spin
     ballSpeed = Math.min(ballSpeed + BALL_SPEED_INCREMENT, BALL_MAX_SPEED);
-    const extraSpin = (movingUp ? -SPIN_FACTOR : movingDown ? SPIN_FACTOR : 0) * PADDLE_SPEED;
+    const extraSpin =
+      (movingUp ? -SPIN_FACTOR : movingDown ? SPIN_FACTOR : 0) * PADDLE_SPEED;
 
     const directionX = isPlayer1 ? 1 : -1;
     const vx = ballSpeed * Math.cos(bounceAngle) * directionX;
@@ -501,14 +504,14 @@ function game(config) {
 
     ballAngle = Math.atan2(vy, vx);
 
-    // Reposicionamento
-    ballX = isPlayer1 ? 
-      player1X + PADDLE_WIDTH + BALL_RADIUS : 
-      player2X - BALL_RADIUS;
+    // Reposition
+    ballX = isPlayer1
+      ? player1X + PADDLE_WIDTH + BALL_RADIUS
+      : player2X - BALL_RADIUS;
   }
 
   /*************************************************************
-   * Atualiza a posição da bola
+   * Update ball position
    *************************************************************/
   function updateBall() {
     const vx = Math.cos(ballAngle) * ballSpeed;
@@ -517,7 +520,7 @@ function game(config) {
     ballX += vx;
     ballY += vy;
 
-    // Colisão no topo/baixo
+    // Top/bottom collision
     if (ballY - BALL_RADIUS < 0) {
       ballY = BALL_RADIUS;
       ballAngle = -ballAngle;
@@ -527,12 +530,19 @@ function game(config) {
       ballAngle = -ballAngle;
     }
 
-    // Colisão com todas as raquetes
-    const checkPaddleCollision = (paddleX, paddleY, isPlayer1, paddleNumber) => {
-      if (ballX - BALL_RADIUS <= paddleX + PADDLE_WIDTH &&
-          ballX + BALL_RADIUS >= paddleX &&
-          ballY + BALL_RADIUS >= paddleY &&
-          ballY - BALL_RADIUS <= paddleY + PADDLE_HEIGHT) {
+    // Collision with all paddles
+    const checkPaddleCollision = (
+      paddleX,
+      paddleY,
+      isPlayer1,
+      paddleNumber
+    ) => {
+      if (
+        ballX - BALL_RADIUS <= paddleX + PADDLE_WIDTH &&
+        ballX + BALL_RADIUS >= paddleX &&
+        ballY + BALL_RADIUS >= paddleY &&
+        ballY - BALL_RADIUS <= paddleY + PADDLE_HEIGHT
+      ) {
         bounceOffPaddle(isPlayer1, paddleNumber);
         return true;
       }
@@ -544,7 +554,7 @@ function game(config) {
     if (checkPaddleCollision(player2X, player2Y, false, 2)) return;
     if (checkPaddleCollision(player4X, player4Y, false, 4)) return;
 
-    // Saiu pela esquerda
+    // Left boundary
     if (ballX + BALL_RADIUS < 0) {
       player2Score++;
       if (player2Score >= maxScore) {
@@ -554,7 +564,7 @@ function game(config) {
       }
     }
 
-    // Saiu pela direita
+    // Right boundary
     if (ballX - BALL_RADIUS > WIDTH) {
       player1Score++;
       if (player1Score >= maxScore) {
@@ -566,21 +576,21 @@ function game(config) {
   }
 
   /*************************************************************
-   * Desenho (campo, linhas, raquetes, placar, etc.)
+   * Drawing (field, lines, paddles, scoreboard, etc.)
    *************************************************************/
   async function draw() {
-    // Fundo
+    // Background
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-    // Linha horizontal no meio (opcional)
+    // Optional horizontal line in the middle
     ctx.strokeStyle = "rgba(255,255,255,0.1)";
     ctx.beginPath();
     ctx.moveTo(0, HEIGHT / 2);
     ctx.lineTo(WIDTH, HEIGHT / 2);
     ctx.stroke();
 
-    // Linha vertical central
+    // Central dashed vertical line
     ctx.setLineDash([5, 5]);
     ctx.strokeStyle = "rgba(255,255,255,0.2)";
     ctx.beginPath();
@@ -589,49 +599,53 @@ function game(config) {
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // Bola
+    // Ball
     ctx.fillStyle = "#fff";
     ctx.beginPath();
     ctx.arc(ballX, ballY, BALL_RADIUS, 0, Math.PI * 2);
     ctx.fill();
 
-    // Raquete do jogador 1 (esquerda, roxa p.ex.)
+    // Player 1 (left, purple for example)
     ctx.fillStyle = "#bb66ff";
     ctx.fillRect(player1X, player1Y, PADDLE_WIDTH, PADDLE_HEIGHT);
 
-    // Raquete do jogador 2/IA (direita, outra cor)
+    // Player 2/AI (right, another color)
     ctx.fillStyle = "#66ffda";
     ctx.fillRect(player2X, player2Y, PADDLE_WIDTH, PADDLE_HEIGHT);
 
-    // Raquetes
-    ctx.fillStyle = "#bb66ff"; // Time esquerdo (Player 1 e 3)
+    // Paddles
+    ctx.fillStyle = "#bb66ff"; // Left team (Player 1 and 3)
     ctx.fillRect(player1X, player1Y, PADDLE_WIDTH, PADDLE_HEIGHT);
-    if (mode === '2X2') {
+    if (mode === "2X2") {
       ctx.fillRect(player3X, player3Y, PADDLE_WIDTH, PADDLE_HEIGHT);
     }
 
-    ctx.fillStyle = "#66ffda"; // Time direito (Player 2 e 4)
+    ctx.fillStyle = "#66ffda"; // Right team (Player 2 and 4)
     ctx.fillRect(player2X, player2Y, PADDLE_WIDTH, PADDLE_HEIGHT);
-    if (mode === '2X2') {
+    if (mode === "2X2") {
       ctx.fillRect(player4X, player4Y, PADDLE_WIDTH, PADDLE_HEIGHT);
     }
 
-    // Placar
+    // Scoreboard
     ctx.font = "30px Pixel";
     ctx.fillStyle = "#fff";
     ctx.textAlign = "center";
     ctx.fillText(`${player1Score}`, WIDTH * 0.25, HEIGHT - 15);
     ctx.fillText(`${player2Score}`, WIDTH * 0.75, HEIGHT - 15);
 
-    //Player's names
+    // Player names
     ctx.font = "20px Pixel";
-    ctx.fillText(`${player1}`, WIDTH * 0.25, 40);
-    ctx.fillText(`${player2}`, WIDTH * 0.75, 40);
-
+    if (mode === "2X2") {
+      ctx.fillText(`${player1}/${player2}`, WIDTH * 0.25, 40);
+      ctx.fillText(`${player3}/${player4}`, WIDTH * 0.75, 40);
+    } else {
+      ctx.fillText(`${player1}`, WIDTH * 0.25, 40);
+      ctx.fillText(`${player2}`, WIDTH * 0.75, 40);
+    }
 
     // Game over overlay
     if (isGameOver && !gameOverDisplayed) {
-      gameOverDisplayed = true; // Marca que o overlay já foi exibido
+      gameOverDisplayed = true; // Mark that the overlay has been shown
 
       ctx.fillStyle = "rgba(0,0,0,0.6)";
       ctx.fillRect(0, 0, WIDTH, HEIGHT);
@@ -641,9 +655,13 @@ function game(config) {
       ctx.fillText("GAME OVER", WIDTH / 2, HEIGHT / 2 - 20);
 
       const winnerText =
-        player1Score >= maxScore
+        mode === "2X2"
+          ? player1Score >= maxScore
+            ? `${player1}/${player2} won 🎉`
+            : `${player3}/${player4} won 🎉`
+          : player1Score >= maxScore
           ? `${player1} won 🎉`
-          : `${player2 || "IA"} won 🎉`;
+          : `${player2 || "AI"} won 🎉`;
       ctx.font = "24px Pixel";
       ctx.fillText(winnerText, WIDTH / 2, HEIGHT / 2 + 15);
 
@@ -689,38 +707,38 @@ function game(config) {
 
       setTimeout(() => {
         const winner = player1Score >= maxScore ? player1 : player2;
-        config.onGameEnd(winner); // Chama a função de callback com o vencedor
+        config.onGameEnd(winner); // Calls the callback function with the winner
       }, 1000);
       saveResult(player1, player2, player1Score, player2Score, config);
     }
-    // Botão de voltar
+    // Back button
   }
 
   /*************************************************************
-   * Loop principal do jogo
+   * Main game loop
    *************************************************************/
-  let gameOverDisplayed = false; // Variável para controlar se a tela de game over já foi exibida
+  let gameOverDisplayed = false; // Variable to control if the game-over screen has been shown
 
   function gameLoop() {
     if (!isGameOver) {
       updatePlayer1();
       updatePlayer2();
-      if (mode === '2X2') {
+      if (mode === "2X2") {
         updatePlayer3();
         updatePlayer4();
       }
-      if (mode === 'singleplayer') updateAI();
+      if (mode === "singleplayer") updateAI();
       updateBall();
       draw();
       requestAnimationFrame(gameLoop);
     } else if (!gameOverDisplayed) {
-      draw(); // Desenha a tela de game over uma última vez
-      gameOverDisplayed = true; // Marca que a tela de game over já foi exibida
+      draw(); // Draw the game-over screen one last time
+      gameOverDisplayed = true;
     }
   }
 
   /*************************************************************
-   * Eventos de teclado e botão "restart"
+   * Keyboard events and "restart" button
    *************************************************************/
   document.addEventListener("keydown", (e) => {
     if (e.key === "w" || e.key === "W") wPressed = true;
@@ -745,40 +763,46 @@ function game(config) {
 
   restartBtn.addEventListener("click", () => {
     resetGame();
-    restartBtn.style.display = "none"; // Hide the restart button after clicking
-    gameLoop(); // Restart the game loop
+    restartBtn.style.display = "none";
+    gameLoop();
   });
 
-  // Novo evento para o botão de menu
+  // New event for the menu button
   menuBtn.addEventListener("click", () => {
     document.querySelector(".game-config").style.display = "block";
     canvas.style.display = "none";
     restartBtn.style.display = "none";
     menuBtn.style.display = "none";
-    // Adicione qualquer lógica adicional para reiniciar o torneio se necessário
+    // Add any additional logic to reset the tournament if needed
   });
 
-  canvas.addEventListener('click', (e) => {
+  canvas.addEventListener("click", (e) => {
     if (!isGameOver) return;
-  
+
     // Get canvas-relative coordinates
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
-    const x = (e.clientX - rect.left) * scaleX / dpr;
-    const y = (e.clientY - rect.top) * scaleY / dpr;
-  
+    const x = ((e.clientX - rect.left) * scaleX) / dpr;
+    const y = ((e.clientY - rect.top) * scaleY) / dpr;
+
     // Check button collisions
     function isInside(pos, btn) {
-      return pos.x > btn.x && pos.x < btn.x + btn.w &&
-             pos.y > btn.y && pos.y < btn.y + btn.h;
+      return (
+        pos.x > btn.x &&
+        pos.x < btn.x + btn.w &&
+        pos.y > btn.y &&
+        pos.y < btn.y + btn.h
+      );
     }
-  
+
     if (isInside({ x, y }, buttons.restart) && config.mode !== "tournament") {
       resetGame();
       gameLoop();
-
-    } else if (isInside({ x, y }, buttons.menu) && config.mode !== "tournament") {
+    } else if (
+      isInside({ x, y }, buttons.menu) &&
+      config.mode !== "tournament"
+    ) {
       document.querySelector(".game-config").style.display = "block";
       canvas.style.display = "none";
       resetGame();
@@ -786,40 +810,44 @@ function game(config) {
   });
 
   /*************************************************************
-   * Inicializa o jogo
+   * Initialize the game
    *************************************************************/
   resetGame();
   gameLoop();
 }
 
-async function saveResult(player1Name, player2Name, player1Score, player2Score, config) {
+async function saveResult(
+  player1Name,
+  player2Name,
+  player1Score,
+  player2Score,
+  config
+) {
   let gameType = config.mode;
-  const userId = CookieManager.getCookie('userId');
+  const userId = CookieManager.getCookie("userId");
   if (!userId) {
     return;
   }
 
-  if(gameType.toUpperCase() == "TOURNAMENT")
-  {
-      if(player1Name != config.userPlayer && player1Name != config.userPlayer)
-          return;
+  if (gameType.toUpperCase() == "TOURNAMENT") {
+    if (player1Name != config.userPlayer && player1Name != config.userPlayer)
+      return;
 
-      if (player2Name == config.userPlayer)
-      {
-          swap = player1Name;
-          player1Name = player2Name;
-          player2Name = player1Name;
-      }
+    if (player2Name == config.userPlayer) {
+      swap = player1Name;
+      player1Name = player2Name;
+      player2Name = player1Name;
+    }
   }
 
-  // Crie um objeto com os parâmetros para enviar como corpo da requisição
+  // Create an object with the parameters to send as the request body
   const requestBody = {
     user: player1Name,
     opponent: player2Name,
     user_score: player1Score,
     opponent_score: player2Score,
     game_type: gameType.toUpperCase(),
-    tournament_name: config.tournamentName
+    tournament_name: config.tournamentName,
   };
 
   try {
@@ -829,19 +857,17 @@ async function saveResult(player1Name, player2Name, player1Score, player2Score, 
         Authorization: `Bearer ${await tokenManager.getAccessToken()}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(requestBody), // Envia o objeto como JSON
+      // Send the object as JSON
     });
 
     if (!response.ok) {
       throw new Error("Failed to save game result");
     }
-
-  } catch (error) {
-  }
+  } catch (error) {}
 }
 
 /*************************************************************
- * Inicializa o menu de jogo
+ * Initialize the game menu
  *************************************************************/
 
 async function loadGameMenu() {
@@ -849,8 +875,8 @@ async function loadGameMenu() {
   let player1Input = document.getElementById("player1");
   let playerTournamentInput = document.getElementById("newPlayer");
 
-  player1Input.value = data.username; // Definir o valor do campo como o nome do usuário
-  player1Input.disabled = true; // Bloquear o campo para edição
+  player1Input.value = data.username; // Set the field value to the username
+  player1Input.disabled = true; // Disable the field for editing
 
   playerTournamentInput.value = data.username;
 }

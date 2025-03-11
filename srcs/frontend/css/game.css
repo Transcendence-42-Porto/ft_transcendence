@@ -317,4 +317,44 @@ table.bracket-table td {
   text-align: center; /* Alinha o texto no centro, se necessário */
   font-size: 1.5rem;
 }
-/* 
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+#menu, #tournament-setup, #tournament-screen {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#gameCanvas {
+  display: block;
+  margin: 20px auto;
+  background: #222;
+  border: 2px solid #ccc;
+}
+
+/* Estilização simples de inputs e botões */
+input, button {
+  padding: 6px 10px;
+  margin: 5px;
+  font-size: 16px;
+}
+
+.hidden {
+  display: none;
+}
+
+.scoreboard {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.highlight {
+  color: #0f0;
+}
