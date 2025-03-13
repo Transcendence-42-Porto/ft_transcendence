@@ -111,10 +111,8 @@ import tokenManager from "./token.js";
         const searchInput = document.getElementById('searchFriendInput').value;
         if (!searchInput) return;
     
-        // Remove the existing backdrop manually before showing the modal again
-        $('.modal-backdrop').remove(); // Removes any leftover backdrop
+        $('.modal-backdrop').remove();
     
-        // Update the modal content
         const users = await fetch(`/api/users/`, {
           method: 'GET',
           headers: {
@@ -159,10 +157,8 @@ import tokenManager from "./token.js";
             tableBody.append(noResultRow);
           }
     
-        } else {
         }
     
-        // Show the modal again after the content is updated
         $('#friendsListModal').modal('show');
     
       } catch (error) {
@@ -227,7 +223,6 @@ function convertToBase64(file) {
   });
 }
 
-// Function to upload image to BBImage
 async function uploadImage() {
   const fileInput = document.getElementById('editProfilePic');
   const file = fileInput.files[0]; 
@@ -241,7 +236,6 @@ async function uploadImage() {
     const formData = new FormData();
     formData.append('image', base64Image);
 
-    // Send the POST request to BBImage API
     const response = await fetch('https://api.imgbb.com/1/upload?expiration=600&key=a6f7a9d312fbdc0ba9bc2d8f4c72b3b2', {
       method: 'POST',
       body: formData
@@ -257,7 +251,6 @@ async function uploadImage() {
   } catch (error) {
   }
 }
-
 
 async function onEditFormSubmit() {
   try {

@@ -10,8 +10,6 @@ async function onSignUp() {
         return;
     try {
 
-
-
         const response = await fetch('/api/authentication/sign-up', {
             method: 'POST',
             headers: {
@@ -62,17 +60,16 @@ async function createQrCode(email) {
         });
 
         if (!response.ok) {
-            return false; // Retorna false em caso de falha
+            return false; 
         }
 
-        const data = await response.json(); // Aguarda e processa o JSON
+        const data = await response.json();
         document.getElementById('qrcode').src = `data:image/png;base64,${data.qrcode}`;
-        return true; // Retorna true em caso de sucesso
+        return true;
     } catch (error) {
-        return false; // Retorna false em caso de erro
+        return false;
     }
 }
-
 
 function checkSignupFields(email, name, username, password, confirmPassword) {
     if (email === '' && name === '' && username === '' && password === '') {
@@ -115,7 +112,6 @@ function checkSignupFields(email, name, username, password, confirmPassword) {
 
     return true;
 }
-
 
 function displaySignupErrorMessage(message) {
     $('#error-msg-signup').text(message);

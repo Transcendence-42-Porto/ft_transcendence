@@ -1,6 +1,6 @@
 class CookieManager {
     constructor() {
-        this.accessToken = null; // Initialize the access token as null
+        this.accessToken = null;
     }
 
     static getCookie(name) {

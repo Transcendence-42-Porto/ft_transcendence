@@ -1,18 +1,13 @@
 function routing() {
-    // Função que carrega o conteúdo HTML dentro de #app baseado no endpoint
     loadContentBasedOnUrl();
 };
 
 function loadContentBasedOnUrl() {
-    // Pega a URL atual
     const url = window.location.pathname;
     
-    // Verifica se a URL é a raiz
     if (url === "/") {
-        // Carrega o conteúdo da página inicial
         loadContent("login");
     } else {
-        // Carrega o conteúdo baseado na URL
         const endpoint = url.replace("/", "");
         loadContent(endpoint);
     }

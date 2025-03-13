@@ -1,11 +1,9 @@
-// file: /js/menu.js
 function showSingleplayerForm() {
 	document.getElementById("singleplayerForm").style.display = "block";
 	document.getElementById("multiplayerForm").style.display = "none";
   }
   
   function showMultiplayerForm() {
-	// Show multiplayer form, hide singleplayer form
 	document.getElementById("singleplayerForm").style.display = "none";
 	document.getElementById("multiplayerForm").style.display = "block";
   }
@@ -15,7 +13,6 @@ function showSingleplayerForm() {
 	const difficulty = document.getElementById("spDifficulty").value;
 	const maxScore = parseInt(document.getElementById("spMaxScore").value, 10);
   
-	// Validate
 	if (!name || name.length === 0 || name.length > 7) {
 	  alert("Player name must be 1 to 7 chars long");
 	  return;
