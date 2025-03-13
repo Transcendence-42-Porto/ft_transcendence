@@ -1,19 +1,16 @@
 #!/bin/bash
-
 set -e
 sleep 7 
-
 echo "Waiting for PostgreSQL to start..."
 while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
   echo "Waiting for PostgreSQL..."
   sleep 2
 done
 echo "PostgreSQL is ready!"
-
 echo "Applying migrations..."
 retry_count=0
 max_retries=5
-until poetry run python manage.py migrate --noinput; do
+until poetry run python manage.py migrate --fake-initial --noinput; do
     ((retry_count++))
     if [ $retry_count -ge $max_retries ]; then
         echo "Migration failed after $max_retries attempts. Exiting."
@@ -22,9 +19,6 @@ until poetry run python manage.py migrate --noinput; do
     echo "Migration failed. Retrying in 5 seconds..."
     sleep 5
 done
-
-poetry run python manage.py migrate --fake-initial --noinput
-
 
 echo "Checking for superuser..."
 poetry run python manage.py shell <<END
