@@ -10,7 +10,7 @@ ENV POSTGRES_INITDB_ARGS="--data-checksums"
 
 # uncomment to load the backup file
 # comment to start with an empty database
-COPY backup.sql /docker-entrypoint-initdb.d/backup.sql
+# COPY backup.sql /docker-entrypoint-initdb.d/backup.sql
 
 HEALTHCHECK --interval=15s --timeout=3s \
   CMD pg_isready -U $POSTGRES_USER -d $POSTGRES_DB || exit 1

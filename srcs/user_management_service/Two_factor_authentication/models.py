@@ -24,4 +24,4 @@ class UserLoginAttempt(models.Model):
     objects = UserLoginManager()
 
     class Meta:
-        db_table = "user_twofactor"
+        db_table = "user_login"
