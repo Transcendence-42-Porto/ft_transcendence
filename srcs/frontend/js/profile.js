@@ -399,27 +399,19 @@ async function loadGameHistory() {
   try {
     const data = await loadPersonalInfo();
     
-    // Verificar se a variável 'data' e 'scores' são válidas
     if (!data || !Array.isArray(data.scores)) {
-      console.error("A variável 'scores' não está disponível ou não é um array.");
       return;
     }
 
     const scores = data.scores;
 
-    // Verificando os dados de scores
-    console.log(scores); // Verifique o que está sendo retornado
-
     const tableBody = document.querySelector('#gameHistoryModal tbody');
-    tableBody.innerHTML = ''; // Limpar a tabela antes de adicionar as novas linhas
+    tableBody.innerHTML = '';
 
-    // Verificando se o 'scores' tem dados para iterar
     if (scores.length === 0) {
-      console.log("Não há jogos para exibir.");
       return;
     }
 
-    // Loop através dos scores e adicionar as linhas na tabela
     scores.forEach(score => {
       const date = new Date(score.date);
       const dateString = date.toISOString().split('T')[0];
@@ -451,6 +443,5 @@ async function loadGameHistory() {
     });
 
   } catch (error) {
-    console.error("Erro ao carregar os dados:", error);
   }
 }

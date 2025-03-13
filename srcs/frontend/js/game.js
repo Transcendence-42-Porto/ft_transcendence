@@ -256,7 +256,7 @@ function game(config) {
 
   // Ball
   const BALL_RADIUS = 6;
-  const BALL_MIN_SPEED = 3; // Start slower
+  const BALL_MIN_SPEED = 10; // Start slower
   const BALL_SPEED_INCREMENT = 0.5; // Keep increment or adjust if needed
   const BALL_MAX_SPEED = 20;
 
@@ -711,7 +711,8 @@ function game(config) {
 
       setTimeout(() => {
         const winner = player1Score >= maxScore ? player1 : player2;
-        config.onGameEnd(winner); // Calls the callback function with the winner
+        if(config.mode == "tournament")
+          config.onGameEnd(winner); // Calls the callback function with the winner
       }, 1000);
       saveResult(player1, player2, player1Score, player2Score, config);
     }
@@ -844,13 +845,11 @@ async function saveResult(
     }
   }
 
-  // Handle 2x2 mode by concatenating player names
   if (gameType === "2X2") {
     player1Name = `${config.player1}/${config.player2}`;
     player2Name = `${config.player3}/${config.player4}`;
   }
 
-  // Create an object with the parameters to send as the request body
   const requestBody = {
     user: player1Name,
     opponent: player2Name,
@@ -867,7 +866,7 @@ async function saveResult(
         Authorization: `Bearer ${await tokenManager.getAccessToken()}`,
         "Content-Type": "application/json",
       },
-      // Send the object as JSON
+      body: JSON.stringify(requestBody), 
     });
 
     if (!response.ok) {
