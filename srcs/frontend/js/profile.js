@@ -292,7 +292,7 @@ async function onEditFormSubmit() {
       const editProfileModalElement = document.getElementById('editProfileModal');
       const editProfileModal = bootstrap.Modal.getInstance(editProfileModalElement);
       editProfileModal.hide();
-
+      document.body.removeAttribute('aria-hidden');
       return;
 
     } catch (error) {

@@ -53,5 +53,7 @@ function loadContent(endpoint) {
               }
         })
         .catch(error => {
+            history.pushState({}, '', '/login');
+            loadContent('login');
         });
 }
