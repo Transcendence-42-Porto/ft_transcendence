@@ -10,7 +10,8 @@ EXPOSE 5432
 # Enable data checksums
 ENV POSTGRES_INITDB_ARGS="--data-checksums"
 
-# Copy backup file (optional)
+# uncomment to load the backup file
+# comment to start with an empty database
 # COPY backup.sql /docker-entrypoint-initdb.d/backup.sql
 
 USER root
