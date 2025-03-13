@@ -60,7 +60,6 @@ h1, h2, h3, h4, h5, h6, span, p {
   padding-left: 2rem  !important;
 }
 
-/* Modal styling */
 .modal-content {
   border-radius: 10px;
 }
@@ -72,7 +71,6 @@ h1, h2, h3, h4, h5, h6, span, p {
 .btn-outline-primary {
   border-radius: 50%;
   padding: 5px;
-  /* background-color: #fff; */
 }
 
 .modal-error-msg small{
@@ -97,10 +95,10 @@ h1, h2, h3, h4, h5, h6, span, p {
   font-size: 0.7rem !important;
   color: #176bb5 !important
 }
-/* Make the modal content scrollable */
+
 #gameHistoryModal .modal-body {
   max-height: 50vh;
-  overflow-y: auto;  /* Adds vertical scrollbar when content overflows */
+  overflow-y: auto;
 }
 
 
@@ -113,25 +111,21 @@ h1, h2, h3, h4, h5, h6, span, p {
   white-space: nowrap;
 }
 
-/* Make the modal body scrollable */
 #friendsListModal .modal-body {
-  max-height: 50vh;  /* 50% of the viewport height, adjust as needed */
-  overflow-y: auto;  /* Adds a vertical scrollbar when content overflows */
+  max-height: 50vh;
+  overflow-y: auto;
 }
 
-/* Ensure the table is full width */
 #friendsListModal table {
   width: 100%;
-  table-layout: fixed; /* Distributes the width of the table evenly */
+  table-layout: fixed;
 }
 
-/* Optional: Adjust column and row styles for the table */
 #friendsListModal th, #friendsListModal td {
-  width: auto;  /* Adjust width of columns dynamically */
-  white-space: nowrap;  /* Prevent wrapping of table content */
+  width: auto;
+  white-space: nowrap;
 }
 
-/* Add the bounce effect to the error message */
 @keyframes bounce {
   0% {
     transform: translateY(0);
@@ -150,13 +144,13 @@ h1, h2, h3, h4, h5, h6, span, p {
   }
 }
 
-/* Apply the bounce effect */
+
 #logoutErrorMsg {
-  display: none; /* Initially hidden */
+  display: none;
   animation: bounce 0.5s ease-in-out;
 }
 
-/* Optional: style the error message */
+
 #logoutErrorMsg {
   color: #176bb5;
   font-size: 16px;

@@ -1,9 +1,8 @@
 @font-face {
   font-family: 'Pixel';
-  src: url('../fonts/pixel.otf') format('truetype'); /* Caminho para o arquivo da fonte */
+  src: url('../fonts/pixel.otf') format('truetype');
 }
 
-/* Estilização geral do formulário */
 body {
   font-family: Arial, sans-serif;
   background-color: #1e293b;
@@ -147,7 +146,7 @@ canvas {
 }
 
 #player1::placeholder {
-  color: #00a2ff; /* Altere para a cor desejada */
+  color: #00a2ff;
 }
 
 /** Tournament Bracket CSS */
@@ -301,20 +300,18 @@ canvas {
 }
 
 #addPlayer:disabled {
-  background-color: #ccc;  /* Light gray background */
-  color: #888;  /* Gray text */
-  border-color: #ccc;  /* Gray border */
-  cursor: not-allowed;  /* Not allowed cursor */
+  background-color: #ccc;
+  color: #888;
+  border-color: #ccc;
+  cursor: not-allowed;
 }
 
 .player-tag {
   margin-top: 5px;
 }
 
-/* Adiciona padding entre as células da tabela */
 table.bracket-table td {
-  padding: 5px; /* Ajuste esse valor conforme necessário */
-  text-align: center; /* Alinha o texto no centro, se necessário */
+  padding: 5px;
+  text-align: center;
   font-size: 1.5rem;
 }
-/* 

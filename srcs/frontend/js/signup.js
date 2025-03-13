@@ -60,6 +60,7 @@ async function createQrCode(email) {
         });
 
         if (!response.ok) {
+            displaySignupErrorMessage('Ops! Sign-up failed. Please try again.');
             return false; 
         }
 
@@ -67,6 +68,7 @@ async function createQrCode(email) {
         document.getElementById('qrcode').src = `data:image/png;base64,${data.qrcode}`;
         return true;
     } catch (error) {
+        displaySignupErrorMessage('Ops! Sign-up failed. Please try again.');
         return false;
     }
 }

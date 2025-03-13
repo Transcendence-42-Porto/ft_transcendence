@@ -236,8 +236,8 @@ async function uploadImage() {
     const formData = new FormData();
     formData.append('image', base64Image);
 
-    const response = await fetch('https://api.imgbb.com/1/upload?expiration=600&key=a6f7a9d312fbdc0ba9bc2d8f4c72b3b2', {
-      method: 'POST',
+    const response = await fetch('https://api.imgbb.com/1/upload?expiration=600&key=7f1ce90d4a2253cde69249da170d67f7', {
+      method: 'POST', 
       body: formData
     });
 
