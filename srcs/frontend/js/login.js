@@ -58,7 +58,7 @@ async function verifyAuthenticationCode() {
 
     const errorMessageElement = document.getElementById('errorMessage');
     if (errorMessageElement) {
-        errorMessageElement.style.display = 'none';  // Hide error message if we are checking for a new submission
+        errorMessageElement.style.display = 'none';
     }
 
     try {
