@@ -22,6 +22,7 @@ COPY pyproject.toml poetry.lock* /app/
 
 # Install only the dependencies
 RUN poetry install --no-root --only main
+RUN apt-get update && apt-get install -y netcat
 
 # Copy the current directory contents into the container at /app
 COPY . /app
