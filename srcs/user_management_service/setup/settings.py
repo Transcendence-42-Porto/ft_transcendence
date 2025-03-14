@@ -83,7 +83,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "setup.wsgi.application"
 
 # Database environment variables setup
-db_user, db_password = get_vault_credentials()
+db_user, db_password = config("POSTGRES_USER"), config("POSTGRES_PASSWORD")
 
 # Database
 DATABASES = {

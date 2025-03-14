@@ -16,13 +16,15 @@ fi
 # Create required roles (if they don't exist)
 echo "Creating required roles..."
 psql -U $POSTGRES_USER -d $POSTGRES_DB <<-EOSQL
-  DO \$$
+  DO \$\$
   BEGIN
-    IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'v-token-django_u-dWhazJqLCC8bN2s5Jt5y-1741882137') THEN
-      CREATE ROLE "v-token-django_u-dWhazJqLCC8bN2s5Jt5y-1741882137";
-    END IF;
+      IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = '${POSTGRES_USER}') THEN
+          EXECUTE format('CREATE ROLE %I WITH LOGIN PASSWORD %L', '${POSTGRES_USER}', '${POSTGRES_PASSWORD}');
+      END IF;
+      EXECUTE format('GRANT ALL PRIVILEGES ON DATABASE %I TO %I', '${POSTGRES_DB}', '${POSTGRES_USER}');
   END
-  \$$;
+  \$\$;
 EOSQL
+
 
 echo "Database initialization complete!"
