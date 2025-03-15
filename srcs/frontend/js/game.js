@@ -249,14 +249,14 @@ function game(config) {
    * Pong settings and variables
    *************************************************************/
   // Paddle
-  const PADDLE_SPEED = 6;
+  const PADDLE_SPEED = 3;
   const PADDLE_WIDTH = 10;
   const PADDLE_HEIGHT = 70;
   const PADDLE_OFFSET = 30;
 
   // Ball
   const BALL_RADIUS = 6;
-  const BALL_MIN_SPEED = 10; // Start slower
+  const BALL_MIN_SPEED = 2; // Start slower
   const BALL_SPEED_INCREMENT = 0.5; // Keep increment or adjust if needed
   const BALL_MAX_SPEED = 20;
 
@@ -382,9 +382,17 @@ function game(config) {
     }
 
     if (player2Y < aiTargetY) {
-      player2Y += PADDLE_SPEED;
+      if (aiTargetY - player2Y < PADDLE_SPEED) {
+        player2Y = aiTargetY;
+      } else {
+        player2Y += PADDLE_SPEED;
+      }
     } else if (player2Y > aiTargetY) {
-      player2Y -= PADDLE_SPEED;
+      if (player2Y - aiTargetY < PADDLE_SPEED) {
+        player2Y = aiTargetY;
+      } else {
+        player2Y -= PADDLE_SPEED;
+      }
     }
 
     if (player2Y < 0) player2Y = 0;
