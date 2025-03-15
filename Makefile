@@ -57,7 +57,7 @@ nuke: down ## Remove all containers, networks, and volumes
 			fi; \
 		done; \
 	fi
-	docker system prune -a -y
+	docker system prune -a -f
 	@echo "${GREEN}\t===== Docker Resources Purged =====${NC}"
 
 
