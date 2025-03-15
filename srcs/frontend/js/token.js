@@ -47,16 +47,7 @@ class TokenManager {
         } 
         return this.accessToken;
     }
-    /**
-     * Get the stored access token.
-     * @returns {string|null} - The access token, or null if not set.
-     */
-    async getAccessToken() {
-        if (this.isTokenValid()) {
-            return this.accessToken;
-        }
-        return await this.refreshToken();
-    }
+    
 
     /**
      * Clear the access token.
@@ -65,6 +56,22 @@ class TokenManager {
         this.accessToken = null;
         // Remove the token from sessionStorage
         sessionStorage.removeItem('accessToken');
+    }
+
+    /**
+     * Get the stored access token.
+     * @returns {string|null} - The access token, or null if not set.
+     */
+    async getAccessToken() {
+
+        if (this.isTokenValid()) {
+            if(sessionStorage.getItem('accessToken') && this.accessToken)
+                return this.accessToken;
+            else
+                this.clearAccessToken();
+                loadContent('login');
+        }
+        return await this.refreshToken();
     }
 }
 

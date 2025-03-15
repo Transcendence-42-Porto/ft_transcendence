@@ -45,12 +45,10 @@ import tokenManager from "./token.js";
         const profilePic = data.avatar || getRandomAvatar();
         const name = data.name || "";
         const username = data.username ? "@" + data.username : "";
-        const email = data.email || "";
     
         document.getElementById('editProfilePic').src = profilePic;
         document.getElementById('editName').value = name;
         document.getElementById('editUsername').value = username;
-        document.getElementById('editEmail').value = email;
       } catch (error) {
       }
     }
@@ -93,6 +91,7 @@ import tokenManager from "./token.js";
               tableBody.append(friendRow);
             }
           } catch (error) {
+            // Handle error if needed
           }
         }
       }
@@ -102,7 +101,11 @@ import tokenManager from "./token.js";
         tableBody.append(noFriendsRow);
       }
     
-      const friendsModal = new bootstrap.Modal(document.getElementById('friendsListModal'));
+      const modalElement = document.getElementById('friendsListModal');
+      let friendsModal = bootstrap.Modal.getInstance(modalElement);
+      if (!friendsModal) {
+        friendsModal = new bootstrap.Modal(modalElement);
+      }
       friendsModal.show();
     }
     
@@ -110,8 +113,6 @@ import tokenManager from "./token.js";
       try {
         const searchInput = document.getElementById('searchFriendInput').value;
         if (!searchInput) return;
-    
-        $('.modal-backdrop').remove();
     
         const users = await fetch(`/api/users/`, {
           method: 'GET',
@@ -160,9 +161,6 @@ import tokenManager from "./token.js";
           }
     
         }
-    
-        $('#friendsListModal').modal('show');
-    
       } catch (error) {
       }
     }    
@@ -197,8 +195,6 @@ function getRandomAvatar() {
     'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp',
     'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp',
     'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp',
-    'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava7-bg.webp',
-    'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava8-bg.webp',
   ];
   return avatars[Math.floor(Math.random() * avatars.length)];
 }
@@ -257,7 +253,6 @@ async function uploadImage() {
 async function onEditFormSubmit() {
   try {
     let newName = document.getElementById('editName').value;
-    let newEmail = document.getElementById('editEmail').value;
     let newUsername = document.getElementById('editUsername').value.replace('@', '');
     let newAvatarFile = await uploadImage();
 
@@ -267,14 +262,11 @@ async function onEditFormSubmit() {
     }
 
     try {
-
       const formData = new FormData();
       if(newAvatarFile && newAvatarFile != '')
         formData.append("avatar", newAvatarFile);
       if(newName != '')
         formData.append("name", newName);
-      if(newEmail != '')
-        formData.append("email", newEmail);
       if(newUsername != '')
         formData.append("username", newUsername);
 
@@ -292,8 +284,9 @@ async function onEditFormSubmit() {
 
       await loadProfile();
       const editProfileModalElement = document.getElementById('editProfileModal');
-      const editProfileModal = bootstrap.Modal.getInstance(editProfileModalElement);
+      const editProfileModal = bootstrap.Modal.getInstance(editProfileModalElement) || new bootstrap.Modal(editProfileModalElement);
       editProfileModal.hide();
+
       document.body.removeAttribute('aria-hidden');
       return;
 
@@ -362,16 +355,11 @@ async function onLogout() {
       const data = await response.json();
       
       const logoutModalElement = document.getElementById('logoutModal');
-      const logoutModal = bootstrap.Modal.getInstance(logoutModalElement);
-      if (logoutModal) {
-        logoutModal.hide();
-      }
-
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        backdrop.remove();
-      }
-
+      // const logoutModal = bootstrap.Modal.getInstance(logoutModalElement);
+      // if (logoutModal) {
+      //   logoutModal.hide();
+      // }
+      tokenManager.clearAccessToken();
       loadContent("login");
     } else {
       const logoutErrorMsg = document.getElementById('logoutErrorMsg');
@@ -437,6 +425,12 @@ async function loadGameHistory() {
       tableBody.appendChild(row);
     });
 
+    const modalElement = document.getElementById('gameHistoryModal');
+    let gameModal = bootstrap.Modal.getInstance(modalElement);
+    if (!gameModal) {
+      gameModal = new bootstrap.Modal(modalElement);
+    }
+    gameModal.show();
   } catch (error) {
   }
 }

@@ -85,13 +85,13 @@ async function verifyAuthenticationCode() {
         tokenManager.setAccessToken(data.access_token);
         loadContent('game');
 
-        const authenticatorModalElement = document.getElementById('authenticatorModal');
-        if (authenticatorModalElement) {
-            const authenticatorModal = bootstrap.Modal.getInstance(authenticatorModalElement);
-            if (authenticatorModal) {
-                authenticatorModal.hide();
-            }
-        }
+        // const authenticatorModalElement = document.getElementById('authenticatorModal');
+        // if (authenticatorModalElement) {
+        //     const authenticatorModal = bootstrap.Modal.getInstance(authenticatorModalElement);
+        //     if (authenticatorModal) {
+        //         authenticatorModal.hide();
+        //     }
+        // }
     } catch (error) {
         if (errorMessageElement) {
             errorMessageElement.style.display = 'block';
