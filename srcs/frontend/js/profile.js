@@ -131,9 +131,11 @@ import tokenManager from "./token.js";
     
           const matchingUser = dataUsers.find(user => user.username.toLowerCase().includes(searchInput.toLowerCase()));
           const currentUserId = CookieManager.getCookie('userId');
-          const isAlreadyFriend = personalData.friends.some(friend => friend.username === searchInput);
+          const isAlreadyFriend = "";
+          if(matchingUser)
+            isAlreadyFriend = personalData.friends.some(friend => friend.id === matchingUser.id);
     
-          if (matchingUser && matchingUser.id != currentUserId && !isAlreadyFriend) {
+          if (matchingUser && matchingUser != undefined && matchingUser.id != currentUserId && !isAlreadyFriend && matchingUser.username != "admin") {
             const statusColor = matchingUser.isOnline ? 'green' : 'red';
             const truncatedEmail = matchingUser.email.length > 12 ? matchingUser.email.substring(0, 12) + '...' : matchingUser.email;
             const newRow = `
