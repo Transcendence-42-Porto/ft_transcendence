@@ -95,6 +95,7 @@ function initializeGameForm() {
       e.preventDefault();
       const mode = document.querySelector(".mode-btn.active").dataset.mode;
       const maxScore = parseInt(document.getElementById("maxScore").value);
+      const speedIncrement = document.getElementById("speedIncrement").value === "True";
       const player1 = document.getElementById("player1").value.trim();
       const player2 = document.getElementById("player2").value.trim();
       const player3 = mode === "2X2" ? document.getElementById("player3").value.trim() : "";
@@ -121,7 +122,8 @@ function initializeGameForm() {
               maxScore,
               player1,
               player2: mode === "singleplayer" ? "CPU" : player2,
-              difficulty: document.getElementById("difficulty").value
+              difficulty: document.getElementById("difficulty").value,
+              speedIncrement
           };
 
           // Adiciona jogadores 3 e 4 para o modo 2X2
@@ -140,4 +142,3 @@ function initializeGameForm() {
   
   window.initializeGameForm = initializeGameForm;
 
-  

@@ -205,7 +205,7 @@ function showBracket(tournament) {
 
 function game(config) {
   "use strict";
-
+  console.log(config);
   const { mode, maxScore, player1, player2, difficulty, player3, player4 } =
     config;
 
@@ -257,8 +257,12 @@ function game(config) {
   // Ball
   const BALL_RADIUS = 6;
   const BALL_MIN_SPEED = 2; // Start slower
-  const BALL_SPEED_INCREMENT = 0.5; // Keep increment or adjust if needed
+  let BALL_SPEED_INCREMENT = 0;
   const BALL_MAX_SPEED = 20;
+
+  if (config.speedIncrement) {
+    BALL_SPEED_INCREMENT = 0.3;
+  }
 
   // Angles and rotation
   const SPIN_FACTOR = 0.5;
