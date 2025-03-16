@@ -75,8 +75,8 @@ function playNextMatch(tournament, players) {
   const config = {
     mode: "tournament",
     maxScore: parseInt(document.getElementById("maxScore").value),
-    player1: player1 ? player1 : "Bye",
-    player2: player2 ? player2 : "Bye",
+    player1: player1 || "",
+    player2: player2 || "",
     userPlayer: players[0],
     tournamentName: document.getElementById("tournamentName").value,
     onGameEnd: (winner) => {
@@ -157,20 +157,27 @@ function showBracket(tournament) {
   const tbody = document.createElement("tbody");
 
   const createMatchRow = (match) => {
-    const row = document.createElement("tr");
+    // Skip creating a row if both players are empty
+    if ((!match.players[0] || match.players[0] === "") &&
+        (!match.players[1] || match.players[1] === "")) {
+      return null;
+    }
 
+    const row = document.createElement("tr");
     const cell1 = document.createElement("td");
     const cell2 = document.createElement("td");
     const cell3 = document.createElement("td");
     const winnerCell = document.createElement("td");
 
-    cell1.textContent = match.players[0] ? match.players[0] : "Bye";
+    cell1.textContent = match.players[0] || "";
     cell2.textContent = "vs";
-    cell3.textContent = match.players[1] ? match.players[1] : "Bye";
+    cell3.textContent = match.players[1] || "";
 
     winnerCell.textContent = match.winner
       ? `Winner: ${match.winner}`
-      : "No winner yet";
+      : match.players[0] && match.players[1]
+      ? "No winner yet"
+      : "";
 
     row.appendChild(cell1);
     row.appendChild(cell2);
@@ -180,14 +187,12 @@ function showBracket(tournament) {
     return row;
   };
 
-  const createBracketRows = (rounds) => {
+  const createBracketRows = () => {
     const rows = [];
-
     tournament.rounds.forEach((round) => {
-      const matchRow = createMatchRow(round);
-      rows.push(matchRow);
+      const row = createMatchRow(round);
+      if (row) rows.push(row);
     });
-
     return rows;
   };
 
@@ -249,14 +254,14 @@ function game(config) {
    * Pong settings and variables
    *************************************************************/
   // Paddle
-  const PADDLE_SPEED = 3;
+  const PADDLE_SPEED = 7;
   const PADDLE_WIDTH = 10;
   const PADDLE_HEIGHT = 70;
   const PADDLE_OFFSET = 30;
 
   // Ball
   const BALL_RADIUS = 6;
-  const BALL_MIN_SPEED = 2; // Start slower
+  const BALL_MIN_SPEED = 6;
   let BALL_SPEED_INCREMENT = 0;
   const BALL_MAX_SPEED = 20;
 
@@ -723,8 +728,7 @@ function game(config) {
 
       setTimeout(() => {
         const winner = player1Score >= maxScore ? player1 : player2;
-        if(config.mode == "tournament")
-          config.onGameEnd(winner); // Calls the callback function with the winner
+        if (config.mode == "tournament") config.onGameEnd(winner); // Calls the callback function with the winner
       }, 1000);
       saveResult(player1, player2, player1Score, player2Score, config);
     }
@@ -808,8 +812,7 @@ function game(config) {
       return (
         pos.x > btn.x &&
         pos.x < btn.x + btn.w &&
-        pos.y > btn.y &&
-        pos.y < btn.y + btn.h
+        pos.y > btn.y + btn.h
       );
     }
 
@@ -878,7 +881,7 @@ async function saveResult(
         Authorization: `Bearer ${await tokenManager.getAccessToken()}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(requestBody), 
+      body: JSON.stringify(requestBody),
     });
 
     if (!response.ok) {
