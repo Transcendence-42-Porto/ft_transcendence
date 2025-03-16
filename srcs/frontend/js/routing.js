@@ -15,13 +15,16 @@ function routing() {
     if (!isAuthenticated()) {
       loadContent("login");
     } else {
-      loadContent(endpoint, false);
+      if(endpoint == "profile")
+        loadContent(endpoint, false);
+      else
+        loadContent("game");
     }
   }
   
   function loadContent(endpoint, pushState = true) {
     const app = document.getElementById("app");
-  
+    
     fetch(`/html/${endpoint}.html`)
       .then((response) => {
         if (response.ok) {
