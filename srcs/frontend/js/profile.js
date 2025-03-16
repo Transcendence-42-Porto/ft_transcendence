@@ -57,8 +57,8 @@ import tokenManager from "./token.js";
       const data = await loadPersonalInfo();
       const tableBody = $('#friendsListModal tbody');
       let friends = 0;
-      tableBody.empty();
-    
+      tableBody.empty(); // Clear the table body before adding new content
+      
       if (data && data.friends && data.friends.length > 0) {
         for (let friend of data.friends) {
           try {
@@ -79,10 +79,10 @@ import tokenManager from "./token.js";
                 <tr>
                   <td><img src="${avatar}" class="rounded-circle img-fluid" width="50" /></td>
                   <td>${friendData.username}</td>
-                   <td>
-                      <span data-bs-toggle="tooltip" data-bs-placement="top" title="${friendData.email}" style="color: black !important">
-                        ${truncatedEmail}
-                      </span>
+                  <td>
+                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="${friendData.email}" style="color: black !important">
+                      ${truncatedEmail}
+                    </span>
                   </td>
                   <td><span class="status-bullet" style="width: 10px; height: 10px; background-color: ${statusColor}; border-radius: 50%; display: inline-block;"></span></td>
                   <td><button class="btn btn-danger btn-sm" onclick="excludeFriend('${friendData.id}')">Exclude</button></td>
@@ -96,17 +96,12 @@ import tokenManager from "./token.js";
         }
       }
     
+      // If no friends were found, display the message
       if (friends === 0) {
-        const noFriendsRow = `
-          <tr>
-            <td colspan="5" class="text-center text-muted">
-              <small>Ops! You have no friends yet.</small>
-            </td>
-          </tr>
-        `;
-        tableBody.innerHTML = noFriendsRow; // Use innerHTML to append the row
+        const noFriendsRow = `<tr><td colspan="5" class="text-center text-muted modal-error-msg"><small>Ops! You have no friends yet.</small></td></tr>`;
+        tableBody.append(noFriendsRow); // Append the "no friends" message
       }
-      
+    
       const modalElement = document.getElementById('friendsListModal');
       let friendsModal = bootstrap.Modal.getInstance(modalElement);
       if (!friendsModal) {
@@ -114,6 +109,7 @@ import tokenManager from "./token.js";
       }
       friendsModal.show();
     }
+    
     
     async function searchFriend() {
       try {
@@ -349,7 +345,7 @@ async function excludeFriend(id) {
   });
 
   if (response.ok) {
-    loadFriendsList();
+    loadFriendsList();  
   } else {
   }
 }
