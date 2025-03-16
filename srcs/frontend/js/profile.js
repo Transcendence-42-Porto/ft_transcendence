@@ -218,21 +218,11 @@ window.searchFriend = searchFriend;
 window.addFriend = addFriend;
 window.getRandomAvatar = getRandomAvatar;
 
-function convertToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
 async function uploadImage() {
   const fileInput = document.getElementById('editProfilePic');
   const file = fileInput.files[0];
 
   if (!file) {
-    // Display an error message if no file is selected
-    alert('Please select an image file first!');
     return;
   }
 
@@ -271,7 +261,6 @@ async function uploadImage() {
 
 async function onEditFormSubmit() {
   try {
-    let newName = document.getElementById('editName').value;
     let newUsername = document.getElementById('editUsername').value.replace('@', '');
     let newAvatarFile = await uploadImage();
 
@@ -284,8 +273,6 @@ async function onEditFormSubmit() {
       const formData = new FormData();
       if(newAvatarFile && newAvatarFile != '')
         formData.append("avatar", newAvatarFile);
-      if(newName != '')
-        formData.append("name", newName);
       if(newUsername != '')
         formData.append("username", newUsername);
 
@@ -298,7 +285,7 @@ async function onEditFormSubmit() {
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to update profile: ${response.statusText}`);
+        $('#editProfileErrorMsg').html("Ops! There was a problem updating the profile. Try it again later!");
       }
 
       await loadProfile();
@@ -317,11 +304,26 @@ async function onEditFormSubmit() {
   }
 }
 
-function openEditProfileModal()
-{
+async function openEditProfileModal() {
   const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
-  editProfileModal.show(); 
+
+  try {
+    const data = await loadPersonalInfo();
+    if (data) {
+      const usernameInput = document.getElementById('editUsername');
+      const emailInput = document.getElementById('editEmail');
+      
+      usernameInput.value = data.username;
+      emailInput.value = data.email;
+    }
+  } catch (error) {
+    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+    errorModal.show();
+  }
+
+  editProfileModal.show();
 }
+
 
 async function excludeFriend(id) {
   const userId = CookieManager.getCookie('userId');
@@ -374,10 +376,6 @@ async function onLogout() {
       const data = await response.json();
       
       const logoutModalElement = document.getElementById('logoutModal');
-      // const logoutModal = bootstrap.Modal.getInstance(logoutModalElement);
-      // if (logoutModal) {
-      //   logoutModal.hide();
-      // }
       tokenManager.clearAccessToken();
       loadContent("login");
     } else {
@@ -408,13 +406,12 @@ async function loadGameHistory() {
     const scores = data.scores;
 
     const tableBody = document.querySelector('#gameHistoryModal tbody');
-    tableBody.innerHTML = '';  // Clear the table content
+    tableBody.innerHTML = '';
 
     if (scores.length === 0) {
-      // Create the row with the "no games" message
       const noScoresRow = document.createElement('tr');
       noScoresRow.innerHTML = `<td colspan="5" class="text-center text-muted modal-error-msg"><small>Ops! You have no games yet.</small></td>`;
-      tableBody.appendChild(noScoresRow);  // Append it properly to the table
+      tableBody.appendChild(noScoresRow);
     }
 
     scores.forEach(score => {
