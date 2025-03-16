@@ -16,6 +16,21 @@ h1, h2, h3, h4, h5, h6, span, p {
   border: none !important;
 }
 
+/* Custom size for game button icon */
+.game-button i {
+  font-size: 1.5rem;  /* Set your desired icon size */
+}
+
+/* Custom size for logout button icon */
+.logout-icon i {
+  font-size: 1.5rem;  /* Set your desired icon size */
+}
+
+/* Optionally, you can also adjust the button size if needed */
+.game-button, .logout-icon {
+  padding: 5px;  /* Optional: you can reduce button padding if you want smaller buttons */
+}
+
 .no-border {
     border: none;
 }

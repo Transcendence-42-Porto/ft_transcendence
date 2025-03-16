@@ -286,9 +286,9 @@ async function onEditFormSubmit() {
       }
 
       await loadProfile();
-      //const editProfileModalElement = document.getElementById('editProfileModal');
-      //const editProfileModal = bootstrap.Modal.getInstance(editProfileModalElement) || new bootstrap.Modal(editProfileModalElement);
-      // editProfileModal.hide();
+      const editProfileModalElement = document.getElementById('editProfileModal');
+      const editProfileModal = bootstrap.Modal.getInstance(editProfileModalElement) || new bootstrap.Modal(editProfileModalElement);
+      editProfileModal.hide();
 
       document.body.removeAttribute('aria-hidden');
       return;
