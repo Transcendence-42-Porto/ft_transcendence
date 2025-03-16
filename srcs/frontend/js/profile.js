@@ -97,10 +97,16 @@ import tokenManager from "./token.js";
       }
     
       if (friends === 0) {
-        const noFriendsRow = `<tr><td colspan="5" class="text-center text-muted modal-error-msg"><small>Ops! You have no friends yet.</small></td></tr>`;
-        tableBody.append(noFriendsRow);
+        const noFriendsRow = `
+          <tr>
+            <td colspan="5" class="text-center text-muted">
+              <small>Ops! You have no friends yet.</small>
+            </td>
+          </tr>
+        `;
+        tableBody.innerHTML = noFriendsRow; // Use innerHTML to append the row
       }
-    
+      
       const modalElement = document.getElementById('friendsListModal');
       let friendsModal = bootstrap.Modal.getInstance(modalElement);
       if (!friendsModal) {
@@ -389,10 +395,13 @@ async function loadGameHistory() {
     const scores = data.scores;
 
     const tableBody = document.querySelector('#gameHistoryModal tbody');
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = '';  // Clear the table content
 
     if (scores.length === 0) {
-      return;
+      // Create the row with the "no games" message
+      const noScoresRow = document.createElement('tr');
+      noScoresRow.innerHTML = `<td colspan="5" class="text-center text-muted modal-error-msg"><small>Ops! You have no games yet.</small></td>`;
+      tableBody.appendChild(noScoresRow);  // Append it properly to the table
     }
 
     scores.forEach(score => {
@@ -422,9 +431,10 @@ async function loadGameHistory() {
           <td>@${opponent}</td>
         `;
       }
-      tableBody.appendChild(row);
+      tableBody.appendChild(row);  // Append the row
     });
 
+    // Open the modal
     const modalElement = document.getElementById('gameHistoryModal');
     let gameModal = bootstrap.Modal.getInstance(modalElement);
     if (!gameModal) {
@@ -432,5 +442,7 @@ async function loadGameHistory() {
     }
     gameModal.show();
   } catch (error) {
+    console.error('Error loading game history:', error);
   }
 }
+
