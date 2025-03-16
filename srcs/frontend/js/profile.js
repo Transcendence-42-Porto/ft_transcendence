@@ -226,35 +226,48 @@ function convertToBase64(file) {
     reader.readAsDataURL(file);
   });
 }
-
 async function uploadImage() {
   const fileInput = document.getElementById('editProfilePic');
-  const file = fileInput.files[0]; 
+  const file = fileInput.files[0];
 
   if (!file) {
+    // Display an error message if no file is selected
+    alert('Please select an image file first!');
     return;
   }
 
   try {
-    const base64Image = await convertToBase64(file);
     const formData = new FormData();
-    formData.append('image', base64Image);
+    formData.append('image', file);
 
-    const response = await fetch('https://api.imgbb.com/1/upload?expiration=600&key=7f1ce90d4a2253cde69249da170d67f7', {
-      method: 'POST', 
+    const response = await fetch('/api/users/upload-image', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${await tokenManager.getAccessToken()}`,
+      },
       body: formData
-    });
+    }); 
 
-    const data = await response.json();
-    if (data.success) {
-      const imageUrl = data.data.url;
-      return imageUrl;
+    if (!response.ok) {
+      const errorData = await response.json();
+      $('#editProfileErrorMsg').html("Ops! There was a problem updating the profile. Try it again later!");
     } else {
-      return null;
+
+      const data = await response.json();
+      if (data.url) {
+        const imageUrl = data.url;
+        return imageUrl;
+      } else {
+        console.error('Error: ', data.error);
+        return null;
+      }
     }
   } catch (error) {
+    $('#editProfileErrorMsg').html("Ops! There was a problem updating the profile. Try it again later!");
   }
 }
+
+
 
 async function onEditFormSubmit() {
   try {
