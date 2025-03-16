@@ -19,7 +19,7 @@ class Tournament {
 
     // Helper function to create a match structure
     const createMatch = (matchName, players) => ({
-      match: matchName,
+      match: matchName, 
       players: players || [null, null], // If no players, we set as null for later
       winner: null,
     });
@@ -29,7 +29,7 @@ class Tournament {
       bracket = [
         createMatch("Semifinal 1", [this.players[0], this.players[1]]),
         createMatch("Semifinal 2", [this.players[2], this.players[3]]),
-        // createMatch("Final"),
+        createMatch("Final",),
       ];
     }
     return bracket;
@@ -156,6 +156,13 @@ function showBracket(tournament) {
   table.classList.add("bracket-table");
   const tbody = document.createElement("tbody");
 
+
+  if(tournament.currentRound == 1)
+    tournament.rounds[2].players[0] = tournament.rounds[0].winner ?  tournament.rounds[0].winner : "?";
+
+  if(tournament.currentRound == 2)
+    tournament.rounds[2].players[1] = tournament.rounds[1].winner ?  tournament.rounds[1].winner : "?";
+    
   const createMatchRow = (match) => {
     const row = document.createElement("tr");
 
@@ -164,9 +171,9 @@ function showBracket(tournament) {
     const cell3 = document.createElement("td");
     const winnerCell = document.createElement("td");
 
-    cell1.textContent = match.players[0] || "";
+    cell1.textContent = match.players[0] || "?";
     cell2.textContent = "vs";
-    cell3.textContent = match.players[1] || "";
+    cell3.textContent = match.players[1] || "?";
 
     winnerCell.textContent = match.winner
       ? `Winner: ${match.winner}`
@@ -205,7 +212,6 @@ function showBracket(tournament) {
 
 function game(config) {
   "use strict";
-  console.log(config);
   const { mode, maxScore, player1, player2, difficulty, player3, player4 } =
     config;
 

@@ -140,7 +140,7 @@ import tokenManager from "./token.js";
             ? personalData.friends.some(friend => friend.id === matchingUser.id)
             : false;
     
-          if (matchingUser && matchingUser !== undefined && matchingUser.id !== currentUserId && !isAlreadyFriend && matchingUser.username !== "admin") {
+          if (matchingUser && matchingUser != undefined && matchingUser.id != currentUserId && !isAlreadyFriend && matchingUser.username !== "admin") {
             const statusColor = matchingUser.is_online ? 'green' : 'red';
             const truncatedEmail = matchingUser.email.length > 12 ? matchingUser.email.substring(0, 12) + '...' : matchingUser.email;
             const newRow = `
@@ -248,7 +248,6 @@ async function uploadImage() {
         const imageUrl = data.url;
         return imageUrl;
       } else {
-        console.error('Error: ', data.error);
         return null;
       }
     }
@@ -460,7 +459,6 @@ async function loadGameHistory() {
     }
     gameModal.show();
   } catch (error) {
-    console.error('Error loading game history:', error);
   }
 }
 
