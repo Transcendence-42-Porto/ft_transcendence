@@ -29,7 +29,7 @@ class Tournament {
       bracket = [
         createMatch("Semifinal 1", [this.players[0], this.players[1]]),
         createMatch("Semifinal 2", [this.players[2], this.players[3]]),
-        createMatch("Final"),
+        // createMatch("Final"),
       ];
     }
     return bracket;
