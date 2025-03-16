@@ -213,6 +213,7 @@ window.openEditProfileModal = openEditProfileModal;
 window.searchFriend = searchFriend;
 window.addFriend = addFriend;
 window.getRandomAvatar = getRandomAvatar;
+window.openLogoutModal = openLogoutModal;
 
 async function uploadImage() {
   const fileInput = document.getElementById('editProfilePic');
@@ -285,9 +286,9 @@ async function onEditFormSubmit() {
       }
 
       await loadProfile();
-      const editProfileModalElement = document.getElementById('editProfileModal');
-      const editProfileModal = bootstrap.Modal.getInstance(editProfileModalElement) || new bootstrap.Modal(editProfileModalElement);
-      editProfileModal.hide();
+      //const editProfileModalElement = document.getElementById('editProfileModal');
+      //const editProfileModal = bootstrap.Modal.getInstance(editProfileModalElement) || new bootstrap.Modal(editProfileModalElement);
+      // editProfileModal.hide();
 
       document.body.removeAttribute('aria-hidden');
       return;
@@ -369,9 +370,6 @@ async function onLogout() {
     });
 
     if (response.ok) {
-      const data = await response.json();
-      
-      const logoutModalElement = document.getElementById('logoutModal');
       tokenManager.clearAccessToken();
       loadContent("login");
     } else {
@@ -389,6 +387,17 @@ async function onLogout() {
       logoutErrorMsg.style.display = 'block';
     }
   }
+}
+
+function openLogoutModal()
+{ 
+  const modalElement = document.getElementById('logoutModal');
+    let logoutModal = bootstrap.Modal.getInstance(modalElement);
+    if (!logoutModal) {
+      logoutModal = new bootstrap.Modal(modalElement);
+    }
+    logoutModal.show();
+  logoutModal.show();
 }
 
 async function loadGameHistory() {
