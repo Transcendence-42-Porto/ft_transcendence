@@ -73,7 +73,7 @@ import tokenManager from "./token.js";
               friends++;
               const friendData = await friendResponse.json();
               const avatar = friendData.avatar ? friendData.avatar : getRandomAvatar();
-              const statusColor = friendData.isOnline ? 'green' : 'red';
+              const statusColor = friendData.is_online ? 'green' : 'red';
               const truncatedEmail = friendData.email.length > 12 ? friendData.email.substring(0, 12) + '...' : friendData.email;
               const friendRow = `
                 <tr>
@@ -134,12 +134,14 @@ import tokenManager from "./token.js";
     
           const matchingUser = dataUsers.find(user => user.username.toLowerCase().includes(searchInput.toLowerCase()));
           const currentUserId = CookieManager.getCookie('userId');
-          const isAlreadyFriend = "";
-          if(matchingUser)
-            isAlreadyFriend = personalData.friends.some(friend => friend.id === matchingUser.id);
     
-          if (matchingUser && matchingUser != undefined && matchingUser.id != currentUserId && !isAlreadyFriend && matchingUser.username != "admin") {
-            const statusColor = matchingUser.isOnline ? 'green' : 'red';
+          // Check if personalData.friends is defined and is an array before checking if the user is a friend
+          const isAlreadyFriend = personalData.friends && Array.isArray(personalData.friends) 
+            ? personalData.friends.some(friend => friend.id === matchingUser.id)
+            : false;
+    
+          if (matchingUser && matchingUser !== undefined && matchingUser.id !== currentUserId && !isAlreadyFriend && matchingUser.username !== "admin") {
+            const statusColor = matchingUser.is_online ? 'green' : 'red';
             const truncatedEmail = matchingUser.email.length > 12 ? matchingUser.email.substring(0, 12) + '...' : matchingUser.email;
             const newRow = `
               <tr>
@@ -165,7 +167,8 @@ import tokenManager from "./token.js";
         }
       } catch (error) {
       }
-    }    
+    }
+    
     
 
 async function addFriend(friendUsername) {
