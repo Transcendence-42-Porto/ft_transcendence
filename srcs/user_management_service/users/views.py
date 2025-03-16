@@ -14,7 +14,9 @@ from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin
 from rest_framework.exceptions import PermissionDenied
 from scores.serializers import ScoreSerializer
 from rest_framework import status
-
+import os
+import requests
+from django.http import JsonResponse
 
 # Instead of inheriting from ModelViewSet, inherit from GenericBiewSet which restrict 
 # the actions and then include only the intersting ones 
@@ -333,3 +335,106 @@ class DeleteFriendView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+
+@extend_schema(
+    summary="Upload User Avatar",
+    description="Upload an image to imgBB and return the URL for use as avatar",
+    request={
+        'multipart/form-data': {
+            'type': 'object',
+            'properties': {
+                'image': {
+                    'type': 'string',
+                    'format': 'binary',
+                    'description': 'Image file to upload'
+                }
+            },
+            'required': ['image']
+        }
+    },
+    responses={
+        200: OpenApiResponse(
+            description="Image uploaded successfully",
+            response={
+                'type': 'object',
+                'properties': {
+                    'url': {
+                        'type': 'string',
+                        'example': 'https://i.ibb.co/AbCdEf/example.jpg'
+                    }
+                }
+            }
+        ),
+        400: OpenApiResponse(
+            description="Bad request",
+            response={
+                'type': 'object',
+                'properties': {
+                    'error': {
+                        'type': 'string',
+                        'example': 'No image file provided'
+                    }
+                }
+            }
+        ),
+        500: OpenApiResponse(
+            description="Server error",
+            response={
+                'type': 'object',
+                'properties': {
+                    'error': {
+                        'type': 'string',
+                        'example': 'Failed to upload image'
+                    }
+                }
+            }
+        )
+    }
+)
+class UploadImageView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, *args, **kwargs):
+        """
+        Upload an image to imgBB and return the URL.
+        Expects an image file in the request.
+        """
+        try:
+            # Fetch the API key from the environment variable
+            api_key = os.getenv('IMAGE_HOST_API_KEY')
+            if not api_key:
+                return Response({"error": "API key not found"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+            # Handle the image upload logic
+            image_file = request.FILES.get('image')
+            if not image_file:
+                return Response({"error": "No image file provided"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Prepare the image file for sending to the image host API
+            url = f'https://api.imgbb.com/1/upload?expiration=600&key={api_key}'
+            files = {'image': image_file}
+            
+            response = requests.post(url, files=files)
+            
+            if response.status_code == 200:
+                # Extract the URL from the response
+                image_url = response.json()['data']['url']
+                
+                # Update the user's avatar field
+                user_profile = request.user
+                user_profile.avatar = image_url
+                user_profile.save()
+                
+                return Response({
+                    "url": image_url,
+                    "detail": "Avatar updated successfully"
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": "Failed to upload image"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                
+                
+        except Exception as e:
+            return Response(
+                {"error": f"An error occurred: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
