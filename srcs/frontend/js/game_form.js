@@ -94,13 +94,14 @@ function initializeGameForm() {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const mode = document.querySelector(".mode-btn.active").dataset.mode;
-      const maxScore = parseInt(document.getElementById("maxScore").value);
+      const maxScore = 1; // set to 1 for testing
+      // const maxScore = parseInt(document.getElementById("maxScore").value);
       const speedIncrement = document.getElementById("speedIncrement").value === "True";
       const player1 = document.getElementById("player1").value.trim();
       const player2 = document.getElementById("player2").value.trim();
       const player3 = mode === "2X2" ? document.getElementById("player3").value.trim() : "";
       const player4 = mode === "2X2" ? document.getElementById("player4").value.trim() : "";
-
+      
       // Validações
 
       if (mode === "tournament") {

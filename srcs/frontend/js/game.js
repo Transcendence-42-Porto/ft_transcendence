@@ -157,13 +157,8 @@ function showBracket(tournament) {
   const tbody = document.createElement("tbody");
 
   const createMatchRow = (match) => {
-    // Skip creating a row if both players are empty
-    if ((!match.players[0] || match.players[0] === "") &&
-        (!match.players[1] || match.players[1] === "")) {
-      return null;
-    }
-
     const row = document.createElement("tr");
+
     const cell1 = document.createElement("td");
     const cell2 = document.createElement("td");
     const cell3 = document.createElement("td");
@@ -175,9 +170,7 @@ function showBracket(tournament) {
 
     winnerCell.textContent = match.winner
       ? `Winner: ${match.winner}`
-      : match.players[0] && match.players[1]
-      ? "No winner yet"
-      : "";
+      : "No winner yet";
 
     row.appendChild(cell1);
     row.appendChild(cell2);
@@ -187,12 +180,14 @@ function showBracket(tournament) {
     return row;
   };
 
-  const createBracketRows = () => {
+  const createBracketRows = (rounds) => {
     const rows = [];
+
     tournament.rounds.forEach((round) => {
-      const row = createMatchRow(round);
-      if (row) rows.push(row);
+      const matchRow = createMatchRow(round);
+      rows.push(matchRow);
     });
+
     return rows;
   };
 
@@ -812,7 +807,8 @@ function game(config) {
       return (
         pos.x > btn.x &&
         pos.x < btn.x + btn.w &&
-        pos.y > btn.y + btn.h
+        pos.y > btn.y &&
+        pos.y < btn.y + btn.h
       );
     }
 
